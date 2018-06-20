@@ -27,7 +27,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/omega/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": []
           },
@@ -48,6 +51,35 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "fr": {
+              "aot": true,
+              "outputPath": "dist/my-project-fr/",
+              "i18nFile": "src/locale/messages.fr.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "fr"
+            },
+            "production-fr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "outputPath": "dist/my-project-fr/",
+              "i18nFile": "src/locale/messages.fr.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "fr",
+              "i18nMissingTranslation": "error"
             }
           }
         },
@@ -59,6 +91,9 @@
           "configurations": {
             "production": {
               "browserTarget": "plancul-front:build:production"
+            },
+            "fr": {
+              "browserTarget": "plancul-front:build:fr"
             }
           }
         },

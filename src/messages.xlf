@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file datatype="plaintext" target-language="en-US" source-language="en" original="ng2.template">
+    <header>
+      <phase-group>
+        <phase phase-name="approval-1" tool-id="lokalize-2.0" process-name="approval" contact-email="charlyghislain@gmail.com" date="2018-06-19" contact-name="Charly Ghislain"/>
+      </phase-group>
+      <tool tool-name="Lokalize" tool-id="lokalize-2.0" tool-version="2.0"/>
+    </header>
+    <body>
+      <trans-unit datatype="html" id="ef3e1a3d9ee79faada27955eea730d4d1e3fed40" approved="yes">
+        <source>
+    Welcome !
+  </source>
+        <target phase-name="approval-1" state="signed-off">Bienvenue!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note from="description" priority="1">login page title</note>
+      </trans-unit>
+      <trans-unit datatype="html" id="a4166b55b0fd8232055341b534ab4c30fef9f034" approved="yes">
+        <source>
+      Please log in to continue
+    </source>
+        <target phase-name="approval-1" state="signed-off">Veuillez vous logger pour continuer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <note from="description" priority="1">login page header</note>
+      </trans-unit>
+      <trans-unit datatype="html" id="login-field-title" approved="yes">
+        <source>Email</source>
+        <target phase-name="approval-1" state="signed-off">Email</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <note from="description" priority="1">login field title</note>
+      </trans-unit>
+      <trans-unit datatype="html" id="password-field-title" approved="yes">
+        <source>Password</source>
+        <target phase-name="approval-1" state="signed-off">Mot de passe</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note from="description" priority="1">password field title</note>
+      </trans-unit>
+      <trans-unit datatype="html" id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" approved="yes">
+        <source>Login</source>
+        <target phase-name="approval-1" state="signed-off">Se connecter</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note from="description" priority="1">login button label</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

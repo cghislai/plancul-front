@@ -1,0 +1,47 @@
+<div class="login ui-widget">
+
+  <h1 i18n="login page title">
+    Welcome !
+  </h1>
+
+  <header>
+    <span i18n="login page header">
+      Please log in to continue
+    </span>
+  </header>
+
+  <div class="login-form">
+    <div>
+      <input pInputText
+             [(ngModel)]="login"
+             title="Email"
+             placeholder="Email"
+             i18n-title="login field title@@login-field-title"
+             i18n-placeholder="login field title@@login-field-title"
+             required
+             autofocus
+             name="login">
+    </div>
+
+    <div>
+      <input pInputText
+             [(ngModel)]="password"
+             title="Password"
+             placeholder="Password"
+             i18n-title="password field title@@password-field-title"
+             i18n-placeholder="password field title@@password-field-title"
+             required
+             name="password"
+             type="password"
+      >
+    </div>
+
+    <div class="actions">
+      <button pButton type="button"
+              label="Login"
+              i18n-label="login button label"
+              (click)="onLoginClicked()"
+      ></button>
+    </div>
+  </div>
+</div>
