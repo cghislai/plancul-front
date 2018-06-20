@@ -1,0 +1,57 @@
+<div class="account-init ui-widget">
+  <h1 i18n="login page title">
+    Welcome !
+  </h1>
+
+  <header i18n>
+    <p>
+      Please setup your password below to continue
+    </p>
+  </header>
+
+  <form class="account-init-form pc-form" #initForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="password"
+             (input)="checkPasswordsMatch()"
+             title="Password"
+             placeholder="Password"
+             i18n-title="password field title@@password-field-title"
+             i18n-placeholder="password field title@@password-field-title"
+             required
+             minlength="8"
+             name="password"
+             type="password"
+      >
+    </div>
+
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="passwordConfirm"
+             (input)="checkPasswordsMatch()"
+             title="Confirm password"
+             placeholder="Confirm password"
+             i18n-title="password confirmation field title@@password-confirmation-field-title"
+             i18n-placeholder="password confirmation field title@@password-confirmation-field-title"
+             required
+             minlength="8"
+             name="password-confirm"
+             type="password"
+      >
+    </div>
+
+    <div *ngIf="initForm.valid && !passwordsMatch">
+      <span i18n>The passwords do not match</span>
+    </div>
+
+    <div class="actions">
+      <button type="submit" hidden></button>
+      <button pButton type="button"
+              label="Save"
+              i18n-label="account activation submit label"
+              [disabled]="!initForm.valid || !passwordsMatch"
+              (click)="onSubmit()"
+      ></button>
+    </div>
+  </form>
+</div>

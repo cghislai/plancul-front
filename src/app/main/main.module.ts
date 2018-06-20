@@ -9,6 +9,7 @@ import {WelcomeComponent} from './welcome/welcome.component';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { AccountInitComponent } from './account-init/account-init.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ButtonModule,
     InputTextModule,
   ],
-  declarations: [LoginComponent, WelcomeComponent],
+  declarations: [LoginComponent, WelcomeComponent, AccountInitComponent],
   exports: [
     ButtonModule,
     InputTextModule,

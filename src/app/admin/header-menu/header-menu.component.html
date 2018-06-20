@@ -1,0 +1,38 @@
+<div class="header-menu ui-widget">
+  <span class="left">
+
+    <a [routerLink]="['/admin/_/dashboard']"
+       routerLinkActive="active-link"
+       title="Dashboard"
+       i18n-title="dashboard menu link title"
+    >
+      <span i18n="dashboard menu link">
+        Dashboard
+      </span>
+    </a>
+
+    <a [routerLink]="['/admin/_/tenant/new']"
+       routerLinkActive="active-link"
+       title="New tenant"
+       i18n-title="new tenant menu link title"
+    >
+      <span i18n="new tenant menu link">
+        New tenant
+      </span>
+    </a>
+
+  </span>
+
+  <span class="right">
+      <a (click)="onLogoutClick()"
+         title="Logout"
+         i18n-title="admin logout link title"
+      >
+      <span i18n="account logout link ">
+        Logout
+      </span>
+    </a>
+
+  </span>
+
+</div>

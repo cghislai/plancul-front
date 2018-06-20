@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
 import {Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
-import {filter, map, take} from 'rxjs/operators';
+import {filter, take} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {NotificationMessageService} from '../service/notification-message.service';
 
@@ -12,7 +12,7 @@ import {NotificationMessageService} from '../service/notification-message.servic
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   login: string;
   password: string;
@@ -26,15 +26,26 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subscription = this.loggedUserService.getJosePayloadObservable()
+    this.subscription = new Subscription();
+    const userLoggedSubscription = this.loggedUserService.getIsUserObservable()
       .pipe(
-        filter(p => p != null),
-        map(p => p.sub),
-        take(1),
-      ).subscribe(lastLogin => this.login = lastLogin);
+        filter(user => user),
+      ).subscribe(() => this.redirectToUserArea());
+    const adminLoggedSubscription = this.loggedUserService.getIsAdminObservable()
+      .pipe(
+        filter(user => user),
+      ).subscribe(() => this.redirectToAdminArea());
+    this.subscription.add(userLoggedSubscription);
+    this.subscription.add(adminLoggedSubscription);
+
+    this.login = this.loggedUserService.getLastUserLogin();
   }
 
-  onLoginClicked() {
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  onLogin() {
     const credential = new BasicCredential(this.login, this.password);
     this.loginService.login(credential)
       .subscribe(() => this.onLoginSuccess(),
@@ -49,10 +60,18 @@ export class LoginComponent implements OnInit {
 
   private redirectOnLoginSuccess(isAdmin: boolean) {
     if (isAdmin) {
-      this.router.navigate(['/admin']);
+      this.redirectToAdminArea();
     } else {
-      this.router.navigate(['/welcome']);
+      this.redirectToUserArea();
     }
+  }
+
+  private redirectToUserArea() {
+    this.router.navigate(['/welcome']);
+  }
+
+  private redirectToAdminArea() {
+    this.router.navigate(['/admin']);
   }
 
   private onLoginError(error: any) {

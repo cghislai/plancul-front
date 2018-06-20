@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Credential} from '../domain/credential';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtCrential} from '../domain/jwt-crential';
 
@@ -13,15 +12,15 @@ export class CredentialProviderService {
   constructor() {
   }
 
-  getCredential(): Credential | null {
+  getCredential(): JwtCrential | null {
     return this.credentialSource.getValue();
   }
 
-  getCredentialObservable(): Observable<JwtCrential> {
+  getCredentialObservable(): Observable<JwtCrential | null> {
     return this.credentialSource.asObservable();
   }
 
-  setCredential(credential: JwtCrential) {
+  setCredential(credential: JwtCrential | null) {
     this.credentialSource.next(credential);
   }
 }

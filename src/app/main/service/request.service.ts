@@ -6,7 +6,6 @@ import {Inject, Injectable} from '@angular/core';
 import {CredentialProviderService} from './credential-provider.service';
 import {catchError} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
-import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +49,35 @@ export class RequestService {
       withCredentials: true,
     })
       .pipe(catchError(e => this.handleRequestError(e)));
+  }
+
+  postPlainText(apiPath: string, body: any, credential?: Credential): Observable<string> {
+    return this.http.post(this.buildUrl(apiPath), body, {
+      headers: {
+        'Authorization': this.getAuthorizationHeader(credential),
+      },
+      withCredentials: true,
+      responseType: 'text',
+    })
+      .pipe(catchError(e => this.handleRequestError(e)));
+  }
+
+  put<T>(apiPath: string, body: any, credential?: Credential): Observable<T> {
+    return this.http.put<T>(this.buildUrl(apiPath), body, {
+      headers: {
+        'Authorization': this.getAuthorizationHeader(credential),
+      },
+      withCredentials: true,
+    })
+      .pipe(catchError(e => this.handleRequestError(e)));
+  }
+
+  isClientError(error: any): boolean {
+    return this.isHttpErrorWithStatusCodeStartingWith(error, 4);
+  }
+
+  isBadRequestError(error: any): boolean {
+    return this.isHttpErrorWithStatusCodeStartingWith(error, 400);
   }
 
   isHttpErrorWithStatusCodeStartingWith(error: any, statusCodeStart: number): boolean {

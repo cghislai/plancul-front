@@ -4,6 +4,7 @@ import {LoginComponent} from './main/login/login.component';
 import {WelcomeComponent} from './main/welcome/welcome.component';
 import {LoggedUserGuard} from './main/service/logged-user.guard';
 import {LoggedAdminGuard} from './main/service/logged-admin.guard';
+import {AccountInitComponent} from './main/account-init/account-init.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'account/init',
+    component: AccountInitComponent,
   },
   {
     path: 'welcome',
@@ -28,7 +33,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    enableTracing: true,
+  })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {

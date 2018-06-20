@@ -1,0 +1,31 @@
+.header-menu {
+  padding: .3em;
+  display: flex;
+  align-items: center;
+
+  >.left {
+    flex: 1 1 auto;
+  }
+
+  >.right {
+    flex: 0 0 auto;
+  }
+
+  a {
+    font-size: 1.2em;
+    padding: .3em;
+    margin: 0 1em;
+    border-radius: .3em;
+    text-decoration: none;
+    color: black;
+
+
+    &.active-link {
+      background-color: lightblue;
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+  }
+}

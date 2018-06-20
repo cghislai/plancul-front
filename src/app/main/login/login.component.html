@@ -10,8 +10,8 @@
     </span>
   </header>
 
-  <div class="login-form">
-    <div>
+  <form class="login-form pc-form" #loginForm="ngForm" (ngSubmit)="onLogin()">
+    <div class="row">
       <input pInputText
              [(ngModel)]="login"
              title="Email"
@@ -20,10 +20,11 @@
              i18n-placeholder="login field title@@login-field-title"
              required
              autofocus
+             type="email"
              name="login">
     </div>
 
-    <div>
+    <div class="row">
       <input pInputText
              [(ngModel)]="password"
              title="Password"
@@ -31,17 +32,19 @@
              i18n-title="password field title@@password-field-title"
              i18n-placeholder="password field title@@password-field-title"
              required
+             minlength="8"
              name="password"
              type="password"
       >
     </div>
 
     <div class="actions">
+      <button type="submit" hidden></button>
       <button pButton type="button"
               label="Login"
               i18n-label="login button label"
-              (click)="onLoginClicked()"
+              (click)="onLogin()"
       ></button>
     </div>
-  </div>
+  </form>
 </div>

@@ -1,0 +1,36 @@
+.pc-form {
+  max-width: 30em;
+  display: inline-block;
+  text-align: initial;
+
+  margin: 1em;
+
+  > section {
+    margin: 1em;
+
+    h2 {
+      font-size: 1.2em;
+      text-align: center;
+    }
+  }
+
+  .row {
+    margin: .5em 0;
+    display: flex;
+
+    > * {
+      flex: 1 1 auto
+    }
+
+    > label {
+      flex: 0 0 10em;
+      overflow: hidden;
+    }
+  }
+
+  .actions {
+    margin: 1em;
+    text-align: center;
+  }
+
+}

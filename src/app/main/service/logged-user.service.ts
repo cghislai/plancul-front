@@ -22,6 +22,7 @@ export class LoggedUserService {
 
   private subscription: Subscription;
   private nextRenewalSubscription: Subscription;
+  private lasUerLogin: string;
 
   constructor(private credentialService: CredentialProviderService,
               private credentialProvider: CredentialProviderService,
@@ -66,6 +67,10 @@ export class LoggedUserService {
     this.restoreToken();
   }
 
+  getLastUserLogin(): string | null {
+    return this.lasUerLogin;
+  }
+
   getIsAdminObservable(): Observable<boolean> {
     return this.isAdmin;
   }
@@ -80,6 +85,16 @@ export class LoggedUserService {
 
   getJosePayloadObservable(): Observable<JosePayload | null> {
     return this.josePayload;
+  }
+
+  checkPasswordExpired(): Observable<boolean> {
+    return this.requestService.get('/user/me/password/expired');
+  }
+
+  logout() {
+    this.localStorageService.clearAuthToken();
+    this.credentialProvider.setCredential(null);
+    this.router.navigate(['/login']);
   }
 
   private decodeJwtPayload(token: string | null): JosePayload | null {
@@ -123,8 +138,11 @@ export class LoggedUserService {
     if (token == null) {
       return;
     }
+    const payload = this.decodeJwtPayload(token);
+    this.lasUerLogin = payload.sub;
+
     const jwtCredential = new JwtCrential(token);
     this.requestService.getPlainText('/user/me/token', jwtCredential)
-       .subscribe(newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)));
+      .subscribe(newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)));
   }
 }
