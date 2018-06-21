@@ -48,7 +48,7 @@ export class CultureSortSelectComponent implements OnInit {
     this.fieldValue.next(value);
   }
 
-  onToggleOrder(value: WsSortOrder) {
+  onToggleOrder() {
     const curOrder = this.orderValue.getValue();
     const newOrder = curOrder === WsSortOrder.ASC ? WsSortOrder.DESC : WsSortOrder.ASC;
     this.orderValue.next(newOrder);

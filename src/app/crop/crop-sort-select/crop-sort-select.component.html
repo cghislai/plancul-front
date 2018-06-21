@@ -1,6 +1,13 @@
-<p-dropdown [options]="sortOptions"
-            [(ngModel)]="sortValue"
-            (onChange)="onSortChange($event)"
-            [autoWidth]="false"
-            class="sort-select"
-></p-dropdown>
+<span class="crop-sort-select pc-sort-select">
+  <p-dropdown [options]="fieldOptions"
+              [ngModel]="fieldValue | async"
+              (ngModelChange)="onFieldChange($event)"
+              [autoWidth]="false"
+              class="field-select"
+  ></p-dropdown>
+  <button type="button" pButton
+          (click)="onToggleOrder()"
+          [icon]="orderIcon | async"
+          class="ui-button-secondary order-select"
+  ></button>
+</span>

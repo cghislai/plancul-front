@@ -1,0 +1,14 @@
+.crop-select {
+  display: block;
+
+  ::ng-deep .ui-autocomplete {
+    width: 100%;
+    > input {
+      width: 100%;
+    }
+  }
+}
+
+.crop-item {
+  font-size: .9em;
+}

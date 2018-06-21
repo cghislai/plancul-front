@@ -2,7 +2,7 @@ import {WsDomainEntity, WsRef, WsSearchResult} from '@charlyghislain/plancul-ws-
 import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of, ReplaySubject} from 'rxjs';
 import {Pagination} from '../../domain/pagination';
 import {Sort} from '../../domain/sort';
-import {distinctUntilChanged, filter, map, mergeMap, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
+import {delay, distinctUntilChanged, filter, map, mergeMap, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {PaginationUtils} from './pagination-utils';
 import {myThrottleTime} from '../../domain/my-throttle-time';
 import {LazyLoadEvent} from 'primeng/api';
@@ -30,8 +30,6 @@ export class ListHolderHelper<E extends WsDomainEntity, FILTER> {
     const distinctFilter = this.filterSource.pipe(
       filter(f => f != null),
       distinctUntilChanged(this.jsonEqual),
-      tap(a => console.log('distinct')),
-      tap(a => console.log(a)),
       publishReplay(1), refCount(),
     );
     const reloadedFilter = combineLatest(distinctFilter, this.reloadTrigger)
@@ -100,7 +98,9 @@ export class ListHolderHelper<E extends WsDomainEntity, FILTER> {
   }
 
   getResultsLoading(): Observable<boolean> {
-    return this.resultsLoading;
+    return this.resultsLoading.pipe(
+      delay(100),
+    );
   }
 
   getSort(): Observable<Sort> {

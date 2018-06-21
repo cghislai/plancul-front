@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'pc-culture-form',
   templateUrl: './culture-form.component.html',
-  styleUrls: ['./culture-form.component.scss']
+  styleUrls: ['./culture-form.component.scss'],
 })
 export class CultureFormComponent implements OnInit, OnDestroy {
 

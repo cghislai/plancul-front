@@ -126,15 +126,18 @@ export class LoggedUserService {
     if (this.nextRenewalSubscription != null) {
       this.nextRenewalSubscription.unsubscribe();
     }
-    const expiryTimeUnix = payload.exp;
+    const expiryTimeUnix = payload.exp * 1000;
     const thirtySeconds = 30000;
     const expiryDate = new Date(expiryTimeUnix - thirtySeconds);
     this.nextRenewalSubscription = timer(expiryDate)
       .pipe(
-        mergeMap(() => this.requestService.get('/user/me/token')),
+        mergeMap(() => this.requestService.getPlainText('/user/me/token')),
       )
       .subscribe(newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)),
-        error => this.router.navigate(['/login']));
+        error => {
+          console.error(error);
+          this.router.navigate(['/login']);
+        });
   }
 
   private saveToken(credential: JwtCrential) {

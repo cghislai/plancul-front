@@ -7,7 +7,11 @@
         *ngIf="culture != null">
 
     <div class="row">
-      <label i18n>Name</label>
+      <label i18n>Crop</label>
+      <pc-crop-select [(ngModel)]="culture.cropWsRef"
+                      name="crop"
+                      required
+      ></pc-crop-select>
     </div>
 
     <div class="actions">

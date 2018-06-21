@@ -1,0 +1,17 @@
+<p-autoComplete [ngModel]="value | async"
+                (ngModelChange)="onChange($event)"
+                [suggestions]="suggestions"
+                [forceSelection]="true"
+                (completeMethod)="search($event)"
+                field="label"
+                name="crop-select"
+                class="crop-select"
+>
+  <ng-template let-item pTemplate="item">
+    <div class="ui-helper-clearfix crop-item">
+      <pc-crop [showIcon]="false"
+               [id]="item.value.id"
+      ></pc-crop>
+    </div>
+  </ng-template>
+</p-autoComplete>

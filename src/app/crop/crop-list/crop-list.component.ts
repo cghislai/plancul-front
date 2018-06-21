@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WsBedFilter, WsBedSortField, WsCrop, WsCropFilter, WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsCrop, WsCropFilter, WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
 import {LazyLoadEvent} from 'primeng/api';
 import {Router} from '@angular/router';
 import {CropClientService} from '../../main/service/crop-client.service';
@@ -41,7 +41,7 @@ export class CropListComponent implements OnInit {
     this.sortOrder = this.helper.getSOrtOrder();
     this.filter = this.helper.getFilter();
 
-    // this.helper.setFilter(this.createInitialFilter());
+    this.helper.setFilter(this.createInitialFilter());
     this.helper.setSort(this.createInitialSort());
   }
 
@@ -61,8 +61,10 @@ export class CropListComponent implements OnInit {
     this.router.navigate(['/crops/_/new']);
   }
 
-  private createInitialFilter(): WsBedFilter {
-    return {};
+  private createInitialFilter(): WsCropFilter {
+    return {
+      namesQuery: '',
+    };
   }
 
 

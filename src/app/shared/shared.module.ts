@@ -5,9 +5,10 @@ import {CropComponent} from './crop/crop.component';
 import {IconsModule} from '../icons/icons.module';
 import {CultureComponent} from './culture/culture.component';
 import {CropFilterComponent} from './crop-filter/crop-filter.component';
-import {ButtonModule, CheckboxModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
+import {AutoCompleteModule, ButtonModule, CheckboxModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
 import {CropSearchQueryTypeComponent} from './crop-search-query-type/crop-search-query-type.component';
 import {FormsModule} from '@angular/forms';
+import { CropSelectComponent } from './crop-select/crop-select.component';
 
 @NgModule({
   imports: [
@@ -19,12 +20,14 @@ import {FormsModule} from '@angular/forms';
     CheckboxModule,
     ButtonModule,
     InputTextModule,
+    AutoCompleteModule,
   ],
   declarations: [
     BedComponent,
     CropComponent,
     CropFilterComponent,
     CropSearchQueryTypeComponent,
+    CropSelectComponent,
     CultureComponent,
   ],
   exports: [
@@ -32,6 +35,7 @@ import {FormsModule} from '@angular/forms';
     CropComponent,
     CropFilterComponent,
     CropSearchQueryTypeComponent,
+    CropSelectComponent,
     CultureComponent,
   ],
 })

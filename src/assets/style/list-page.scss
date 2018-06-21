@@ -16,15 +16,18 @@
 }
 
 .pc-list-page-header-group {
-  display: inline-block;
+  display: inline;
   vertical-align: middle;
+  margin: .3em;
 
   &:not(:first-child) {
-    margin-left: 2em;
+    @media (min-width: 600px){
+      margin-left: 2em;
+    }
   }
 
   > * {
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
   }
   > label {

@@ -3,7 +3,7 @@ import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {WsCropFilter, WsRef, WsTenant} from '@charlyghislain/plancul-ws-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
-import {QueryType} from '../../crop/crop-search-query-type/query-type';
+import {QueryType} from '../crop-search-query-type/query-type';
 
 @Component({
   selector: 'pc-crop-filter',
@@ -86,7 +86,6 @@ export class CropFilterComponent implements OnInit {
 
 
   private extractQueryType(searchFilter: WsCropFilter): QueryType {
-    console.log(searchFilter);
     if (searchFilter.namesQuery != null) {
       return QueryType.ALL;
     } else if (searchFilter.plantQuery != null) {
