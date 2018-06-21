@@ -1,0 +1,33 @@
+<div class="bed-form ui-widget">
+  <header>
+    <h1 i18n>Bed edition</h1>
+  </header>
+
+  <form #bedForm="ngForm" (submit)="onSubmit()" class="pc-form"
+        *ngIf="bed != null">
+
+    <div class="row">
+      <label i18n>Name</label>
+      <input pInputText
+             [(ngModel)]="bed.name"
+             required
+             autofocus
+             name="bed-name"
+      >
+    </div>
+
+    <div class="actions">
+      <button type="submit" hidden></button>
+
+      <button pButton type="button"
+              [disabled]="!bedForm.valid"
+              (click)="onSubmit()"
+              label="Save" i18n-label></button>
+
+      <button pButton type="button"
+              class="ui-button-secondary"
+              (click)="onCancel()"
+              label="Cancel" i18n-label></button>
+    </div>
+  </form>
+</div>

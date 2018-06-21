@@ -1,0 +1,49 @@
+<div class="crop-form ui-widget">
+  <header>
+    <h1 i18n>Crop edition</h1>
+  </header>
+
+  <form #cropForm="ngForm" (submit)="onSubmit()" class="pc-form"
+        *ngIf="crop != null">
+
+    <div class="row">
+      <label i18n>Taxon</label>
+      <pc-agrovoc-plant-product-tuple-select ngModel
+                                             (ngModelChange)="onPlanProductTupleChange($event)"
+                                             name="crop-plant"
+                                             required
+      ></pc-agrovoc-plant-product-tuple-select>
+    </div>
+
+    <div class="row">
+      <label i18n>Cultivar</label>
+      <input pInputText
+             [(ngModel)]="crop.cultivar"
+             name="crop-cultivar"
+      >
+    </div>
+
+    <div class="row">
+      <p-checkbox [ngModel]="crop.tenantRestrictionRef == null"
+                  (ngModelChange)="onShareChanged($event)"
+                  [binary]="true"
+                  name="crop-share"
+                  label="Make this crop available to other users as well" i18n-label
+      ></p-checkbox>
+    </div>
+
+    <div class="actions">
+      <button type="submit" hidden></button>
+
+      <button pButton type="button"
+              [disabled]="!cropForm.valid"
+              (click)="onSubmit()"
+              label="Save" i18n-label></button>
+
+      <button pButton type="button"
+              class="ui-button-secondary"
+              (click)="onCancel()"
+              label="Cancel" i18n-label></button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,38 @@
+<div class="crop-list ui-widget">
+
+  <header>
+    <h1 i18n>Crops</h1>
+    <div class="actions">
+      <button pButton type="button"
+              label="New crop" i18n-label
+              icon="pi pi-plus"
+              (click)="onNewCropClicked()"
+      ></button>
+    </div>
+  </header>
+
+
+  <p-dataView [value]="cropResults | async"
+              [totalRecords]="resultCount | async"
+              [loading]="resultLoading | async"
+              [paginator]="true"
+              [rows]="30"
+              [lazy]="true"
+              (onLazyLoad)="onLazyLoad($event)"
+
+  >
+    <p-header>
+      <pc-crop-filter (filterChanged)="onFilterChanged($event)"
+      ></pc-crop-filter>
+    </p-header>
+
+    <ng-template let-crop pTemplate="listItem">
+      <div>
+        <pc-crop [id]="crop.id"></pc-crop>
+      </div>
+    </ng-template>
+
+  </p-dataView>
+
+
+</div>

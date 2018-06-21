@@ -1,0 +1,53 @@
+<div class="bed-list ui-widget">
+
+  <header>
+    <h1 i18n>Beds</h1>
+    <div class="actions">
+      <button pButton type="button"
+              label="New bed" i18n-label
+              icon="pi pi-plus"
+              (click)="onNewBedClicked()"
+      ></button>
+    </div>
+  </header>
+
+
+  <p-dataView [value]="bedResults | async"
+              [totalRecords]="resultCount | async"
+              [loading]="resultLoading | async"
+              [paginator]="true"
+              [rows]="30"
+              [lazy]="true"
+              (onLazyLoad)="onLazyLoad($event)"
+
+  >
+    <p-header>
+      <pc-bed-filter (filterChanged)="onFilterChanged($event)"
+      ></pc-bed-filter>
+    </p-header>
+
+    <ng-template let-bed pTemplate="listItem">
+
+      <div class="list-item selectable"
+           [routerLink]="['/beds/_/'+bed.id]">
+
+        <span class="bed">
+          <pc-bed [id]="bed.id"></pc-bed>
+        </span>
+
+        <span class="actions">
+           <a class="remove"
+              (click)="onRemoveBedClick(bed, $event)"
+              title="Remove bed" i18n-title
+           >
+            <i class="pi pi-trash"></i>
+          </a>
+        </span>
+      </div>
+
+    </ng-template>
+
+  </p-dataView>
+
+
+</div>

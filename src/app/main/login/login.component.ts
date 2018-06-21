@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
-import {filter, take} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationMessageService} from '../service/notification-message.service';
 
 @Component({
@@ -17,10 +17,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   login: string;
   password: string;
 
+  private redirectUrl: Observable<string | null>;
   private subscription: Subscription;
 
   constructor(private loginService: LoginService,
               private router: Router,
+              private activatedRoute: ActivatedRoute,
               private notificationMessageService: NotificationMessageService,
               private loggedUserService: LoggedUserService) {
   }
@@ -30,11 +32,19 @@ export class LoginComponent implements OnInit, OnDestroy {
     const userLoggedSubscription = this.loggedUserService.getIsUserObservable()
       .pipe(
         filter(user => user),
-      ).subscribe(() => this.redirectToUserArea());
+      ).subscribe(() => this.redirectOnLoginSuccess(false));
     const adminLoggedSubscription = this.loggedUserService.getIsAdminObservable()
       .pipe(
         filter(user => user),
-      ).subscribe(() => this.redirectToAdminArea());
+      ).subscribe(() => this.redirectOnLoginSuccess(true));
+
+    const routeParams = this.activatedRoute.params
+      .pipe(publishReplay(1), refCount());
+    this.redirectUrl = routeParams.pipe(
+      map(params => params.redirect),
+      publishReplay(1), refCount(),
+    );
+
     this.subscription.add(userLoggedSubscription);
     this.subscription.add(adminLoggedSubscription);
 
@@ -62,6 +72,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (isAdmin) {
       this.redirectToAdminArea();
     } else {
+      this.redirectUrl.pipe(take(1))
+        .subscribe(redirectParam => this.triggerRedirect(redirectParam));
+    }
+  }
+
+  private triggerRedirect(url: string) {
+    if (url != null) {
+      this.router.navigateByUrl(url);
+    } else {
       this.redirectToUserArea();
     }
   }
@@ -82,5 +101,4 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.notificationMessageService.addError('Login failed', 'Unexpected error');
     }
   }
-
 }

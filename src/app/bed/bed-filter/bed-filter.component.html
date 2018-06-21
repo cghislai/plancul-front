@@ -1,0 +1,9 @@
+<div class="bed-filter">
+  <input pInputText
+         [ngModel]="searchQuery | async"
+         (ngModelChange)="onQueryChanged($event)"
+         name="query"
+         placeholder="Type to search" i18n-placeholder
+         autofocus
+  >
+</div>

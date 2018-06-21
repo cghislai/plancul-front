@@ -1,0 +1,13 @@
+
+.pc-taxon {
+  font-style: italic;
+}
+
+.pc-cultivar {
+  &::before {
+    content: '\'';
+  }
+  &::after {
+    content: '\'';
+  }
+}

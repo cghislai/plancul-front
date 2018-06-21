@@ -1,8 +1,10 @@
 <div class="app">
-  <div class="notifications-container">
-    <p-messages [value]="notificationMessages | async"
-                [closable]="false"
-    ></p-messages>
+  <div class="messages-overlay">
+    <span class="messages-container">
+      <p-messages [value]="notificationMessages | async"
+                  [closable]="false"
+      ></p-messages>
+    </span>
   </div>
   <router-outlet></router-outlet>
 </div>

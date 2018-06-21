@@ -19,13 +19,13 @@ export class LoggedUserGuard implements CanActivate {
     return this.loggedUserService.getIsUserObservable()
       .pipe(
         take(1),
-        tap(authorized => this.handleAuthorization(authorized, next)),
+        tap(authorized => this.handleAuthorization(authorized, state)),
       );
   }
 
-  private handleAuthorization(authorized: boolean, next: ActivatedRouteSnapshot) {
+  private handleAuthorization(authorized: boolean, state: RouterStateSnapshot) {
     if (!authorized) {
-      const nextUrl = next.url;
+      const nextUrl = state.url;
       this.router.navigate(['/login', {
         redirect: nextUrl,
       }]);

@@ -19,18 +19,24 @@
     display: flex;
 
     > * {
-      flex: 1 1 auto
+      flex: 1 1 100%;
+      position: relative;
     }
 
     > label {
       flex: 0 0 10em;
       overflow: hidden;
+      margin: .3em 0;
     }
   }
 
   .actions {
     margin: 1em;
     text-align: center;
+
+    >* {
+      margin: 0 .5em;
+    }
   }
 
 }

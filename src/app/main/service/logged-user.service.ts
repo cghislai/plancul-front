@@ -3,7 +3,7 @@ import {Observable, of, Subscription, timer} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
 import {RequestService} from './request.service';
 import {exhaustMap, filter, map, mergeMap, publishReplay, refCount} from 'rxjs/operators';
-import {WsUser} from '@charlyghislain/plancul-ws-api';
+import {WsTenantUserRole, WsUser} from '@charlyghislain/plancul-ws-api';
 import {JosePayload} from '../domain/jose-payload';
 import {JwtCrential} from '../domain/jwt-crential';
 import {LocalStorageService} from './local-storage.service';
@@ -19,6 +19,7 @@ export class LoggedUserService {
   private readonly isAdmin: Observable<boolean>;
   private readonly isUser: Observable<boolean>;
   private readonly user: Observable<WsUser | null>;
+  private readonly tenantsRoles: Observable<WsTenantUserRole[]>;
 
   private subscription: Subscription;
   private nextRenewalSubscription: Subscription;
@@ -53,6 +54,10 @@ export class LoggedUserService {
       exhaustMap(credential => credential == null ? of(null) : this.requestService.get<WsUser>('/user/me')),
       publishReplay(1), refCount(),
     );
+    this.tenantsRoles = credentialSource.pipe(
+      exhaustMap(credential => credential == null ? of([]) : this.requestService.get<WsTenantUserRole[]>('/user/me/tenants')),
+      publishReplay(1), refCount(),
+    );
 
     this.subscription = new Subscription();
     const newPayloadSubscription = this.josePayload
@@ -81,6 +86,10 @@ export class LoggedUserService {
 
   getUserObservable(): Observable<WsUser | null> {
     return this.user;
+  }
+
+  getTenantRolesObservable(): Observable<WsTenantUserRole[]> {
+    return this.tenantsRoles;
   }
 
   getJosePayloadObservable(): Observable<JosePayload | null> {

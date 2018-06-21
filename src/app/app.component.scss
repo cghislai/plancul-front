@@ -1,6 +1,14 @@
-.notifications-container {
+.messages-overlay {
   position: absolute;
   margin: auto;
   top: 0;
   right: 0;
+  left: 0;
+  text-align: center;
+  z-index: 100;
+
+  >.messages-container {
+    display: inline-block;
+    max-width: 50%;
+  }
 }

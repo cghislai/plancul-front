@@ -1,0 +1,26 @@
+<div class="crop-filter">
+  <input pInputText
+         [ngModel]="searchQuery | async"
+         (ngModelChange)="onQueryChanged($event)"
+         name="query"
+         placeholder="Type to search" i18n-placeholder
+         autofocus
+  >
+
+  <p-selectButton [ngModel]="queryType | async"
+                  (ngModelChange)="onQueryTypeChange($event)"
+                  [options]="queryTypeOptions"
+                  name="query-type"
+  >
+    <ng-template let-item>
+      <pc-crop-search-query-type [type]="item"></pc-crop-search-query-type>
+    </ng-template>
+  </p-selectButton>
+
+  <p-checkbox [ngModel]="privateCrops | async"
+              (ngModelChange)="onPrivateCropsChanged($event)"
+              [binary]="true"
+              name="private-crops"
+              label="Private crops only" i18n-label
+  ></p-checkbox>
+</div>

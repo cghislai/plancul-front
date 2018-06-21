@@ -1,0 +1,58 @@
+.menu {
+  background-color: #50350b;
+  color: #999226;
+  fill: #999226;
+  height: 100%;
+  z-index: 10;
+
+  > a {
+    display: block;
+    padding: .5em;
+    font-size: 2em;
+    height: 2em;
+    position: relative;
+
+    &:hover {
+      background-color: rgba(255, 255, 0, 0.31);
+      color: #e4a233;
+      fill: #e4a233;
+      cursor: pointer;
+    }
+
+    &.active-link {
+      background-color: #3d5930;
+      &::after {
+        position: absolute;
+        display: inline-block;
+        content: '';
+        left: 100%;
+        background-color: #3d5930;
+        width: 1em;
+        height: 1em;
+        margin-left: -.5em;
+        transform: rotate(45deg);
+        z-index: -1;
+      }
+    }
+
+    > i, > img, > * {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      overflow: hidden;
+    }
+  }
+}
+
+.user-menu {
+  a {
+    display: block;
+    padding: .3em;
+    min-width: 10em;
+
+    &:hover {
+      cursor: pointer;
+      background-color: lightblue;
+    }
+  }
+}

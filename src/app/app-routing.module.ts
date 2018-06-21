@@ -5,6 +5,7 @@ import {WelcomeComponent} from './main/welcome/welcome.component';
 import {LoggedUserGuard} from './main/service/logged-user.guard';
 import {LoggedAdminGuard} from './main/service/logged-admin.guard';
 import {AccountInitComponent} from './main/account-init/account-init.component';
+import {ShellComponent} from './main/shell/shell.component';
 
 const routes: Routes = [
   {
@@ -21,9 +22,23 @@ const routes: Routes = [
     component: AccountInitComponent,
   },
   {
-    path: 'welcome',
-    component: WelcomeComponent,
+    path: '',
+    component: ShellComponent,
     canActivate: [LoggedUserGuard],
+    children: [
+      {
+        path: 'welcome',
+        component: WelcomeComponent,
+      },
+      {
+        path: 'crops',
+        loadChildren: './crop/crop.module#CropModule',
+      },
+      {
+        path: 'beds',
+        loadChildren: './bed/bed.module#BedModule',
+      }
+    ],
   },
   {
     path: 'admin',

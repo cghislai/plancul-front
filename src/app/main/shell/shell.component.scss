@@ -1,0 +1,18 @@
+.app-shell {
+  display: flex;
+  align-items: stretch;
+
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+
+  > .menu {
+    flex: 0 0 2em;
+    position: relative;
+  }
+  > .content {
+    flex: 1 1 auto;
+    position: relative;
+    margin-left: 2em;
+  }
+}

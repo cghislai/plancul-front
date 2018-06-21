@@ -32,7 +32,7 @@ export class LoggedAdminGuard implements CanActivate {
       return true;
     }
     if (user) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/welcome']);
       return false;
     }
     const nextUrl = next.url;

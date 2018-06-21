@@ -1,0 +1,19 @@
+.crop {
+  display: flex;
+  align-items: center;
+
+  >* {
+    flex: 1 1 auto;
+    margin: .5em;
+  }
+
+  .plant {
+    >* {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .pc-cultivar {
+      margin-left: 1em;
+    }
+  }
+}

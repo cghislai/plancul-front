@@ -1,0 +1,28 @@
+.plant-product-select {
+  display: block;
+
+  ::ng-deep .ui-autocomplete {
+    width: 100%;
+    > input {
+      width: 100%;
+    }
+  }
+}
+
+.tuple-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #D5D5D5;
+
+  > * {
+    flex: 1 1 auto;
+    display: inline-block;
+  }
+  > .pc-taxon {
+    margin-right: 1em;
+  }
+  .product {
+    font-size: .9em;
+    text-align: right;
+  }
+}

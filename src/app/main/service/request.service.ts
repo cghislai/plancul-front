@@ -6,6 +6,7 @@ import {Inject, Injectable} from '@angular/core';
 import {CredentialProviderService} from './credential-provider.service';
 import {catchError} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
+import {Pagination} from '../domain/pagination';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +42,12 @@ export class RequestService {
       .pipe(catchError(e => this.handleRequestError(e)));
   }
 
-  post<T>(apiPath: string, body: any, credential?: Credential): Observable<T> {
+  post<T>(apiPath: string, body: any, pagination?: Pagination): Observable<T> {
     return this.http.post<T>(this.buildUrl(apiPath), body, {
       headers: {
-        'Authorization': this.getAuthorizationHeader(credential),
+        'Authorization': this.getAuthorizationHeader(),
       },
+      params: this.getPaginationParams(pagination),
       withCredentials: true,
     })
       .pipe(catchError(e => this.handleRequestError(e)));
@@ -64,6 +66,16 @@ export class RequestService {
 
   put<T>(apiPath: string, body: any, credential?: Credential): Observable<T> {
     return this.http.put<T>(this.buildUrl(apiPath), body, {
+      headers: {
+        'Authorization': this.getAuthorizationHeader(credential),
+      },
+      withCredentials: true,
+    })
+      .pipe(catchError(e => this.handleRequestError(e)));
+  }
+
+  delete<T>(apiPath: string, credential?: Credential): Observable<T> {
+    return this.http.delete<T>(this.buildUrl(apiPath), {
       headers: {
         'Authorization': this.getAuthorizationHeader(credential),
       },
@@ -137,5 +149,15 @@ export class RequestService {
       return EMPTY;
     }
     return throwError(error);
+  }
+
+  private getPaginationParams(pagination?: Pagination) {
+    if (pagination == null) {
+      return null;
+    }
+    return {
+      offset: pagination.offset.toString(10),
+      length: pagination.length.toString(10),
+    };
   }
 }

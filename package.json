@@ -22,6 +22,7 @@
     "@angular/router": "^6.0.2",
     "@charlyghislain/plancul-ws-api": "0.0.1",
     "core-js": "^2.5.4",
+    "font-awesome": "^4.7.0",
     "primeicons": "^1.0.0-beta.8",
     "primeng": "^6.0.0-rc.1",
     "rxjs": "^6.0.0",

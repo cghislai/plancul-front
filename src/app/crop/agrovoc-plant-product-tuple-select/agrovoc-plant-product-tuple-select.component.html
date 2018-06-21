@@ -1,0 +1,17 @@
+<p-autoComplete [ngModel]="selection"
+                (ngModelChange)="onSelectionChange($event)"
+                [suggestions]="suggestions"
+                [forceSelection]="true"
+                [minLength]="3"
+                (completeMethod)="search($event)"
+                field="plantLabel"
+                name="plant-label"
+                class="plant-product-select"
+>
+  <ng-template let-tuple pTemplate="item">
+    <div class="ui-helper-clearfix tuple-item">
+      <span class="pc-taxon">{{ tuple.plantLabel }}</span>
+      <span class="product">{{ tuple.productLabel }}</span>
+    </div>
+  </ng-template>
+</p-autoComplete>
