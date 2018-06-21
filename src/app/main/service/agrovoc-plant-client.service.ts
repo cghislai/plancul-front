@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestService} from './request.service';
-import {WsAgrovocPlant, WsPlantProductResult, WsPlantProductTupleFilter, WsRef} from '@charlyghislain/plancul-ws-api';
+import {WsAgrovocPlant, WsPlantProductResult, WsPlantProductTupleFilter} from '@charlyghislain/plancul-ws-api';
 import {Pagination} from '../domain/pagination';
 import {Observable, of} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -18,7 +18,6 @@ export class AgrovocPlantClientService {
 
   constructor(private requestService: RequestService) {
   }
-
 
   searchPlantProductTuple(filter: WsPlantProductTupleFilter, pagination: Pagination): Observable<WsPlantProductResult[]> {
     return this.requestService.post('/plantProductTuple/search', filter, pagination);
@@ -44,22 +43,6 @@ export class AgrovocPlantClientService {
     return this.fetchAgrovocPlant(id);
   }
 
-  saveAgrovocPlant(agrovocPlant: WsAgrovocPlant): Observable<WsRef<WsAgrovocPlant>> {
-    if (agrovocPlant.id == null) {
-      return this.createAgrovocPlant(agrovocPlant);
-    } else {
-      return this.updateAgrovocPlant(agrovocPlant);
-    }
-  }
-
-  createAgrovocPlant(agrovocPlant: WsAgrovocPlant): Observable<WsRef<WsAgrovocPlant>> {
-    return this.requestService.post<WsRef<WsAgrovocPlant>>(`/agrovocPlant`, agrovocPlant);
-  }
-
-  updateAgrovocPlant(agrovocPlant: WsAgrovocPlant): Observable<WsRef<WsAgrovocPlant>> {
-    return this.requestService.put<WsRef<WsAgrovocPlant>>(`/agrovocPlant/${agrovocPlant.id}`, agrovocPlant)
-      .pipe(tap(ref => this.clearCachedAgrovocPlant(ref.id)));
-  }
 
   clearCachedAgrovocPlant(id: number) {
     this.cache.removeFromCache(id);

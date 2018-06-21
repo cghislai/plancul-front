@@ -1,4 +1,4 @@
-<div class="bed-list ui-widget">
+<div class="bed-list ui-widget pc-list-page">
 
   <header>
     <h1 i18n>Beds</h1>
@@ -22,13 +22,22 @@
 
   >
     <p-header>
-      <pc-bed-filter (filterChanged)="onFilterChanged($event)"
-      ></pc-bed-filter>
+      <span class="pc-list-page-header-group">
+        <label i18n>Sort</label>
+        <pc-bed-sort-select [sort]="sort | async"
+                            (selectionChange)="onSortChange($event)"
+        ></pc-bed-sort-select>
+      </span>
+      <span class="pc-list-page-header-group">
+        <label i18n>Filter</label>
+        <pc-bed-filter (filterChanged)="onFilterChanged($event)"
+        ></pc-bed-filter>
+      </span>
     </p-header>
 
     <ng-template let-bed pTemplate="listItem">
 
-      <div class="list-item selectable"
+      <div class="pc-list-page-list-item selectable"
            [routerLink]="['/beds/_/'+bed.id]">
 
         <span class="bed">

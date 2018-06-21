@@ -1,3 +1,8 @@
 <span class="bed">
-  <span class="name">{{ name  | async}}</span>
+  <span class="icon" *ngIf="showIcon">
+    <pc-fields-icon></pc-fields-icon>
+  </span>
+  <span class="name">
+    {{ name  | async}}
+  </span>
 </span>

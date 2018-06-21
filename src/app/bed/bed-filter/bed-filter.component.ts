@@ -17,7 +17,7 @@ export class BedFilterComponent implements OnInit {
 
   constructor(private selectedTenantService: SelectedTenantService) {
     this.filterChanged = combineLatest(
-      this.searchQuery,
+      this.searchQuery.pipe(debounceTime(200)),
       this.selectedTenantService.getSelectedTenantRef(),
     ).pipe(
       map(results => this.createFilter(results[0], results[1])),

@@ -11,6 +11,9 @@ import {BedClientService} from '../../main/service/bed-client.service';
 export class BedComponent implements OnInit {
 
   @Input()
+  showIcon= true;
+
+  @Input()
   set id(value: number) {
     this.idSource.next(value);
   }

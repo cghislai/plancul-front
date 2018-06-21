@@ -7,6 +7,9 @@ import {CredentialProviderService} from './credential-provider.service';
 import {catchError} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
 import {Pagination} from '../domain/pagination';
+import {WsSearchQueryParams} from '@charlyghislain/plancul-ws-api';
+import {Sort} from '../domain/sort';
+import {PaginationUtils} from './util/pagination-utils';
 
 @Injectable({
   providedIn: 'root',
@@ -155,9 +158,15 @@ export class RequestService {
     if (pagination == null) {
       return null;
     }
-    return {
-      offset: pagination.offset.toString(10),
-      length: pagination.length.toString(10),
-    };
+    const params = {};
+    params[WsSearchQueryParams.offset] = pagination.offset.toString(10);
+    params[WsSearchQueryParams.length] = pagination.length.toString(10);
+    if (pagination.sorts != null) {
+      const sortsParam = PaginationUtils.serializeSorts(pagination.sorts);
+      params[WsSearchQueryParams.sorts] = sortsParam;
+    }
+    return params;
   }
+
+
 }

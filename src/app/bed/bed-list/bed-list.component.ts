@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {WsBed, WsBedFilter, WsRef} from '@charlyghislain/plancul-ws-api';
-import {BehaviorSubject, combineLatest, forkJoin, Observable, of, ReplaySubject} from 'rxjs';
-import {Pagination} from '../../main/domain/pagination';
+import {WsBed, WsBedFilter, WsBedSortField, WsCropFilter, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {Observable} from 'rxjs';
 import {LazyLoadEvent} from 'primeng/api';
-import {map, mergeMap, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {BedClientService} from '../../main/service/bed-client.service';
-import {myThrottleTime} from '../../main/domain/my-throttle-time';
+import {Sort} from '../../main/domain/sort';
+import {ListHolderHelper} from '../../main/service/util/list-holder-helper';
 
 @Component({
   selector: 'pc-bed-list',
@@ -15,47 +14,46 @@ import {myThrottleTime} from '../../main/domain/my-throttle-time';
 })
 export class BedListComponent implements OnInit {
 
-  private filterSource = new ReplaySubject<WsBedFilter>(1);
-  private paginationSource = new ReplaySubject<Pagination>(1);
-
   bedResults: Observable<WsBed[]>;
   resultCount: Observable<number>;
-  resultLoading = new BehaviorSubject<boolean>(false);
+  resultLoading: Observable<boolean>;
+  sort: Observable<Sort>;
+  sortField: Observable<string>;
+  sortOrder: Observable<number>;
+
+  private helper: ListHolderHelper<WsBed, WsBedFilter>;
+
 
   constructor(private bedClient: BedClientService,
               private router: Router) {
   }
 
   ngOnInit() {
-    const searchResults = combineLatest(this.filterSource, this.paginationSource)
-      .pipe(
-        myThrottleTime(500),
-        tap(r => this.setLoading(true)),
-        switchMap(results => this.bedClient.searchBeds(results[0], results[1])),
-        publishReplay(1), refCount(),
-      );
-    this.bedResults = searchResults.pipe(
-      map(result => result.list),
-      mergeMap(list => this.fetchBeds(list)),
-      tap(r => this.setLoading(false)),
-      publishReplay(1), refCount(),
+    this.helper = new ListHolderHelper(
+      (filter, pagination) => this.bedClient.searchBeds(filter, pagination),
+      (id) => this.bedClient.getBed(id),
     );
-    this.resultCount = searchResults.pipe(
-      map(result => result.count),
-      publishReplay(1), refCount(),
-    );
+    this.bedResults = this.helper.getResults();
+    this.resultCount = this.helper.getResultCount();
+    this.resultLoading = this.helper.getResultsLoading();
+    this.sort = this.helper.getSort();
+    this.sortField = this.helper.getSortField();
+    this.sortOrder = this.helper.getSOrtOrder();
+
+    this.helper.setSort(this.createInitialSort());
   }
 
 
-  onFilterChanged(filter: WsBedFilter) {
-    this.filterSource.next(filter);
+  onFilterChanged(searchFilter: WsCropFilter) {
+    this.helper.setFilter(searchFilter);
+  }
+
+  onSortChange(sort: Sort) {
+    this.helper.setSort(sort);
   }
 
   onLazyLoad(event: LazyLoadEvent) {
-    this.paginationSource.next({
-      offset: event.first,
-      length: event.rows,
-    });
+    this.helper.applyLazyLoad(event);
   }
 
   onNewBedClicked() {
@@ -64,22 +62,19 @@ export class BedListComponent implements OnInit {
 
   onRemoveBedClick(bed: WsBed, event: MouseEvent) {
     this.bedClient.deleteBed(bed)
-      .pipe(mergeMap(() => this.filterSource))
-      .subscribe(filter => this.filterSource.next(filter));
+      .subscribe(() => this.helper.reload());
     event.stopImmediatePropagation();
     event.preventDefault();
   }
 
-  private setLoading(value: boolean) {
-    this.resultLoading.next(value);
-  }
-
-  private fetchBeds(list: WsRef<WsBed>[]): Observable<WsBed[]> {
-    const taskList = list.map(ref => this.bedClient.getBed(ref.id));
-    return taskList.length === 0 ? of([]) : forkJoin(taskList);
-  }
-
   private createInitialFilter(): WsBedFilter {
     return {};
+  }
+
+  private createInitialSort(): Sort {
+    return {
+      field: WsBedSortField.NAME,
+      order: WsSortOrder.ASC,
+    };
   }
 }

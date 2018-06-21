@@ -27,7 +27,7 @@ export class CropFilterComponent implements OnInit {
 
   constructor(private selectedTenantService: SelectedTenantService) {
     this.filterChanged = combineLatest(
-      this.searchQuery,
+      this.searchQuery.pipe(debounceTime(200)),
       this.queryType,
       this.privateCrops,
       this.selectedTenantService.getSelectedTenantRef(),

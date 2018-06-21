@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {WsCrop, WsCropFilter, WsRef} from '@charlyghislain/plancul-ws-api';
-import {BehaviorSubject, combineLatest, forkJoin, Observable, of, ReplaySubject} from 'rxjs';
-import {Pagination} from '../../main/domain/pagination';
+import {WsBedFilter, WsBedSortField, WsCrop, WsCropFilter, WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
 import {LazyLoadEvent} from 'primeng/api';
-import {map, mergeMap, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {CropClientService} from '../../main/service/crop-client.service';
-import {myThrottleTime} from '../../main/domain/my-throttle-time';
+import {Sort} from '../../main/domain/sort';
+import {ListHolderHelper} from '../../main/service/util/list-holder-helper';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'pc-crop-list',
@@ -15,60 +14,60 @@ import {myThrottleTime} from '../../main/domain/my-throttle-time';
 })
 export class CropListComponent implements OnInit {
 
-  private filterSource = new ReplaySubject<WsCropFilter>(1);
-  private paginationSource = new ReplaySubject<Pagination>(1);
-
   cropResults: Observable<WsCrop[]>;
   resultCount: Observable<number>;
-  resultLoading = new BehaviorSubject<boolean>(false);
+  resultLoading: Observable<boolean>;
+  sort: Observable<Sort>;
+  sortField: Observable<string>;
+  sortOrder: Observable<number>;
 
+  private helper: ListHolderHelper<WsCrop, WsCropFilter>;
 
   constructor(private cropClient: CropClientService,
               private router: Router) {
   }
 
   ngOnInit() {
-    const searchResults = combineLatest(this.filterSource, this.paginationSource)
-      .pipe(
-        myThrottleTime(500),
-        tap(r => this.setLoading(true)),
-        switchMap(results => this.cropClient.searchCrops(results[0], results[1])),
-        publishReplay(1), refCount(),
-      );
-    this.cropResults = searchResults.pipe(
-      map(result => result.list),
-      mergeMap(list => this.fetchCrops(list)),
-      tap(r => this.setLoading(false)),
-      publishReplay(1), refCount(),
+    this.helper = new ListHolderHelper(
+      (filter, pagination) => this.cropClient.searchCrops(filter, pagination),
+      (id) => this.cropClient.getCrop(id),
     );
-    this.resultCount = searchResults.pipe(
-      map(result => result.count),
-      publishReplay(1), refCount(),
-    );
-    this.filterSource.next({});
+    this.cropResults = this.helper.getResults();
+    this.resultCount = this.helper.getResultCount();
+    this.resultLoading = this.helper.getResultsLoading();
+    this.sort = this.helper.getSort();
+    this.sortField = this.helper.getSortField();
+    this.sortOrder = this.helper.getSOrtOrder();
+
+    // this.helper.setFilter(this.createInitialFilter());
+    this.helper.setSort(this.createInitialSort());
   }
 
-  onFilterChanged(filter: WsCropFilter) {
-    this.filterSource.next(filter);
+  onFilterChanged(searchFilter: WsCropFilter) {
+    this.helper.setFilter(searchFilter);
+  }
+
+  onSortChange(sort: Sort) {
+    this.helper.setSort(sort);
   }
 
   onLazyLoad(event: LazyLoadEvent) {
-    this.paginationSource.next({
-      offset: event.first,
-      length: event.rows,
-    });
+    this.helper.applyLazyLoad(event);
   }
 
   onNewCropClicked() {
     this.router.navigate(['/crops/_/new']);
   }
 
-  private setLoading(value: boolean) {
-    this.resultLoading.next(value);
+  private createInitialFilter(): WsBedFilter {
+    return {};
   }
 
-  private fetchCrops(list: WsRef<WsCrop>[]): Observable<WsCrop[]> {
-    const taskList = list.map(ref => this.cropClient.getCrop(ref.id));
-    return taskList.length === 0 ? of([]) : forkJoin(taskList);
+
+  private createInitialSort(): Sort {
+    return {
+      field: WsCropSortField.PLANT_NAME,
+      order: WsSortOrder.ASC,
+    };
   }
 }

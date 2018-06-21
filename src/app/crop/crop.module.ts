@@ -6,11 +6,12 @@ import {CropListComponent} from './crop-list/crop-list.component';
 import {CropFilterComponent} from './crop-filter/crop-filter.component';
 import {CropSearchQueryTypeComponent} from './crop-search-query-type/crop-search-query-type.component';
 import {FormsModule} from '@angular/forms';
-import {AutoCompleteModule, ButtonModule, CheckboxModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
+import {AutoCompleteModule, ButtonModule, CheckboxModule, DropdownModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
 import {DataViewModule} from 'primeng/dataview';
 import {AgrovocPlantProductTupleSelectComponent} from './agrovoc-plant-product-tuple-select/agrovoc-plant-product-tuple-select.component';
 import {NewCropFormComponent} from './new-crop-form/new-crop-form.component';
 import {SharedModule} from '../shared/shared.module';
+import { CropSortSelectComponent } from './crop-sort-select/crop-sort-select.component';
 
 @NgModule({
   imports: [
@@ -26,13 +27,15 @@ import {SharedModule} from '../shared/shared.module';
     DataViewModule,
     ButtonModule,
     AutoCompleteModule,
+    DropdownModule,
   ],
   declarations: [
     CropListComponent,
     CropFilterComponent,
     CropSearchQueryTypeComponent,
     NewCropFormComponent,
-    AgrovocPlantProductTupleSelectComponent],
+    AgrovocPlantProductTupleSelectComponent,
+    CropSortSelectComponent],
 })
 export class CropModule {
 }

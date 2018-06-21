@@ -1,4 +1,4 @@
-<div class="crop-list ui-widget">
+<div class="crop-list ui-widget pc-list-page">
 
   <header>
     <h1 i18n>Crops</h1>
@@ -15,19 +15,30 @@
   <p-dataView [value]="cropResults | async"
               [totalRecords]="resultCount | async"
               [loading]="resultLoading | async"
+              [sortOrder]="sortOrder | async"
+              [sortField]="sortField | async"
               [paginator]="true"
               [rows]="30"
               [lazy]="true"
               (onLazyLoad)="onLazyLoad($event)"
-
   >
     <p-header>
-      <pc-crop-filter (filterChanged)="onFilterChanged($event)"
-      ></pc-crop-filter>
+       <span class="pc-list-page-header-group">
+        <label i18n>Sort</label>
+        <pc-crop-sort-select [sort]="sort | async"
+                             (selectionChange)="onSortChange($event)"
+        ></pc-crop-sort-select>
+      </span>
+      <span class="pc-list-page-header-group">
+        <label i18n>Filter</label>
+        <pc-crop-filter (filterChanged)="onFilterChanged($event)"
+        ></pc-crop-filter>
+      </span>
+
     </p-header>
 
     <ng-template let-crop pTemplate="listItem">
-      <div>
+      <div class="pc-list-page-list-item">
         <pc-crop [id]="crop.id"></pc-crop>
       </div>
     </ng-template>

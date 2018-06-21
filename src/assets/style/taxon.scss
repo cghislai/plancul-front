@@ -4,10 +4,17 @@
 }
 
 .pc-cultivar {
+  opacity: .7;
+  font-size: .9em;
+
   &::before {
-    content: '\'';
+    content: '‘';
+    opacity: .5;
+    //margin: 0 .05em;
   }
   &::after {
-    content: '\'';
+    content: '’';
+    opacity: .5;
+    //margin: 0 .05em;
   }
 }

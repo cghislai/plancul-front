@@ -1,6 +1,14 @@
 <div class="crop">
+  <span class="icon" *ngIf="showIcon">
+    <pc-single-seedlings-icon></pc-single-seedlings-icon>
+  </span>
   <span class="plant">
-    <span class="pc-taxon">{{ taxon | async }}</span>
-    <span class="pc-cultivar">{{ cultivar | async }}</span>
+    <div class="pc-taxon">{{ taxon | async }}</div>
+    <div class="pc-cultivar">{{ cultivar | async }}</div>
+  </span>
+  <span class="product" *ngIf="showProduct">
+    <span class="pc-product">
+      {{ productName | async }}
+    </span>
   </span>
 </div>
