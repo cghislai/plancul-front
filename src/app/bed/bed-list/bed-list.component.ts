@@ -41,6 +41,7 @@ export class BedListComponent implements OnInit {
     this.sortOrder = this.helper.getSOrtOrder();
 
     this.helper.setSort(this.createInitialSort());
+    this.helper.setFilter(this.createInitialFilter());
   }
 
 

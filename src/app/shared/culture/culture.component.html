@@ -1,0 +1,11 @@
+<span class="bed">
+  <span class="icon" *ngIf="showIcon">
+    <pc-seedlings-open-icon></pc-seedlings-open-icon>
+  </span>
+  <span class="crop">
+    <pc-crop [id]="cropId | async"
+             [showIcon]="false"
+             [showProduct]="false"
+    ></pc-crop>
+  </span>
+</span>

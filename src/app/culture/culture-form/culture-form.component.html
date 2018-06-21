@@ -1,0 +1,27 @@
+<div class="culture-form ui-widget">
+  <header>
+    <h1 i18n>Culture edition</h1>
+  </header>
+
+  <form #cultureForm="ngForm" (submit)="onSubmit()" class="pc-form"
+        *ngIf="culture != null">
+
+    <div class="row">
+      <label i18n>Name</label>
+    </div>
+
+    <div class="actions">
+      <button type="submit" hidden></button>
+
+      <button pButton type="button"
+              [disabled]="!cultureForm.valid"
+              (click)="onSubmit()"
+              label="Save" i18n-label></button>
+
+      <button pButton type="button"
+              class="ui-button-secondary"
+              (click)="onCancel()"
+              label="Cancel" i18n-label></button>
+    </div>
+  </form>
+</div>

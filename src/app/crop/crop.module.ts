@@ -3,15 +3,13 @@ import {CommonModule} from '@angular/common';
 
 import {CropRoutingModule} from './crop-routing.module';
 import {CropListComponent} from './crop-list/crop-list.component';
-import {CropFilterComponent} from './crop-filter/crop-filter.component';
-import {CropSearchQueryTypeComponent} from './crop-search-query-type/crop-search-query-type.component';
 import {FormsModule} from '@angular/forms';
-import {AutoCompleteModule, ButtonModule, CheckboxModule, DropdownModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
+import {AutoCompleteModule, CheckboxModule, DropdownModule, InputTextModule} from 'primeng/primeng';
 import {DataViewModule} from 'primeng/dataview';
 import {AgrovocPlantProductTupleSelectComponent} from './agrovoc-plant-product-tuple-select/agrovoc-plant-product-tuple-select.component';
 import {NewCropFormComponent} from './new-crop-form/new-crop-form.component';
 import {SharedModule} from '../shared/shared.module';
-import { CropSortSelectComponent } from './crop-sort-select/crop-sort-select.component';
+import {CropSortSelectComponent} from './crop-sort-select/crop-sort-select.component';
 
 @NgModule({
   imports: [
@@ -22,17 +20,13 @@ import { CropSortSelectComponent } from './crop-sort-select/crop-sort-select.com
     SharedModule,
 
     InputTextModule,
-    SelectButtonModule,
-    CheckboxModule,
     DataViewModule,
-    ButtonModule,
+    CheckboxModule,
     AutoCompleteModule,
     DropdownModule,
   ],
   declarations: [
     CropListComponent,
-    CropFilterComponent,
-    CropSearchQueryTypeComponent,
     NewCropFormComponent,
     AgrovocPlantProductTupleSelectComponent,
     CropSortSelectComponent],

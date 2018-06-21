@@ -37,6 +37,10 @@ const routes: Routes = [
       {
         path: 'beds',
         loadChildren: './bed/bed.module#BedModule',
+      },
+      {
+        path: 'cultures',
+        loadChildren: './culture/culture.module#CultureModule',
       }
     ],
   },

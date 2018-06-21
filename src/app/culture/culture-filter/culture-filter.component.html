@@ -1,0 +1,7 @@
+<div class="culture-filter">
+  <span class="crop-filter">
+    <pc-crop-filter [filter]="cropFilter | async"
+                    (filterChanged)="onCropFilterChange($event)"
+    ></pc-crop-filter>
+  </span>
+</div>

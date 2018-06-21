@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {SeedlingsIconComponent} from './seedlings-icon/seedlings-icon.component';
 import {FieldsIconComponent} from './fields-icon/fields-icon.component';
 import {SingleSeedlingsIconComponent} from './single-seedlings-icon/single-seedlings-icon.component';
+import {SeedlingsOpenIconComponent} from './seedlings-open-icon/seedlings-open-icon.component';
 
 @NgModule({
   imports: [
@@ -11,11 +12,13 @@ import {SingleSeedlingsIconComponent} from './single-seedlings-icon/single-seedl
   declarations: [
     SeedlingsIconComponent,
     SingleSeedlingsIconComponent,
+    SeedlingsOpenIconComponent,
     FieldsIconComponent,
   ],
   exports: [
     SeedlingsIconComponent,
     SingleSeedlingsIconComponent,
+    SeedlingsOpenIconComponent,
     FieldsIconComponent,
   ],
   schemas: [

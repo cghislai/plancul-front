@@ -31,7 +31,8 @@
       </span>
       <span class="pc-list-page-header-group">
         <label i18n>Filter</label>
-        <pc-crop-filter (filterChanged)="onFilterChanged($event)"
+        <pc-crop-filter [filter]="filter | async"
+                        (filterChanged)="onFilterChanged($event)"
         ></pc-crop-filter>
       </span>
 

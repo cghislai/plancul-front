@@ -1,0 +1,15 @@
+.culture-sort-select {
+  display: inline-block;
+  >* {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .field-select {
+    width: 10em;
+
+    ::ng-deep .ui-dropdown {
+      width: 100%;
+    }
+  }
+}

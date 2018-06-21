@@ -18,6 +18,7 @@ export class CropListComponent implements OnInit {
   resultCount: Observable<number>;
   resultLoading: Observable<boolean>;
   sort: Observable<Sort>;
+  filter: Observable<WsCropFilter>;
   sortField: Observable<string>;
   sortOrder: Observable<number>;
 
@@ -38,6 +39,7 @@ export class CropListComponent implements OnInit {
     this.sort = this.helper.getSort();
     this.sortField = this.helper.getSortField();
     this.sortOrder = this.helper.getSOrtOrder();
+    this.filter = this.helper.getFilter();
 
     // this.helper.setFilter(this.createInitialFilter());
     this.helper.setSort(this.createInitialSort());

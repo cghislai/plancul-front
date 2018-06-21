@@ -1,0 +1,14 @@
+.culture-filter {
+  display: inline-flex;
+  align-items: center;
+
+  > * {
+    display: inline-block;
+    flex: 0 0 auto;
+
+    &:not(:last-child) {
+      margin-right: 1em;
+    }
+  }
+
+}

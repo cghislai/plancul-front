@@ -34,8 +34,12 @@ export class BedFilterComponent implements OnInit {
 
   private createFilter(query: string, tenantRef: WsRef<WsTenant>): WsBedFilter {
     const filter: WsBedFilter = {};
-    filter.tenantWsRef = tenantRef;
-    filter.nameQuery = query;
+    if (tenantRef != null) {
+      filter.tenantWsRef = tenantRef;
+    }
+    if (query != null) {
+      filter.nameQuery = query;
+    }
     return filter;
   }
 }

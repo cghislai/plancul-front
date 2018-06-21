@@ -1,0 +1,63 @@
+<div class="culture-list ui-widget pc-list-page">
+
+  <header>
+    <h1 i18n>Cultures</h1>
+    <div class="actions">
+      <button pButton type="button"
+              label="New culture" i18n-label
+              icon="pi pi-plus"
+              (click)="onNewCultureClicked()"
+      ></button>
+    </div>
+  </header>
+
+
+  <p-dataView [value]="cultureResults | async"
+              [totalRecords]="resultCount | async"
+              [loading]="resultLoading | async"
+              [paginator]="true"
+              [rows]="30"
+              [lazy]="true"
+              (onLazyLoad)="onLazyLoad($event)"
+
+  >
+    <p-header>
+      <span class="pc-list-page-header-group">
+        <label i18n>Sort</label>
+        <pc-culture-sort-select [sort]="sort | async"
+                                (selectionChange)="onSortChange($event)"
+        ></pc-culture-sort-select>
+      </span>
+      <span class="pc-list-page-header-group">
+        <label i18n>Filter</label>
+        <pc-culture-filter [filter]="filter | async"
+                           (filterChanged)="onFilterChanged($event)"
+        ></pc-culture-filter>
+      </span>
+    </p-header>
+
+    <ng-template let-culture pTemplate="listItem">
+
+      <div class="pc-list-page-list-item selectable"
+           [routerLink]="['/cultures/_/'+culture.id]">
+
+        <span class="culture">
+          <pc-culture [id]="culture.id"></pc-culture>
+        </span>
+
+        <span class="actions">
+           <a class="remove"
+              (click)="onRemoveCultureClick(culture, $event)"
+              title="Remove culture" i18n-title
+           >
+            <i class="pi pi-trash"></i>
+          </a>
+        </span>
+      </div>
+
+    </ng-template>
+
+  </p-dataView>
+
+
+</div>
