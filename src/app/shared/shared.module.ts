@@ -8,7 +8,8 @@ import {CropFilterComponent} from './crop-filter/crop-filter.component';
 import {AutoCompleteModule, ButtonModule, CheckboxModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
 import {CropSearchQueryTypeComponent} from './crop-search-query-type/crop-search-query-type.component';
 import {FormsModule} from '@angular/forms';
-import { CropSelectComponent } from './crop-select/crop-select.component';
+import {CropSelectComponent} from './crop-select/crop-select.component';
+import {BedSelectComponent} from './bed-select/bed-select.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { CropSelectComponent } from './crop-select/crop-select.component';
   ],
   declarations: [
     BedComponent,
+    BedSelectComponent,
     CropComponent,
     CropFilterComponent,
     CropSearchQueryTypeComponent,
@@ -32,6 +34,7 @@ import { CropSelectComponent } from './crop-select/crop-select.component';
   ],
   exports: [
     BedComponent,
+    BedSelectComponent,
     CropComponent,
     CropFilterComponent,
     CropSearchQueryTypeComponent,

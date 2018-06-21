@@ -1,0 +1,19 @@
+<p-autoComplete [ngModel]="value | async"
+                (ngModelChange)="onChange($event)"
+                [suggestions]="suggestions"
+                [forceSelection]="true"
+                [dropdown]="true"
+                (completeMethod)="search($event)"
+                (onDropdownClick)="searchAll()"
+                field="label"
+                name="bed-select"
+                class="bed-select"
+>
+  <ng-template let-item pTemplate="item">
+    <div class="ui-helper-clearfix bed-item">
+      <pc-bed [showIcon]="false"
+               [id]="item.value.id"
+      ></pc-bed>
+    </div>
+  </ng-template>
+</p-autoComplete>

@@ -14,6 +14,14 @@
       ></pc-crop-select>
     </div>
 
+    <div class="row">
+      <label i18n>Bed</label>
+      <pc-bed-select [(ngModel)]="culture.bedWsRef"
+                      name="bed"
+                      required
+      ></pc-bed-select>
+    </div>
+
     <div class="actions">
       <button type="submit" hidden></button>
 
