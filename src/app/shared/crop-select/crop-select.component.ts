@@ -20,13 +20,13 @@ import {Pagination} from '../../main/domain/pagination';
 })
 export class CropSelectComponent implements OnInit, ControlValueAccessor {
 
-  changeFunction: Function;
-  touchedFunction: Function;
-
   value: Observable<SelectItem>;
   suggestions: SelectItem[];
 
+  private changeFunction: Function;
+  private touchedFunction: Function;
   private valueSource = new BehaviorSubject<WsRef<WsCrop>>(null);
+
 
   constructor(private cropClient: CropClientService,
               private agroPlantClient: AgrovocPlantClientService) {
@@ -52,7 +52,6 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   onChange(item: SelectItem) {
-    this.touchedFunction();
     this.changeFunction(item.value);
   }
 
@@ -73,6 +72,10 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
         map(results => results.list),
         switchMap(list => this.createItemList(list)),
       ).subscribe(list => this.suggestions = list);
+  }
+
+  onBlur() {
+    this.touchedFunction();
   }
 
   private createSelectItem(ref: WsRef<WsCrop>): Observable<SelectItem> {

@@ -1,0 +1,10 @@
+<input type="date"
+       class="ui-inputtext ui-state-default ui-corner-all"
+       [ngModel]="value"
+       (ngModelChange)="onDateStringChange($event)"
+       (blur)="onBlur()"
+       name="date-select"
+       #control="ngModel"
+       [ngClass]="(invalid || (control.invalid && control.touched)) ? 'ng-invalid ng-dirty' : ''"
+       required
+>

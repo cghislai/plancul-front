@@ -7,8 +7,7 @@ import {CredentialProviderService} from './credential-provider.service';
 import {catchError} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
 import {Pagination} from '../domain/pagination';
-import {WsSearchQueryParams} from '@charlyghislain/plancul-ws-api';
-import {Sort} from '../domain/sort';
+import {WsError, WsSearchQueryParams} from '@charlyghislain/plancul-ws-api';
 import {PaginationUtils} from './util/pagination-utils';
 
 @Injectable({
@@ -114,24 +113,24 @@ export class RequestService {
   }
 
   getHttpErrorMessage(error: any): string | null {
+    const body = this.parseHttpErrorJsonBody<WsError>(error);
+    if (body == null) {
+      return null;
+    }
+    return body.message;
+  }
+
+
+  parseHttpErrorJsonBody<T>(error: any): T | null {
     if (error == null) {
       return null;
     } else if (error instanceof HttpResponse) {
-      return this.extractErrorMessageFromHttpResponse(error);
-    }
-    return null;
-  }
-
-  private extractErrorMessageFromHttpResponse(response: HttpResponse<any>) {
-    const body = response.body;
-    const contentType = response.headers.get('Content-Type');
-
-    if (contentType === 'application/json') {
-      const jsonObject = JSON.parse(body);
-      const messageKey = jsonObject['message'];
-      if (messageKey != null) {
-        return messageKey;
+      const contentType = error.headers.get('Content-Type');
+      if (contentType === 'application/json') {
+        return <T>JSON.parse(error.body);
       }
+    } else if (error instanceof HttpErrorResponse) {
+      return error.error;
     }
     return null;
   }

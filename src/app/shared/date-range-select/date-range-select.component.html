@@ -1,0 +1,24 @@
+<div class="date-range-select">
+  <span>
+    <label i18n>From</label>
+    <pc-date-select [ngModel]="fromDate | async"
+                    (ngModelChange)="onFromDateChange($event)"
+                    [required]="fromRequired"
+                    (blur)="onBlur()"
+                    [invalid]="!valid"
+                    name="from-date"
+    ></pc-date-select>
+  </span>
+  <span>
+    <label i18n>To</label>
+    <pc-date-select [ngModel]="toDate | async"
+                    (ngModelChange)="onToDateChange($event)"
+                    [required]="toRequired"
+                    (blur)="onBlur()"
+                    [invalid]="!valid"
+                    name="to-date"
+    ></pc-date-select>
+  </span>
+</div>
+<pc-validation-errors *ngIf="!valid" error="Invalid range" i18n-error
+></pc-validation-errors>

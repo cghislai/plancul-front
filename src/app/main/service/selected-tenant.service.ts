@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
 import {WsPlot, WsPlotFilter, WsRef, WsTenant, WsTenantRole, WsTenantUserRole} from '@charlyghislain/plancul-ws-api';
 import {LoggedUserService} from './logged-user.service';
-import {exhaustMap, map, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
+import {map, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {TenantClientService} from './tenant-client.service';
 import {WsRefUtils} from './util/ws-ref-utils';
 import {Pagination} from '../domain/pagination';
@@ -26,9 +26,10 @@ export class SelectedTenantService {
     this.availableTenants = loggedUserService.getTenantRolesObservable()
       .pipe(
         tap(tenantsRoles => this.updateSelectionFromAvailablity(tenantsRoles)),
-        exhaustMap(tenantRoles => this.fetchTenants(tenantRoles)),
+        switchMap(tenantRoles => this.fetchTenants(tenantRoles)),
         publishReplay(1), refCount(),
       );
+    this.availableTenants.subscribe();
     this.availablePlotRefs = this.selectedTenantRef.pipe(
       switchMap(ref => this.searchTenantPlots(ref)),
       map(results => results.list),

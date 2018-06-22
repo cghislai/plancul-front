@@ -2,6 +2,44 @@
   text-align: center;
 
   form {
-    width: 50em;
+    max-width: none;
+  }
+
+  .unit {
+    margin-left: .3em;
+  }
+
+  section {
+    margin: 0 0 1em;
+    border-bottom: 1px solid #e4eaed;
+  }
+
+  .editor {
+    ::ng-deep .ui-editor-toolbar {
+      zoom: .8;
+    }
+    ::ng-deep .ui-editor-content {
+      height: 16em;
+    }
+  }
+
+  .transplantation-date {
+    margin-left: 2em;
+  }
+
+  .bed-occupancy {
+    .values > .value {
+      display: flex;
+      align-items: center;
+      margin: .3em;
+
+      >* {
+        flex: 1 1 100%;
+      }
+      >label {
+        flex: 0 0 5em;
+        margin-right: 1em;
+      }
+    }
   }
 }

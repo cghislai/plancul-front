@@ -3,9 +3,13 @@
                 [suggestions]="suggestions"
                 [forceSelection]="true"
                 (completeMethod)="search($event)"
+                (onBlur)="onBlur()"
                 field="label"
                 name="crop-select"
                 class="crop-select"
+                required
+                #control="ngModel"
+                [inputStyleClass]="control.invalid && control.touched ? 'ng-dirty ng-invalid' : ''"
 >
   <ng-template let-item pTemplate="item">
     <div class="ui-helper-clearfix crop-item">

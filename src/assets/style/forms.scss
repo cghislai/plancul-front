@@ -3,7 +3,22 @@
   display: inline-block;
   text-align: initial;
 
+
+  .actions {
+    margin: 1em;
+    text-align: center;
+
+    > * {
+      margin: 0 .5em;
+    }
+  }
+
+}
+
+.pc-form, .pc-form > .row > .col {
   margin: 1em;
+  overflow: hidden;
+  position: relative;
 
   > section {
     margin: 1em;
@@ -30,13 +45,5 @@
     }
   }
 
-  .actions {
-    margin: 1em;
-    text-align: center;
-
-    >* {
-      margin: 0 .5em;
-    }
-  }
 
 }

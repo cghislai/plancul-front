@@ -1,0 +1,10 @@
+<p-selectButton [options]="options"
+                [ngModel]="value"
+                (ngModelChange)="onChange($event)"
+>
+  <ng-template let-item>
+    <pc-bed-preparation-type [type]="item"
+                             class="type-item"
+    ></pc-bed-preparation-type>
+  </ng-template>
+</p-selectButton>

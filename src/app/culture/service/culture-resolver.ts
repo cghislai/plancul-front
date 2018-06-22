@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable, throwError} from 'rxjs';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {map, take} from 'rxjs/operators';
+import {filter, map, take} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +34,7 @@ export class CultureResolver implements Resolve<WsCulture> {
   private createNewCulture(): Observable<WsCulture> {
     return this.tenantSelectionService.getSelectedTenantRef()
       .pipe(
+        filter(ref => ref != null),
         take(1),
         map(tenantRef => this.createNewCultureWithData(tenantRef)),
       );

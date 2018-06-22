@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of, Subscription, timer} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
 import {RequestService} from './request.service';
-import {exhaustMap, filter, map, mergeMap, publishReplay, refCount} from 'rxjs/operators';
+import {filter, map, mergeMap, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {WsTenantUserRole, WsUser} from '@charlyghislain/plancul-ws-api';
 import {JosePayload} from '../domain/jose-payload';
 import {JwtCrential} from '../domain/jwt-crential';
@@ -30,7 +30,10 @@ export class LoggedUserService {
               private localStorageService: LocalStorageService,
               private router: Router,
               private requestService: RequestService) {
-    const credentialSource = this.credentialService.getCredentialObservable();
+    const credentialSource = this.credentialService.getCredentialObservable()
+      .pipe(
+        publishReplay(1), refCount(),
+      );
     this.josePayload = credentialSource
       .pipe(
         map(cred => cred == null ? null : cred.getToken()),
@@ -51,11 +54,11 @@ export class LoggedUserService {
       publishReplay(1), refCount(),
     );
     this.user = credentialSource.pipe(
-      exhaustMap(credential => credential == null ? of(null) : this.requestService.get<WsUser>('/user/me')),
+      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsUser>('/user/me')),
       publishReplay(1), refCount(),
     );
     this.tenantsRoles = credentialSource.pipe(
-      exhaustMap(credential => credential == null ? of([]) : this.requestService.get<WsTenantUserRole[]>('/user/me/tenants')),
+      switchMap(credential => credential == null ? of([]) : this.requestService.get<WsTenantUserRole[]>('/user/me/tenants')),
       publishReplay(1), refCount(),
     );
 

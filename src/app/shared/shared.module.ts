@@ -10,6 +10,12 @@ import {CropSearchQueryTypeComponent} from './crop-search-query-type/crop-search
 import {FormsModule} from '@angular/forms';
 import {CropSelectComponent} from './crop-select/crop-select.component';
 import {BedSelectComponent} from './bed-select/bed-select.component';
+import {DateSelectComponent} from './date-select/date-select.component';
+import {DateRangeSelectComponent} from './date-range-select/date-range-select.component';
+import {BedPreparationTypeComponent} from './bed-preparation-type/bed-preparation-type.component';
+import {BedPreparationTypeSelectComponent} from './bed-preparation-type-select/bed-preparation-type-select.component';
+import {TemplateVarDirective} from './util/template-var-directive';
+import { ValidationErrorsComponent } from './validation-errors/validation-errors.component';
 
 @NgModule({
   imports: [
@@ -31,6 +37,14 @@ import {BedSelectComponent} from './bed-select/bed-select.component';
     CropSearchQueryTypeComponent,
     CropSelectComponent,
     CultureComponent,
+    DateSelectComponent,
+    DateRangeSelectComponent,
+    BedPreparationTypeComponent,
+    BedPreparationTypeSelectComponent,
+    ValidationErrorsComponent,
+
+    TemplateVarDirective,
+
   ],
   exports: [
     BedComponent,
@@ -40,6 +54,13 @@ import {BedSelectComponent} from './bed-select/bed-select.component';
     CropSearchQueryTypeComponent,
     CropSelectComponent,
     CultureComponent,
+    DateSelectComponent,
+    DateRangeSelectComponent,
+    BedPreparationTypeComponent,
+    BedPreparationTypeSelectComponent,
+    ValidationErrorsComponent,
+
+    TemplateVarDirective,
   ],
 })
 export class SharedModule {

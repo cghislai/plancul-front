@@ -13,6 +13,7 @@ import {AccountInitComponent} from './account-init/account-init.component';
 import {ShellComponent} from './shell/shell.component';
 import {MenuComponent} from './menu/menu.component';
 import {IconsModule} from '../icons/icons.module';
+import {TemplateVarDirective} from './service/util/template-var-directive';
 
 @NgModule({
   imports: [
@@ -30,10 +31,13 @@ import {IconsModule} from '../icons/icons.module';
     InputTextModule,
     OverlayPanelModule,
   ],
-  declarations: [LoginComponent, WelcomeComponent, AccountInitComponent, ShellComponent, MenuComponent],
+  declarations: [LoginComponent, WelcomeComponent, AccountInitComponent, ShellComponent, MenuComponent,
+
+    ],
   exports: [
     ButtonModule,
     InputTextModule,
+
   ],
 })
 export class MainModule {

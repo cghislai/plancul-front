@@ -75,7 +75,7 @@ export class CultureListComponent implements OnInit {
     const now = new Date();
     return {
       bedOccupancyEndDate: {
-        notAfter: DateUtils.toIsoDateString(now),
+        notBefore: DateUtils.toIsoDateString(now),
       },
       cropFilter: {
         namesQuery: '',

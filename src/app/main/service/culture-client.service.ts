@@ -50,6 +50,10 @@ export class CultureClientService {
     }
   }
 
+  validateCulture(culture: WsCulture): Observable<WsCulture> {
+    return this.requestService.put<WsCulture>(`/culture/validate`, culture);
+  }
+
   createCulture(culture: WsCulture): Observable<WsRef<WsCulture>> {
     return this.requestService.post<WsRef<WsCulture>>(`/culture`, culture);
   }

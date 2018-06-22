@@ -19,12 +19,12 @@ import {BedClientService} from '../../main/service/bed-client.service';
 })
 export class BedSelectComponent implements OnInit, ControlValueAccessor {
 
-  changeFunction: Function;
-  touchedFunction: Function;
 
   value: Observable<SelectItem>;
   suggestions: SelectItem[];
 
+  private changeFunction: Function;
+  private touchedFunction: Function;
   private valueSource = new BehaviorSubject<WsRef<WsBed>>(null);
 
   constructor(private bedClient: BedClientService) {
@@ -64,6 +64,11 @@ export class BedSelectComponent implements OnInit, ControlValueAccessor {
   searchAll() {
     this.searchWithFilter({});
   }
+
+  onBlur() {
+    this.touchedFunction();
+  }
+
 
   private searchWithFilter(filter: WsBedFilter) {
     const pagination: Pagination = {

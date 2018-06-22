@@ -4,29 +4,221 @@
   </header>
 
   <form #cultureForm="ngForm" (submit)="onSubmit()" class="pc-form"
-        *ngIf="culture != null">
+  >
 
     <div class="row">
-      <label i18n>Crop</label>
-      <pc-crop-select [(ngModel)]="culture.cropWsRef"
-                      name="crop"
-                      required
-      ></pc-crop-select>
+
+      <div class="col">
+
+        <div class="row" *templateVar="cropRef | async; let model">
+          <label i18n>Crop</label>
+          <span>
+            <pc-crop-select [ngModel]="model.propertyValue"
+                            (ngModelChange)="onCropChange($event)"
+                            [name]="model.property"
+                            required
+                            #control="ngModel"
+            ></pc-crop-select>
+            <pc-validation-errors [errors]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+          </span>
+        </div>
+
+        <div class="row" *templateVar="bedRef | async; let model">
+          <label i18n>Bed</label>
+          <span>
+            <pc-bed-select [ngModel]="model.propertyValue"
+                           (ngModelChange)="onBedChange($event)"
+                           [name]="model.property"
+                           required
+                           #control="ngModel"
+            ></pc-bed-select>
+            <pc-validation-errors [errors]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+          </span>
+        </div>
+
+        <div class="row" *templateVar="sowingDate | async; let model">
+          <label i18n>Sowing date</label>
+          <span>
+            <pc-date-select [ngModel]="model.propertyValue"
+                            (ngModelChange)="onSowingDateChange($event)"
+                            [name]="model.property"
+                            required
+                            #control="ngModel"
+            ></pc-date-select>
+            <pc-validation-errors [errors]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+          </span>
+        </div>
+
+        <div class="row" *templateVar="germinationDate | async; let model">
+          <label i18n>germination date</label>
+          <span>
+            <pc-date-select [ngModel]="model.propertyValue"
+                            (ngModelChange)="onGerminationDateChange($event)"
+                            [name]="model.property"
+                            required
+                            #control="ngModel"
+            ></pc-date-select>
+            <pc-validation-errors [errors]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+          </span>
+        </div>
+
+
+        <div class="row" *templateVar="harvestDateRange | async; let model">
+          <label i18n>Harvest date</label>
+          <span>
+            <pc-date-range-select [ngModel]="model.propertyValue"
+                                  (ngModelChange)="onHarvestRangeChanged($event)"
+                                  [name]="model.property"
+                                  required
+                                  [fromRequired]="true"
+                                  [toRequired]="true"
+                                  #control="ngModel"
+            ></pc-date-range-select>
+            <pc-validation-errors [errors]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+          </span>
+        </div>
+
+
+        <div class="row">
+          <p-checkbox [ngModel]="hasNursing | async"
+                      (ngModelChange)="onNursingChanged($event)"
+                      [binary]="true"
+                      name="nursing"
+                      label="Nursing" i18n-label
+          ></p-checkbox>
+        </div>
+
+        <section class="nursing" *ngIf="hasNursing | async">
+          <div class="row" *templateVar="nursingDuration | async; let model">
+            <label i18n>Duration</label>
+            <span>
+              <div>
+                <p-spinner [ngModel]="model.propertyValue"
+                           (ngModelChange)="onNursingDurationChange($event)"
+                           [name]="model.property"
+                           required
+                           [min]="1" [step]="1"
+                           [size]="4"
+                           #control="ngModel"
+                ></p-spinner>
+                <label i18n class="unit">days</label>
+                <span class="transplantation-date">
+                  {{ nursingEndDate | async | date }}
+                </span>
+              </div>
+              <pc-validation-errors [errors]="model.validationErrors"
+                                    *ngIf="control.touched"
+              ></pc-validation-errors>
+            </span>
+          </div>
+
+        </section>
+
+
+        <div class="row">
+          <p-checkbox [ngModel]="hasBedPreparation | async"
+                      (ngModelChange)="onPreparationChanged($event)"
+                      [binary]="true"
+                      name="preparation"
+                      label="Bed preparation" i18n-label
+          ></p-checkbox>
+        </div>
+        <section class="preparation" *ngIf="hasBedPreparation | async">
+          <div class="row" *templateVar="bedPreparationType | async; let model">
+            <label i18n>Type</label>
+            <span>
+              <pc-bed-preparation-type-select [ngModel]="model.propertyValue"
+                                              (ngModelChange)="onBedPreparationTypeChange($event)"
+                                              [name]="model.property"
+                                              required
+                                              #control="ngModel"
+              ></pc-bed-preparation-type-select>
+              <pc-validation-errors [errors]="model.validationErrors"
+                                    *ngIf="control.touched"
+              ></pc-validation-errors>
+            </span>
+          </div>
+
+          <div class="row" *templateVar="bedPreparationDuration | async; let model">
+            <label i18n>Duration</label>
+            <span>
+              <div>
+                <p-spinner [ngModel]="model.propertyValue"
+                           (ngModelChange)="onBedPreparationDurationChange($event)"
+                           [name]="model.property"
+                           required
+                           [min]="1" [step]="1"
+                           [size]="4"
+                           #control="ngModel"
+                ></p-spinner>
+                <label i18n class="unit">days</label>
+              </div>
+              <pc-validation-errors [errors]="model.validationErrors"
+                                    *ngIf="control.touched"
+              ></pc-validation-errors>
+            </span>
+          </div>
+
+        </section>
+      </div>
+
+      <div class="col">
+        <section class="bed-occupancy" *ngIf="(bedOccupancyStart | async) != null">
+          <div class="row">
+            <label i18n>Bed occupancy</label>
+            <span class="values">
+              <div class="value">
+                <label i18n>From</label>
+                <span>{{ bedOccupancyStart | async | date }}</span>
+              </div>
+              <div class="value">
+                <label i18n>To</label>
+                <span>{{ bedOccupancyEnd | async | date }}</span>
+              </div>
+            </span>
+          </div>
+
+        </section>
+
+
+        <label i18n>Notes</label>
+        <div class="editor" *templateVar="htmlNotes | async; let model">
+          <p-editor [ngModel]="model.propertyValue"
+                    (ngModelChange)="onHtmlNotesChanged($event)"
+                    name="notes"
+                    required
+                    [name]="model.property"
+                    #control="ngModel"
+          ></p-editor>
+          <pc-validation-errors [errors]="model.validationErrors"
+                                *ngIf="control.touched"
+          ></pc-validation-errors>
+        </div>
+      </div>
+
     </div>
 
-    <div class="row">
-      <label i18n>Bed</label>
-      <pc-bed-select [(ngModel)]="culture.bedWsRef"
-                      name="bed"
-                      required
-      ></pc-bed-select>
+    <div class="validation-errors" *ngIf="hasValidationErrors  | async">
+      <p-messages [value]="unboundErrorMessages | async"
+                  [closable]="false"
+      ></p-messages>
     </div>
 
     <div class="actions">
       <button type="submit" hidden></button>
 
       <button pButton type="button"
-              [disabled]="!cultureForm.valid"
+              [disabled]="!cultureForm.valid || (hasValidationErrors | async)"
               (click)="onSubmit()"
               label="Save" i18n-label></button>
 

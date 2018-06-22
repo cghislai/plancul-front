@@ -5,9 +5,13 @@
                 [dropdown]="true"
                 (completeMethod)="search($event)"
                 (onDropdownClick)="searchAll()"
+                (onBlur)="onBlur()"
                 field="label"
                 name="bed-select"
                 class="bed-select"
+                required
+                #control="ngModel"
+                [inputStyleClass]="control.invalid && control.touched ? 'ng-invalid ng-dirty' : ''"
 >
   <ng-template let-item pTemplate="item">
     <div class="ui-helper-clearfix bed-item">
