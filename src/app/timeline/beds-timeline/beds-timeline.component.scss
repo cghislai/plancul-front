@@ -1,0 +1,32 @@
+.beds-timeline {
+
+  ::ng-deep .vis-item {
+
+    &.preparation_presowing {
+      background-color: #49300a;
+      color: #a4a4a4;
+      border-color: black;
+    }
+    &.preparation_cover {
+      background-color: #090652;
+      color: #a4a4a4;
+      border-color: black;
+    }
+
+    &.growth {
+      background-color: #60914b;
+      border-color: darkgreen;
+    }
+
+    &.harvest {
+      background-color: #f4b849;
+      border-color: #b35b1d;
+    }
+
+    &.vis-selected {
+      outline: 2px solid red;
+      outline-radius: 2px;
+    }
+  }
+
+}

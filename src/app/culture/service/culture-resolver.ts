@@ -47,14 +47,18 @@ export class CultureResolver implements Resolve<WsCulture> {
       cropWsRef: null,
       bedWsRef: null,
       sowingDate: null,
+      daysUntilGermination: 1,
+      daysUntilFirstHarvest: 2,
+      harvestDaysDuration: 1,
+      htmlNotes: null,
+      cultureNursing: null,
+      bedPreparation: null,
+
       germinationDate: null,
       firstHarvestDate: null,
       lastHarvestDate: null,
       bedOccupancyStartDate: null,
       bedOccupancyEndDate: null,
-      htmlNotes: '',
-      cultureNursing: null,
-      bedPreparation: null,
     };
     return culture;
   }

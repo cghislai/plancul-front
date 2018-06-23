@@ -15,11 +15,11 @@ import {
 } from '@charlyghislain/plancul-ws-api';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {combineLatest, Observable, Subscription} from 'rxjs';
-import {DateRange} from '../../main/domain/date-range';
-import {map, publishReplay, refCount} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 import {Message} from 'primeng/api';
 import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
 import {ValidatedFormProperty} from '../../main/domain/validated-form-property';
+import {DateUtils} from '../../main/service/util/date-utils';
 
 @Component({
   selector: 'pc-culture-form',
@@ -32,8 +32,15 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   cropRef: Observable<ValidatedFormProperty<WsCulture, 'cropWsRef'>>;
   bedRef: Observable<ValidatedFormProperty<WsCulture, 'bedWsRef'>>;
   sowingDate: Observable<ValidatedFormProperty<WsCulture, 'sowingDate'>>;
-  germinationDate: Observable<ValidatedFormProperty<WsCulture, 'germinationDate'>>;
-  harvestDateRange: Observable<ValidatedFormProperty<any, any>>;
+  sowingDateValue: Observable<DateAsString>;
+
+  daysUntilGermination: Observable<ValidatedFormProperty<WsCulture, 'daysUntilGermination'>>;
+  daysUntilGerminationValue: Observable<number>;
+  daysUntilFirstHarvest: Observable<ValidatedFormProperty<WsCulture, 'daysUntilFirstHarvest'>>;
+  harvestDayDuration: Observable<ValidatedFormProperty<WsCulture, 'harvestDaysDuration'>>;
+  germinationDateValue: Observable<DateAsString>;
+  firstHarvestDateValue: Observable<DateAsString>;
+  lastHarvestDateValue: Observable<DateAsString>;
 
   hasNursing: Observable<boolean>;
   nursingDuration: Observable<ValidatedFormProperty<WsCultureNursing, 'dayDuration'>>;
@@ -44,8 +51,8 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   bedPreparationDuration: Observable<ValidatedFormProperty<WsBedPreparation, 'dayDuration'>>;
 
   htmlNotes: Observable<ValidatedFormProperty<WsCulture, 'htmlNotes'>>;
-  bedOccupancyStart: Observable<DateAsString>;
-  bedOccupancyEnd: Observable<DateAsString>;
+  bedOccupancyStartValue: Observable<DateAsString>;
+  bedOccupancyEndValue: Observable<DateAsString>;
 
   hasValidationErrors: Observable<boolean>;
   unboundErrorMessages: Observable<Message[]>;
@@ -71,18 +78,22 @@ export class CultureFormComponent implements OnInit, OnDestroy {
       .pipe(
         map(data => data.culture),
       ).subscribe(value => this.formHelper.setValue(value));
+    this.subscription.add(routeDataSubscription);
 
     this.cropRef = this.formHelper.getPropertyModel('cropWsRef');
     this.bedRef = this.formHelper.getPropertyModel('bedWsRef');
     this.sowingDate = this.formHelper.getPropertyModel('sowingDate');
-    this.germinationDate = this.formHelper.getPropertyModel('germinationDate');
-    this.harvestDateRange = combineLatest(
-      this.formHelper.getPropertyModel('firstHarvestDate'),
-      this.formHelper.getPropertyModel('lastHarvestDate'),
-    ).pipe(
-      map(models => this.createHarvestDateRangeModel(models)),
-      publishReplay(1), refCount(),
-    );
+    this.sowingDateValue = this.formHelper.getPropertyValue('sowingDate');
+
+    this.daysUntilGermination = this.formHelper.getPropertyModel('daysUntilGermination');
+    this.daysUntilGerminationValue = this.formHelper.getPropertyValue('daysUntilGermination');
+    this.daysUntilFirstHarvest = this.formHelper.getPropertyModel('daysUntilFirstHarvest');
+
+    this.harvestDayDuration = this.formHelper.getPropertyModel('harvestDaysDuration');
+
+    this.germinationDateValue = this.formHelper.getPropertyValue('germinationDate');
+    this.firstHarvestDateValue = this.formHelper.getPropertyValue('firstHarvestDate');
+    this.lastHarvestDateValue = this.formHelper.getPropertyValue('lastHarvestDate');
 
     this.hasNursing = this.formHelper.mapPropertyValue<boolean>('cultureNursing', n => n != null);
     this.nursingDuration = this.formHelper.getWrappedPropertyModel('cultureNursing', 'dayDuration');
@@ -93,8 +104,8 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.bedPreparationDuration = this.formHelper.getWrappedPropertyModel('bedPreparation', 'dayDuration');
 
     this.htmlNotes = this.formHelper.getPropertyModel('htmlNotes');
-    this.bedOccupancyStart = this.formHelper.getPropertyValue('bedOccupancyStartDate');
-    this.bedOccupancyEnd = this.formHelper.getPropertyValue('bedOccupancyEndDate');
+    this.bedOccupancyStartValue = this.formHelper.getPropertyValue('bedOccupancyStartDate');
+    this.bedOccupancyEndValue = this.formHelper.getPropertyValue('bedOccupancyEndDate');
 
     this.hasValidationErrors = this.formHelper.isInvalid();
 
@@ -109,6 +120,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onCropChange(value: WsRef<WsCrop>) {
@@ -129,18 +141,71 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  onGerminationDateChange(value: DateAsString) {
+  onDaysUntilGerminationChange(value: number) {
     this.updateModel({
-      germinationDate: value,
+      daysUntilGermination: value,
     });
   }
 
-  onHarvestRangeChanged(range: DateRange) {
-    this.updateModel({
-      firstHarvestDate: range.from,
-      lastHarvestDate: range.to,
+
+  onGerminationDateChange(value: DateAsString) {
+    this.sowingDateValue.pipe(
+      take(1),
+    ).subscribe(sowingDate => {
+      const duration = DateUtils.getDayDiff(sowingDate, value);
+      if (duration <= 0) {
+        return;
+      }
+      this.updateModel({
+        daysUntilGermination: duration,
+      });
     });
   }
+
+
+  onDaysUntilFirstHarvestChange(value: number) {
+    this.updateModel({
+      daysUntilFirstHarvest: value,
+    });
+  }
+
+  onFirstHarvestDateChange(value: DateAsString) {
+    combineLatest(this.sowingDateValue, this.daysUntilGerminationValue)
+      .pipe(take(1))
+      .subscribe(results => {
+        const sowingDate = results[0];
+        const daysUntilGermination = results[1];
+        const duration = DateUtils.getDayDiff(sowingDate, value);
+        if (duration <= daysUntilGermination) {
+          return;
+        }
+        this.updateModel({
+          daysUntilFirstHarvest: duration,
+        });
+      });
+  }
+
+
+  onHarvestDurationChange(value: number) {
+    this.updateModel({
+      harvestDaysDuration: value,
+    });
+  }
+
+  onLastHarvestDateChange(value: DateAsString) {
+    this.firstHarvestDateValue
+      .pipe(take(1))
+      .subscribe(firstHarvestDate => {
+        const duration = DateUtils.getDayDiff(firstHarvestDate, value);
+        if (duration <= 0) {
+          return;
+        }
+        this.updateModel({
+          harvestDaysDuration: duration,
+        });
+      });
+  }
+
 
   onNursingChanged(nursing: boolean) {
     if (nursing) {
@@ -149,7 +214,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
           id: null,
           dayDuration: 1,
           endDate: null,
-          startdate: null,
+          startDate: null,
         },
       });
     } else {
@@ -210,19 +275,6 @@ export class CultureFormComponent implements OnInit, OnDestroy {
 
   onCancel() {
     this.navigateOut();
-  }
-
-
-  private createHarvestDateRangeModel(models: ValidatedFormProperty<WsCulture, any>[]): ValidatedFormProperty<any, any> {
-    return {
-      property: 'harvest-date-range',
-      validationErrors: [...models[0].validationErrors, ...models[1].validationErrors],
-      propertyValue: <DateRange>{
-        from: models[0].propertyValue,
-        to: models[1].propertyValue,
-      },
-      childrenViolations: [],
-    };
   }
 
   private onCreationSuccess(ref: WsRef<WsCulture>) {

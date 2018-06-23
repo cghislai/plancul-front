@@ -41,6 +41,10 @@ const routes: Routes = [
       {
         path: 'cultures',
         loadChildren: './culture/culture.module#CultureModule',
+      },
+      {
+        path: 'timeline',
+        loadChildren: './timeline/timeline.module#TimelineModule',
       }
     ],
   },
@@ -53,7 +57,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    enableTracing: true,
+    enableTracing: false,
   })],
   exports: [RouterModule],
 })

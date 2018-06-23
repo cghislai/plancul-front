@@ -1,0 +1,22 @@
+<div class="beds-timeline pc-list-page ui-widget">
+
+
+  <header>
+    <h1 i18n>Bed occupancies</h1>
+  </header>
+
+  <div class="filters">
+
+  </div>
+
+  <div class="timeline">
+    <pc-timeline [data]="timelineData | async"
+                 [groups]="timelineGroups | async"
+                 [options]="timelineOptions | async"
+                 [initialRange]="dateRangeSource | async"
+                 (rangeChanged)="onRangeChanged($event)"
+                 (itemMoving)="onItemMoving($event)"
+                 (itemMoved)="onItemMoved($event)"
+    ></pc-timeline>
+  </div>
+</div>

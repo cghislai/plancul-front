@@ -18,6 +18,10 @@ export class DateSelectComponent implements OnInit, ControlValueAccessor {
 
   @Input()
   invalid: boolean;
+  @Input()
+  min: DateAsString;
+  @Input()
+  max: DateAsString;
 
   private changeFunction: Function;
   private touchedFunction: Function;

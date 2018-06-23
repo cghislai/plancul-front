@@ -1,5 +1,13 @@
 import {Injectable} from '@angular/core';
-import {WsCulture, WsCultureFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-ws-api';
+import {
+  WsCulture,
+  WsCultureFilter,
+  WsCulturePhase,
+  WsCulturePhaseType,
+  WsDateRange,
+  WsRef,
+  WsSearchResult,
+} from '@charlyghislain/plancul-ws-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from '../../main/service/request.service';
 import {Pagination} from '../../main/domain/pagination';
@@ -40,6 +48,15 @@ export class CultureClientService {
       return cachedRequest;
     }
     return this.fetchCulture(id);
+  }
+
+  updateCulturePhase(id: number, phase: WsCulturePhaseType, dateRange: WsDateRange): Observable<WsRef<WsCulture>> {
+    return this.requestService.put<WsRef<WsCulture>>(`/culture/${id}/${phase}`, dateRange)
+      .pipe(tap(() => this.clearCachedCulture(id)));
+  }
+
+  getCulturePhases(id: number): Observable<WsCulturePhase[]> {
+    return this.requestService.get<WsCulturePhase[]>(`/culture/${id}/phases`);
   }
 
   saveCulture(culture: WsCulture): Observable<WsRef<WsCulture>> {
