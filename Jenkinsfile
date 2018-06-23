@@ -77,20 +77,20 @@ pipeline {
   
                               # Upload archives
                               curl -v --user $NEXUS_BASIC_AUTH --upload-file dist/plancul-front/${ARCHIVE} \
-                              ${PUBLISH_URL}/$D{PUBLISH_REPO}/com/charlyghislin/plancul-front/${ARCHIVE}
+                              ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislin/plancul-front/${ARCHIVE}
   
                               # Create .latest 'links' (branch heads) if required
                               if [ "${BRANCH_NAME}" = "master" ] ; then
                                 export ARCHIVE_LINK="master.latest"
                                 echo "$ARCHIVE" > ./${ARCHIVE_LINK}
                                 curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
-                                  ${DEPLOY_URL}/${DEPLOY_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
+                                  ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
   
                               elif [ "${BRANCH_NAME}" = "dev" ] ; then
                                 export ARCHIVE_LINK="dev.latest"
                                 echo "$ARCHIVE" > ./${ARCHIVE_LINK}
                                 curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
-                                  ${DEPLOY_URL}/${DEPLOY_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
+                                  ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
                               fi
                            done
                         '''
