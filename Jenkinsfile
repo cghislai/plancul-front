@@ -30,7 +30,7 @@ pipeline {
                     ansiColor('xterm') {
                     sh '''
                         rm -rfv dist*
-                        npm install
+                        npm install  --no-shrinkwrap #FIXME: Ignore package lock for time being: API may have been overwritten in the repo
                        '''
                     }
                 }
