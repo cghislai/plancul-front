@@ -52,15 +52,6 @@ pipeline {
                 }
               }}}
             }
-            post {
-                failure {
-                  mail(
-                    to: 'charlyghislain@gmail.com'
-                    subject: "Build of plancul-front failed: $BRANCH_NAME ${BUILD_NUMBER}",
-                    body: "See job at ${BUILD_URL}"
-                  )
-                }
-            }
         }
         stage ('Publish') {
             steps {
