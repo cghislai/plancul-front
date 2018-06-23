@@ -14,6 +14,7 @@
                  [groups]="timelineGroups | async"
                  [options]="timelineOptions | async"
                  [initialRange]="dateRangeSource | async"
+                 [loading]="loading | async"
                  (rangeChanged)="onRangeChanged($event)"
                  (itemMoving)="onItemMoving($event)"
                  (itemMoved)="onItemMoved($event)"

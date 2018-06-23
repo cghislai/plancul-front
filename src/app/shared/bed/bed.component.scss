@@ -2,17 +2,15 @@
   display: flex;
   align-items: center;
 
-  > * {
-    margin: .5em;
-  }
-
   > .icon {
-    flex: 0 0 2em;
+    flex: 0 0 auto;
+    width: 2em;
+    height: 2em;
   }
 
   >.name {
     flex: 1 1 10em;
-
+    margin: .3em;
   }
 
 

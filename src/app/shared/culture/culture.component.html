@@ -2,10 +2,54 @@
   <span class="icon" *ngIf="showIcon">
     <pc-seedlings-open-icon></pc-seedlings-open-icon>
   </span>
-  <span class="crop">
+  <span class="crop"
+        title="Crop" i18n-title
+  >
     <pc-crop [id]="cropId | async"
              [showIcon]="false"
-             [showProduct]="false"
+             [showTaxon]="false"
     ></pc-crop>
   </span>
+  <span class="bed" *ngIf="showBed"
+        title="Bed" i18n-title
+  >
+    <pc-bed [id]="bedId | async"
+            [showIcon]="true"
+    ></pc-bed>
+  </span>
+  <span class="preparation" *ngIf="showBedPreparation"
+        title="Bed preparation" i18n-title
+  >
+    <span *ngIf="(bedPreparation | async) != null">
+      <pc-bed-preparation [bedPreparation]="bedPreparation | async"
+      ></pc-bed-preparation>
+    </span>
+  </span>
+  <span class="sowing" *ngIf="showSowing"
+        title="Sowing" i18n-title
+  >
+    <pc-culture-sowing [date]="sowingDate | async"
+    ></pc-culture-sowing>
+  </span>
+  <span class="nursing" *ngIf="showNursing"
+        title="Nursing" i18n-title
+  >
+    <pc-culture-nursing [nursing]="nursing | async"
+    ></pc-culture-nursing>
+  </span>
+  <span class="transplanting" *ngIf="showTransplanting"
+        title="Transplantation" i18n-title
+  >
+    <span *ngIf="(nursing | async) != null">
+      <pc-culture-transplanting [date]="transplantingDate | async"
+      ></pc-culture-transplanting>
+    </span>
+  </span>
+  <span class="harvest" *ngIf="showHarvest"
+        title="Harvest" i18n-title
+  >
+    <pc-culture-harvest [culture]="cultureValue | async"
+    ></pc-culture-harvest>
+  </span>
+
 </span>

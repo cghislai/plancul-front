@@ -1,0 +1,10 @@
+.timeline {
+  &.loading {
+
+    ::ng-deep .vis-timeline {
+      opacity: .7;
+      pointer-events: none;
+    }
+
+  }
+}

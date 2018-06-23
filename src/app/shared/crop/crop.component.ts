@@ -15,7 +15,7 @@ export class CropComponent implements OnInit {
   @Input()
   showIcon = true;
   @Input()
-  showProduct = true;
+  showTaxon = true;
 
   @Input()
   set id(value: number) {

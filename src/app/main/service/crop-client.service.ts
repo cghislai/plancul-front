@@ -5,7 +5,8 @@ import {RequestService} from './request.service';
 import {Pagination} from '../domain/pagination';
 import {IdResourceCache} from './util/id-resource-cache';
 import {RequestCache} from './util/request-cache';
-import {tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {AgrovocProductClientService} from './agrovoc-product-client.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class CropClientService {
   private cache = new IdResourceCache<WsCrop>();
   private requestCache = new RequestCache<WsCrop>();
 
-  constructor(private requestService: RequestService) {
+  constructor(private requestService: RequestService,
+              private productClient: AgrovocProductClientService) {
   }
 
 
@@ -54,5 +56,21 @@ export class CropClientService {
   clearCachedCrop(id: number) {
     this.cache.removeFromCache(id);
     this.requestCache.clear(id);
+  }
+
+  getCropLabel(id: number): Observable<string> {
+    return this.getCrop(id).pipe(
+      switchMap(crop => this.getCropLabelFromCrop(crop)),
+    );
+  }
+
+  private getCropLabelFromCrop(crop: WsCrop): Observable<string> {
+    const cultivar = crop.cultivar;
+    const productId = crop.agrovocProductWsRef.id;
+    return this.productClient.getAgrovocProduct(productId)
+      .pipe(
+        map(product => product.preferedLabel),
+        map(productLabel => `${productLabel} '${cultivar}'`),
+      );
   }
 }

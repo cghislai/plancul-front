@@ -1,0 +1,14 @@
+<span class="culture-harvest">
+  <span class="icon" *ngIf="showIcon">
+    <pc-harvest-icon></pc-harvest-icon>
+  </span>
+  <span class="duration" *ngIf="showDuration">
+    <span>{{ duration | async }}</span>
+    <span class="unit" i18n>days</span>
+  </span>
+  <span class="dates" *ngIf="showDates">
+    <pc-date-range [start]="start | async"
+                   [end]="end | async"
+    ></pc-date-range>
+  </span>
+</span>

@@ -59,12 +59,13 @@ export class TimelineService {
     return {
       id: bed.id,
       content: bed.name,
+      title: bed.name,
       subgroupStack: true,
     };
   }
 
   private createCultureRefPhasesItems(ref: WsRef<WsCulture>): Observable<vis.DataItem[]> {
-    const labelTask = this.getCultureLabel(ref);
+    const labelTask = this.cultureClient.getCultureLabel(ref.id);
     const phasesTask = this.cultureClient.getCulturePhases(ref.id);
     const cultureTsak = this.cultureClient.getCulture(ref.id);
     return forkJoin(phasesTask, cultureTsak, labelTask).pipe(
@@ -83,10 +84,12 @@ export class TimelineService {
     const groupId = phase.phaseType === WsCulturePhaseType.NURSING ? this.PLANT_NURSERY_GROUP_ID : bedRef.id;
     const phaseTypeName = <string>phase.phaseType;
     const cultureRef = phase.cultureWsRef;
+    const cultureTitle = this.getCultureTitle(cultureLabel, phase);
 
     const item: vis.DataItem = {
       id: this.getSuffixedId(cultureRef.id, phase.phaseType),
       content: cultureLabel,
+      title: cultureTitle,
       start: phase.startDate,
       end: phase.endDate,
       group: groupId,
@@ -146,4 +149,9 @@ export class TimelineService {
     };
   }
 
+  private getCultureTitle(cultureLabel: string, phase: WsCulturePhase) {
+    // TODO: i18n
+    const phaseTypeName = <string>phase.phaseType;
+    return `${cultureLabel} (${phaseTypeName.toLowerCase()})`;
+  }
 }

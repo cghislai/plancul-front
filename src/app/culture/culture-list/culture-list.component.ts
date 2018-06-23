@@ -7,6 +7,7 @@ import {Sort} from '../../main/domain/sort';
 import {Router} from '@angular/router';
 import {LazyLoadEvent} from 'primeng/api';
 import {DateUtils} from '../../main/service/util/date-utils';
+import moment from 'moment-es6';
 
 @Component({
   selector: 'pc-culture-list',
@@ -28,13 +29,13 @@ export class CultureListComponent implements OnInit {
 
   constructor(private cultureClient: CultureClientService,
               private router: Router) {
-  }
-
-  ngOnInit() {
     this.helper = new ListHolderHelper(
       (filter, pagination) => this.cultureClient.searchCultures(filter, pagination),
       (id) => this.cultureClient.getCulture(id),
     );
+  }
+
+  ngOnInit() {
     this.cultureResults = this.helper.getResults();
     this.resultCount = this.helper.getResultCount();
     this.resultLoading = this.helper.getResultsLoading();
@@ -72,13 +73,10 @@ export class CultureListComponent implements OnInit {
   }
 
   private createInitialFilter(): WsCultureFilter {
-    const now = new Date();
+    const startOfYear = moment().startOf('year');
     return {
       bedOccupancyEndDate: {
-        notBefore: DateUtils.toIsoDateString(now),
-      },
-      cropFilter: {
-        namesQuery: '',
+        notBefore: DateUtils.toIsoDateString(startOfYear.toDate()),
       },
     };
   }

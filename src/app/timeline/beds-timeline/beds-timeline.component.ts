@@ -17,11 +17,12 @@ import {
   WsTenant,
 } from '@charlyghislain/plancul-ws-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {filter, map, publishReplay, refCount, switchMap, take} from 'rxjs/operators';
+import {filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
 import {TimelineService} from '../service/timeline.service';
 import {Pagination} from '../../main/domain/pagination';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {TimelineItemCallbackHandler} from '../timeline/timeline-item-callback-handler';
+import {NotificationMessageService} from '../../main/service/notification-message.service';
 
 @Component({
   selector: 'pc-beds-timeline',
@@ -38,10 +39,12 @@ export class BedsTimelineComponent implements OnInit {
   private bedFilterSource = new ReplaySubject<WsBedFilter>(1);
   private cultureFilter: Observable<WsCultureFilter>;
   private reloadTrigger = new BehaviorSubject<any>(true);
+  private loading = new BehaviorSubject<boolean>(false);
 
   constructor(private bedClient: BedClientService,
               private cultureClient: CultureClientService,
               private selectedTenantService: SelectedTenantService,
+              private notificationMessageService: NotificationMessageService,
               private timelineService: TimelineService,
   ) {
   }
@@ -68,7 +71,9 @@ export class BedsTimelineComponent implements OnInit {
     this.timelineData = combineLatest(this.cultureFilter, this.reloadTrigger)
       .pipe(
         map(results => results[0]),
+        tap(a => this.loading.next(true)),
         switchMap(searchFilter => this.searchCultureRefs(searchFilter)),
+        tap(a => this.loading.next(false)),
         publishReplay(1), refCount(),
       );
 
@@ -108,13 +113,21 @@ export class BedsTimelineComponent implements OnInit {
       end: endDateString,
     };
 
-    this.cultureClient.updateCulturePhase(cultureId, phaseType, dateRange)
-      .pipe(
-        switchMap(ref => this.cultureClient.fetchCulture(ref.id)),
-        switchMap(culture => this.setCultureBed(culture, bedId)),
-      )
+
+    this.loading.next(true);
+    this.cultureClient.getCulture(cultureId).pipe(
+      mergeMap(culture => this.updateCultureBed(culture, bedId)),
+      mergeMap(ref => this.cultureClient.updateCulturePhase(cultureId, phaseType, dateRange)),
+    )
       .subscribe(ref => {
+        this.loading.next(false);
         callback(item);
+        this.reloadTrigger.next(true);
+      }, error => {
+        // TODO i18n
+        callback(null);
+        this.loading.next(false);
+        this.notificationMessageService.addError('Error while updating culture');
         this.reloadTrigger.next(true);
       });
   }
@@ -188,8 +201,11 @@ export class BedsTimelineComponent implements OnInit {
       );
   }
 
-  private setCultureBed(culture: WsCulture, bedId: number) {
-    if (bedId == null || typeof bedId !== 'number') {
+  private updateCultureBed(culture: WsCulture, bedId: number | string): Observable<WsRef<WsCulture>> {
+    if (typeof  bedId !== 'number') {
+      return of({id: culture.id});
+    }
+    if (culture.bedWsRef.id === bedId) {
       return of({id: culture.id});
     }
     const updatedCulture = Object.assign({}, culture, <Partial<WsCulture>>{

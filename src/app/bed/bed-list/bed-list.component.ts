@@ -41,7 +41,6 @@ export class BedListComponent implements OnInit {
     this.sortOrder = this.helper.getSOrtOrder();
 
     this.helper.setSort(this.createInitialSort());
-    this.helper.setFilter(this.createInitialFilter());
   }
 
 
@@ -66,10 +65,6 @@ export class BedListComponent implements OnInit {
       .subscribe(() => this.helper.reload());
     event.stopImmediatePropagation();
     event.preventDefault();
-  }
-
-  private createInitialFilter(): WsBedFilter {
-    return {};
   }
 
   private createInitialSort(): Sort {

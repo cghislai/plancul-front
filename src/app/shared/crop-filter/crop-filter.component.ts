@@ -24,31 +24,31 @@ export class CropFilterComponent implements OnInit {
 
   @Input()
   set filter(value: WsCropFilter) {
-    this.filterSource.next(value);
+    if (value != null) {
+      this.filterSource.next(value);
+    }
   }
 
   @Output()
   filterChanged: Observable<WsCropFilter>;
 
-  private filterSource = new BehaviorSubject<WsCropFilter>(null);
+  private filterSource = new BehaviorSubject<WsCropFilter>({
+    namesQuery: '',
+  });
 
   constructor(private selectedTenantService: SelectedTenantService) {
-    const nonNullFilter = this.filterSource.pipe(
-      filter(f => f != null),
-      publishReplay(1), refCount(),
-    );
-    this.filterChanged = nonNullFilter;
+    this.filterChanged = this.filterSource.asObservable();
 
-    this.queryType = nonNullFilter.pipe(
+    this.queryType = this.filterSource.pipe(
       map(f => this.extractQueryType(f)),
       publishReplay(1), refCount(),
     );
-    this.searchQuery = combineLatest(nonNullFilter, this.queryType)
+    this.searchQuery = combineLatest(this.filterSource, this.queryType)
       .pipe(
         map(results => this.extractSearchQuery(results[0], results[1])),
         publishReplay(1), refCount(),
       );
-    this.privateCrops = nonNullFilter.pipe(
+    this.privateCrops = this.filterSource.pipe(
       map(f => f.shared === false && f.tenantWsRef != null),
       publishReplay(1), refCount(),
     );
@@ -86,6 +86,9 @@ export class CropFilterComponent implements OnInit {
 
 
   private extractQueryType(searchFilter: WsCropFilter): QueryType {
+    if (searchFilter == null) {
+      return null;
+    }
     if (searchFilter.namesQuery != null) {
       return QueryType.ALL;
     } else if (searchFilter.plantQuery != null) {
@@ -99,7 +102,7 @@ export class CropFilterComponent implements OnInit {
 
 
   private extractSearchQuery(searchFilter: WsCropFilter, queryType: QueryType) {
-    if (queryType == null) {
+    if (queryType == null || searchFilter == null) {
       return null;
     }
     switch (queryType) {

@@ -1,0 +1,27 @@
+.bed-preparation {
+  display: inline-flex;
+  align-items: center;
+
+  > * {
+    flex: 1 1 auto;
+    display: inline-block;
+  }
+
+  .icon {
+    flex: 0 0 auto;
+    width: 1em;
+    height: 1em;
+  }
+
+  .type {
+    margin: .3em;
+  }
+
+  .date {
+    margin: .3em;
+  }
+
+  .unit {
+    margin-left: .3em;
+  }
+}

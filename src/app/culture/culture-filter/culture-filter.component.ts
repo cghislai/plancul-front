@@ -20,16 +20,13 @@ export class CultureFilterComponent implements OnInit {
   @Output()
   filterChanged: Observable<WsCultureFilter>;
 
-  private filterSource = new BehaviorSubject<WsCultureFilter>(null);
+  private filterSource = new BehaviorSubject<WsCultureFilter>({
+  });
 
   constructor() {
-    const nonNullFilter = this.filterSource.pipe(
-      filter(f => f != null),
-      publishReplay(1), refCount(),
-    );
-    this.filterChanged = nonNullFilter;
+    this.filterChanged = this.filterSource.asObservable();
 
-    this.cropFilter = nonNullFilter.pipe(
+    this.cropFilter = this.filterSource.pipe(
       map(f => f.cropFilter),
       publishReplay(1), refCount(),
     );

@@ -15,7 +15,13 @@ import {DateRangeSelectComponent} from './date-range-select/date-range-select.co
 import {BedPreparationTypeComponent} from './bed-preparation-type/bed-preparation-type.component';
 import {BedPreparationTypeSelectComponent} from './bed-preparation-type-select/bed-preparation-type-select.component';
 import {TemplateVarDirective} from './util/template-var-directive';
-import { ValidationErrorsComponent } from './validation-errors/validation-errors.component';
+import {ValidationErrorsComponent} from './validation-errors/validation-errors.component';
+import {BedPreparationComponent} from './bed-preparation/bed-preparation.component';
+import {DateRangeComponent} from './date-range/date-range.component';
+import {CultureSowingComponent} from './culture-sowing/culture-sowing.component';
+import {CultureNursingComponent} from './culture-nursing/culture-nursing.component';
+import {CultureTransplantingComponent} from './culture-transplanting/culture-transplanting.component';
+import {CultureHarvestComponent} from './culture-harvest/culture-harvest.component';
 
 @NgModule({
   imports: [
@@ -43,8 +49,14 @@ import { ValidationErrorsComponent } from './validation-errors/validation-errors
     BedPreparationTypeSelectComponent,
     ValidationErrorsComponent,
 
-    TemplateVarDirective,
+    BedPreparationComponent,
+    DateRangeComponent,
+    CultureSowingComponent,
+    CultureNursingComponent,
+    CultureTransplantingComponent,
+    CultureHarvestComponent,
 
+    TemplateVarDirective,
   ],
   exports: [
     BedComponent,
@@ -59,6 +71,13 @@ import { ValidationErrorsComponent } from './validation-errors/validation-errors
     BedPreparationTypeComponent,
     BedPreparationTypeSelectComponent,
     ValidationErrorsComponent,
+
+    BedPreparationComponent,
+    DateRangeComponent,
+    CultureSowingComponent,
+    CultureNursingComponent,
+    CultureTransplantingComponent,
+    CultureHarvestComponent,
 
     TemplateVarDirective,
   ],

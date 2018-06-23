@@ -16,6 +16,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
 
   @Input()
   set data(items: vis.DataItem[]) {
+    if (items == null) {
+      return;
+    }
     this.itemsSource.next(items);
     if (this.timeline) {
       this.timeline.setItems(items);
@@ -24,6 +27,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
 
   @Input()
   set groups(items: vis.DataGroup[]) {
+    if (items == null) {
+      return;
+    }
     this.groupsSource.next(items);
     if (this.timeline) {
       this.timeline.setGroups(items);
@@ -32,6 +38,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
 
   @Input()
   set options(options: vis.Options) {
+    if (options == null) {
+      return;
+    }
     const curOptions = this.optionsSource.getValue();
     const newOptions = Object.assign({}, curOptions, options);
 
@@ -43,6 +52,8 @@ export class TimelineComponent implements OnInit, AfterViewInit {
 
   @Input()
   private initialRange: WsDateRange;
+  @Input()
+  private loading: boolean;
 
   @Output()
   private rangeChanged = new EventEmitter<WsDateRange>();
@@ -69,9 +80,15 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       remove: false,       // delete an item by tapping the delete button top right
       overrideItems: false,  // allow these options to override item.editable
     },
+    tooltip: {
+      followMouse: true,
+    },
+    tooltipOnItemUpdateTime: {
+      template: (item, element, data) => this.createMovingItemTooltipTemplate(item, element, data),
+    },
     zoomMin: 1000 * 60 * 60 * 24 * 4,
     zoomMax: 1000 * 60 * 60 * 24 * 365 * 5,
-    zoomKey: 'ctrlKey',
+    // zoomKey: 'ctrlKey',
     start: this.initialRange == null ? moment().add(-1, 'week') : this.initialRange.start,
     end: this.initialRange == null ? moment().add(2, 'week') : this.initialRange.end,
     onMoving: (item, callback) => this.itemMoving.next({
@@ -95,6 +112,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       this.groupsSource.getValue(),
       this.optionsSource.getValue(),
     );
+    console.log('timeline');
 
     this.timeline.on('rangechanged', e => this.onRangeChanged(e));
   }
@@ -103,9 +121,6 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   }
 
   private onRangeChanged(event: any) {
-    if (!event.byUser) {
-      return;
-    }
     const start = moment(event.start);
     const end = moment(event.end);
 
@@ -127,5 +142,16 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   private createMoment(date: any) {
     const m = moment(date).utc(false).startOf('day');
     return m;
+  }
+
+  private createMovingItemTooltipTemplate(item: vis.DataItem, element: any, data: any) {
+    // TODO i18n
+    const startDate = moment(item.start).format('DD/MM/YYYY');
+    const endDate = moment(item.end).format('DD/MM/YYYY');
+
+    const htmlContent = `
+      <div>${startDate} - ${endDate}</div>
+    `;
+    return htmlContent;
   }
 }
