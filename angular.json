@@ -17,7 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/plancul-front",
+            "aot": true,
+            "outputPath": "dist/plancul-front/en",
+            "baseHref": "/en/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -42,7 +44,17 @@
             ]
           },
           "configurations": {
-            "production": {
+            "fr": {
+              "aot": true,
+              "outputPath": "dist/plancul-front/fr/",
+              "baseHref": "/fr/",
+              "i18nFile": "src/locale/messages.fr.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "fr"
+            },
+            "production-en": {
+              "outputPath": "dist/plancul-front/en/",
+              "baseHref": "/en/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -59,14 +71,9 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            "fr": {
-              "aot": true,
-              "outputPath": "dist/my-project-fr/",
-              "i18nFile": "src/locale/messages.fr.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "fr"
-            },
             "production-fr": {
+              "outputPath": "dist/plancul-front/fr/",
+              "baseHref": "/fr/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -82,7 +89,6 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "outputPath": "dist/my-project-fr/",
               "i18nFile": "src/locale/messages.fr.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "fr",
@@ -96,11 +102,14 @@
             "browserTarget": "plancul-front:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "plancul-front:build:production"
-            },
             "fr": {
               "browserTarget": "plancul-front:build:fr"
+            },
+            "production-en": {
+              "browserTarget": "plancul-front:build:production-en"
+            },
+            "production-fr": {
+              "browserTarget": "plancul-front:build:production-fr"
             }
           }
         },

@@ -13,7 +13,7 @@
     <pc-timeline [data]="timelineData | async"
                  [groups]="timelineGroups | async"
                  [options]="timelineOptions | async"
-                 [initialRange]="dateRangeSource | async"
+                 [initialRange]="dateRange | async"
                  [loading]="loading | async"
                  (rangeChanged)="onRangeChanged($event)"
                  (itemMoving)="onItemMoving($event)"

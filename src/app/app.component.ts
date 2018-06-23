@@ -1,7 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {NotificationMessageService} from './main/service/notification-message.service';
 import {Observable} from 'rxjs';
 import {Message} from 'primeng/api';
+import {PlanCulApplicationInfo} from './main/domain/plan-cul-application-info';
+import {PLAN_CUL_APP_INFO} from './main/service/util/app-info-token';
 
 @Component({
   selector: 'pc-root',
@@ -12,7 +14,9 @@ export class AppComponent {
 
   notificationMessages: Observable<Message[]>;
 
-  constructor(private notificationService: NotificationMessageService) {
+  constructor(private notificationService: NotificationMessageService,
+              @Inject(PLAN_CUL_APP_INFO)
+              public appInfo: PlanCulApplicationInfo) {
     this.notificationMessages = this.notificationService.getMessagesObservable();
   }
 }

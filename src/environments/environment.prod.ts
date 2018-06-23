@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  defaultClientConfig: {
+    apiUrl: 'https://localhost:8181/plancul-ws',
+  },
 };

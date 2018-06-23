@@ -34,12 +34,13 @@ export class BedsTimelineComponent implements OnInit {
   timelineData: Observable<vis.DataItem[]>;
   timelineGroups: Observable<vis.DataGroup[]>;
   timelineOptions: Observable<vis.Options>;
+  dateRange: Observable<WsDateRange>;
+  loading = new BehaviorSubject<boolean>(false);
 
   private dateRangeSource = new BehaviorSubject<WsDateRange>(this.createInitialDateRange());
   private bedFilterSource = new ReplaySubject<WsBedFilter>(1);
   private cultureFilter: Observable<WsCultureFilter>;
   private reloadTrigger = new BehaviorSubject<any>(true);
-  private loading = new BehaviorSubject<boolean>(false);
 
   constructor(private bedClient: BedClientService,
               private cultureClient: CultureClientService,
@@ -51,6 +52,7 @@ export class BedsTimelineComponent implements OnInit {
 
   ngOnInit() {
     this.createInitialBedFilter();
+    this.dateRange = this.dateRangeSource.asObservable();
 
     const tenantRef = this.selectedTenantService.getSelectedTenantRef()
       .pipe(

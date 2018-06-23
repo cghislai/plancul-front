@@ -7,4 +7,13 @@
     </span>
   </div>
   <router-outlet></router-outlet>
+
+  <span class="version ui-widget">
+    <a class="name-version"
+        [href]="appInfo.projectUrl">
+      {{ appInfo.name }} {{ appInfo.version }}
+    </a>
+    <span class="copyleft">©</span>
+    <span>{{ appInfo.copyleft }}</span>
+  </span>
 </div>

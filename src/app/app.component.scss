@@ -13,3 +13,32 @@
     max-width: 50%;
   }
 }
+
+.version {
+  display: inline-block;
+  font-size: .7em;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  opacity: .5;
+
+  >* {
+    display: inline-block;
+  }
+
+  a {
+    color: inherit;
+    display: inline-block;
+    text-decoration: none;
+    padding: .1em .3em;
+
+    &:hover {
+      opacity: .9;
+      cursor: pointer;
+    }
+  }
+  .copyleft {
+    display: inline-block;
+    transform: scaleX(-1);
+  }
+}

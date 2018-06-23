@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:8181/plancul-ws',
+  defaultClientConfig: {
+    apiUrl: 'https://localhost:8181/plancul-ws',
+  }
 };
 
 /*

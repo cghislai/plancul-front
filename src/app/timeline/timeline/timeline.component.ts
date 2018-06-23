@@ -53,7 +53,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   @Input()
   private initialRange: WsDateRange;
   @Input()
-  private loading: boolean;
+  loading: boolean;
 
   @Output()
   private rangeChanged = new EventEmitter<WsDateRange>();

@@ -1,7 +1,6 @@
 import {Credential} from '../domain/credential';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import {EMPTY, Observable, throwError} from 'rxjs';
-import {API_URL} from './api-url.token';
 import {Inject, Injectable} from '@angular/core';
 import {CredentialProviderService} from './credential-provider.service';
 import {catchError} from 'rxjs/operators';
@@ -9,6 +8,8 @@ import {NotificationMessageService} from './notification-message.service';
 import {Pagination} from '../domain/pagination';
 import {WsError, WsSearchQueryParams} from '@charlyghislain/plancul-ws-api';
 import {PaginationUtils} from './util/pagination-utils';
+import {PlanCulClientConfig} from '../domain/plan-cul-client-config';
+import {PLAN_CUL_CLIENT_CONFIG} from './util/client-config.token';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class RequestService {
   constructor(private http: HttpClient,
               private notificationMessageService: NotificationMessageService,
               private credentialProvider: CredentialProviderService,
-              @Inject(API_URL) private apiUrl: string) {
+              @Inject(PLAN_CUL_CLIENT_CONFIG) private clientConfig: PlanCulClientConfig) {
   }
 
 
@@ -136,7 +137,8 @@ export class RequestService {
   }
 
   private buildUrl(apiPth: string) {
-    return `${this.apiUrl}${apiPth}`;
+    const apiUrl = this.clientConfig.apiUrl;
+    return `${apiUrl}${apiPth}`;
   }
 
   private getAuthorizationHeader(providedCredential?: Credential) {
