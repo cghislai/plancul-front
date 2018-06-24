@@ -77,7 +77,7 @@ pipeline {
   
                               # Upload archives
                               curl -v --user $NEXUS_BASIC_AUTH --upload-file dist/plancul-front/${ARCHIVE} \
-                              ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislin/plancul-front/${ARCHIVE}
+                              ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE}
   
                               # Create .latest 'links' (branch heads) if required
                               if [ "${BRANCH_NAME}" = "master" ] ; then
