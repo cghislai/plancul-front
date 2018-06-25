@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {WsUserTenantCreationRequest} from '@charlyghislain/plancul-ws-api';
 import {AdminService} from '../service/admin.service';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';
+import {LanguageUtil} from '../../main/service/util/language-util';
 
 @Component({
   selector: 'pc-new-tenant-form',
@@ -16,6 +17,7 @@ export class NewTenantFormComponent implements OnInit {
   constructor(private adminService: AdminService,
               private notificationService: NotificationMessageService,
               private requestService: RequestService,
+              @Inject(LOCALE_ID) private localeId: string,
   ) {
   }
 
@@ -34,6 +36,7 @@ export class NewTenantFormComponent implements OnInit {
       firstName: null,
       lastName: null,
       email: null,
+      language: LanguageUtil.getLanguageFromLocaleId(this.localeId),
       tenant: {
         id: null,
         name: null,

@@ -1,0 +1,9 @@
+<p-selectButton [options]="options"
+                [ngModel]="value"
+                (ngModelChange)="onChange($event)"
+>
+  <ng-template let-item>
+    <pc-language [language]="item"
+    ></pc-language>
+  </ng-template>
+</p-selectButton>

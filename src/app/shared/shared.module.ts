@@ -22,6 +22,8 @@ import {CultureSowingComponent} from './culture-sowing/culture-sowing.component'
 import {CultureNursingComponent} from './culture-nursing/culture-nursing.component';
 import {CultureTransplantingComponent} from './culture-transplanting/culture-transplanting.component';
 import {CultureHarvestComponent} from './culture-harvest/culture-harvest.component';
+import {LanguageSelectComponent} from './language-select/language-select.component';
+import {LanguageComponent} from './language/language.component';
 
 @NgModule({
   imports: [
@@ -55,6 +57,8 @@ import {CultureHarvestComponent} from './culture-harvest/culture-harvest.compone
     CultureNursingComponent,
     CultureTransplantingComponent,
     CultureHarvestComponent,
+    LanguageSelectComponent,
+    LanguageComponent,
 
     TemplateVarDirective,
   ],
@@ -78,6 +82,8 @@ import {CultureHarvestComponent} from './culture-harvest/culture-harvest.compone
     CultureNursingComponent,
     CultureTransplantingComponent,
     CultureHarvestComponent,
+    LanguageSelectComponent,
+    LanguageComponent,
 
     TemplateVarDirective,
   ],

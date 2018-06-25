@@ -47,6 +47,7 @@ export class AdminAreaComponent implements OnInit {
     this.resetPasswordInfo = null;
     this.resetPasswordDialogVisible = false;
     this.notificationService.addInfo('Account saved', 'Admin account data have been updated');
+    this.loggedUserService.logout();
   }
 
   private onLoginInfoError(error: any) {

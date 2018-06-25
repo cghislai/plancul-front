@@ -44,6 +44,16 @@
                name="email">
       </div>
 
+      <div class="row">
+        <label>Language</label>
+        <pc-language-select [(ngModel)]="formData.language"
+                            title="Language"
+                            i18n-title="new tenant language title"
+                            required
+                            name="language">
+        </pc-language-select>
+      </div>
+
     </section>
 
     <section class="tenant">
