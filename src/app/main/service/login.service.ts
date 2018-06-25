@@ -6,6 +6,7 @@ import {mapTo, tap} from 'rxjs/operators';
 import {CredentialProviderService} from './credential-provider.service';
 import {JwtCrential} from '../domain/jwt-crential';
 import {WsUserAccountInitRequest} from '@charlyghislain/plancul-ws-api';
+import {cr} from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +18,12 @@ export class LoginService {
   }
 
   login(credential: BasicCredential): Observable<any> {
-    return this.requestService.getPlainText('/user/me/token', credential)
+    return this.requestService.sendLoginRequest(credential)
       .pipe(
         tap(token => this.credentialProvider.setCredential(new JwtCrential(token))),
         mapTo(true),
       );
   }
-
 
   activateAccount(request: WsUserAccountInitRequest): Observable<any> {
     return this.requestService.postPlainText('/unrestricted/user/init', request)

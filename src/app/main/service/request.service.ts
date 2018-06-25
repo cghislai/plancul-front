@@ -3,13 +3,15 @@ import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http'
 import {EMPTY, Observable, throwError} from 'rxjs';
 import {Inject, Injectable} from '@angular/core';
 import {CredentialProviderService} from './credential-provider.service';
-import {catchError} from 'rxjs/operators';
+import {catchError, map, mergeMap, take} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
 import {Pagination} from '../domain/pagination';
 import {WsError, WsSearchQueryParams} from '@charlyghislain/plancul-ws-api';
 import {PaginationUtils} from './util/pagination-utils';
 import {PlanCulClientConfig} from '../domain/plan-cul-client-config';
 import {PLAN_CUL_CLIENT_CONFIG} from './util/client-config.token';
+import {JwtCrential} from '../domain/jwt-crential';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +20,7 @@ export class RequestService {
 
 
   constructor(private http: HttpClient,
+              private router: Router,
               private notificationMessageService: NotificationMessageService,
               private credentialProvider: CredentialProviderService,
               @Inject(PLAN_CUL_CLIENT_CONFIG) private clientConfig: PlanCulClientConfig) {
@@ -44,6 +47,18 @@ export class RequestService {
     })
       .pipe(catchError(e => this.handleRequestError(e)));
   }
+
+
+  sendLoginRequest( credential?: Credential) {
+    return this.http.get(this.buildUrl('/user/me/token'), {
+      headers: {
+        'Authorization': this.getAuthorizationHeader(credential),
+      },
+      withCredentials: true,
+      responseType: 'text',
+    });
+  }
+
 
   post<T>(apiPath: string, body: any, pagination?: Pagination): Observable<T> {
     return this.http.post<T>(this.buildUrl(apiPath), body, {
@@ -136,6 +151,18 @@ export class RequestService {
     return null;
   }
 
+
+  renewToken() {
+    this.credentialProvider.getJosePayloadObservable()
+      .pipe(
+        take(1),
+        map(payload => this.credentialProvider.isJosePayloadValid(payload)),
+        mergeMap(valid => valid ? this.sendLoginRequest() : throwError('expired')),
+      ).subscribe(
+      newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)),
+      error => this.handletokenRenewalError(error));
+  }
+
   private buildUrl(apiPth: string) {
     const apiUrl = this.clientConfig.apiUrl;
     return `${apiUrl}${apiPth}`;
@@ -148,8 +175,16 @@ export class RequestService {
   }
 
   private handleRequestError(error: any) {
+    let errorMessage = this.getHttpErrorMessage(error);
     if (this.isHttpErrorWithStatusCodeStartingWith(error, 5)) {
-      this.notificationMessageService.addError('Request errored', 'Unexpected server error');
+      if (errorMessage == null) {
+        errorMessage = 'Unexpected server error';
+      }
+      this.notificationMessageService.addError('Request errored', errorMessage);
+      return EMPTY;
+    } else if (this.isHttpErrorWithStatusCodeStartingWith(error, 401)) {
+      // Try to renew the token. If it is expired or renewal fails, the user will be logged off
+      this.renewToken();
       return EMPTY;
     }
     return throwError(error);
@@ -170,4 +205,9 @@ export class RequestService {
   }
 
 
+  private handletokenRenewalError(error: any) {
+    this.notificationMessageService.addError('Session expired', 'Please sign in again');
+    this.credentialProvider.setCredential(null);
+    this.router.navigate(['/login']);
+  }
 }

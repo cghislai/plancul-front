@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of, Subscription, timer} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
 import {RequestService} from './request.service';
-import {filter, map, mergeMap, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
+import {filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
 import {WsTenantUserRole, WsUser} from '@charlyghislain/plancul-ws-api';
 import {JosePayload} from '../domain/jose-payload';
 import {JwtCrential} from '../domain/jwt-crential';
@@ -14,7 +14,6 @@ import {Router} from '@angular/router';
 })
 export class LoggedUserService {
 
-  private readonly josePayload: Observable<JosePayload | null>;
   private readonly groups: Observable<string[]>;
   private readonly isAdmin: Observable<boolean>;
   private readonly isUser: Observable<boolean>;
@@ -34,14 +33,7 @@ export class LoggedUserService {
       .pipe(
         publishReplay(1), refCount(),
       );
-    this.josePayload = credentialSource
-      .pipe(
-        map(cred => cred == null ? null : cred.getToken()),
-        map(token => this.decodeJwtPayload(token)),
-        publishReplay(1), refCount(),
-      );
-
-    this.groups = this.josePayload.pipe(
+    this.groups = this.credentialService.getJosePayloadObservable().pipe(
       map(p => (p == null || p.grps == null) ? [] : p.grps),
       publishReplay(1), refCount(),
     );
@@ -63,8 +55,7 @@ export class LoggedUserService {
     );
 
     this.subscription = new Subscription();
-    const newPayloadSubscription = this.josePayload
-      .pipe(filter(p => p != null))
+    const newPayloadSubscription = this.credentialService.getJosePayloadObservable()
       .subscribe(p => this.onNewPayloadReceived(p));
     const newTokenSubscription = credentialSource
       .pipe(filter(cred => cred != null))
@@ -95,9 +86,6 @@ export class LoggedUserService {
     return this.tenantsRoles;
   }
 
-  getJosePayloadObservable(): Observable<JosePayload | null> {
-    return this.josePayload;
-  }
 
   checkPasswordExpired(): Observable<boolean> {
     return this.requestService.get('/user/me/password/expired');
@@ -109,38 +97,22 @@ export class LoggedUserService {
     this.router.navigate(['/login']);
   }
 
-  private decodeJwtPayload(token: string | null): JosePayload | null {
-    if (token == null) {
-      return null;
-    }
-    const joseParts = token.split('.');
-    const encodedPayload = joseParts[1];
-    const payloadJson = atob(encodedPayload);
-    const payload: JosePayload = JSON.parse(payloadJson);
-
-    return payload;
-  }
-
-  private onNewPayloadReceived(payload: JosePayload) {
+  private onNewPayloadReceived(payload: JosePayload | null) {
     this.watchTokenExpiration(payload);
   }
 
-  private watchTokenExpiration(payload: JosePayload) {
+  private watchTokenExpiration(payload: JosePayload | null) {
     if (this.nextRenewalSubscription != null) {
       this.nextRenewalSubscription.unsubscribe();
+    }
+    if (payload == null) {
+      return;
     }
     const expiryTimeUnix = payload.exp * 1000;
     const thirtySeconds = 30000;
     const expiryDate = new Date(expiryTimeUnix - thirtySeconds);
     this.nextRenewalSubscription = timer(expiryDate)
-      .pipe(
-        mergeMap(() => this.requestService.getPlainText('/user/me/token')),
-      )
-      .subscribe(newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)),
-        error => {
-          console.error(error);
-          this.router.navigate(['/login']);
-        });
+      .subscribe(timout => this.requestService.renewToken());
   }
 
   private saveToken(credential: JwtCrential) {
@@ -153,11 +125,15 @@ export class LoggedUserService {
     if (token == null) {
       return;
     }
-    const payload = this.decodeJwtPayload(token);
+    const payload = this.credentialProvider.decodeJwtPayload(token);
     this.lasUerLogin = payload.sub;
 
+    if (!this.credentialProvider.isJosePayloadValid(payload)) {
+      return;
+    }
     const jwtCredential = new JwtCrential(token);
     this.requestService.getPlainText('/user/me/token', jwtCredential)
       .subscribe(newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)));
   }
+
 }
