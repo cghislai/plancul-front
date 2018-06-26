@@ -5,4 +5,12 @@
   <span class="name">
     {{ name  | async}}
   </span>
+  <span class="patch" *ngIf="showPatch && (patch | async) != null">
+    <span class="label" i18n>
+      Patch:
+    </span>
+    <span class="value">
+      {{ patch | async}}
+    </span>
+  </span>
 </span>

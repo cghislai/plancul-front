@@ -24,6 +24,7 @@ import {CultureTransplantingComponent} from './culture-transplanting/culture-tra
 import {CultureHarvestComponent} from './culture-harvest/culture-harvest.component';
 import {LanguageSelectComponent} from './language-select/language-select.component';
 import {LanguageComponent} from './language/language.component';
+import {PatchInputComponent} from './patch-input/patch-input.component';
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import {LanguageComponent} from './language/language.component';
     CultureHarvestComponent,
     LanguageSelectComponent,
     LanguageComponent,
+    PatchInputComponent,
 
     TemplateVarDirective,
   ],
@@ -84,6 +86,7 @@ import {LanguageComponent} from './language/language.component';
     CultureHarvestComponent,
     LanguageSelectComponent,
     LanguageComponent,
+    PatchInputComponent,
 
     TemplateVarDirective,
   ],

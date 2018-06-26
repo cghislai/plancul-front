@@ -23,6 +23,10 @@ export class BedClientService {
     return this.requestService.post<WsSearchResult<WsBed>>('/bed/search', filter, pagination);
   }
 
+  searchBedPatches(filter: WsBedFilter): Observable<string[]> {
+    return this.requestService.post<string[]>('/bed/patch/search', filter);
+  }
+
   fetchBed(id: number): Observable<WsBed> {
     const fetchTask = this.requestService.get<WsBed>(`/bed/${id}`)
       .pipe(tap(e => this.cache.putInCache(e)));

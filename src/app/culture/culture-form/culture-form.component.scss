@@ -9,6 +9,17 @@
     margin-left: .3em;
   }
 
+  .germination {
+    .end-date {
+      >* {
+        display: inline-block;
+
+        &:first-child {
+          margin-right: .5em;
+        }
+      }
+    }
+  }
   section {
     margin: 0 0 1em;
     border-bottom: 1px solid #e4eaed;
@@ -42,4 +53,5 @@
       }
     }
   }
+
 }

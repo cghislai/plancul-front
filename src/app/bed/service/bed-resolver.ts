@@ -43,6 +43,7 @@ export class BedResolver implements Resolve<WsBed> {
     const bed: WsBed = {
       id: null,
       name: null,
+      patch: null,
       plotWsRef: plotRef,
     };
     return bed;

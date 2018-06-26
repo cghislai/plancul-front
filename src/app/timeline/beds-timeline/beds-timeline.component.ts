@@ -32,7 +32,7 @@ import {NotificationMessageService} from '../../main/service/notification-messag
 export class BedsTimelineComponent implements OnInit {
 
   timelineData: Observable<vis.DataItem[]>;
-  timelineGroups: Observable<vis.DataGroup[]>;
+  timelineGroups: Observable<vis.DataSet<vis.DataGroup>>;
   timelineOptions: Observable<vis.Options>;
   dateRange: Observable<WsDateRange>;
   loading = new BehaviorSubject<boolean>(false);
@@ -103,7 +103,7 @@ export class BedsTimelineComponent implements OnInit {
     const callback = event.callback;
     const cultureId = this.timelineService.getCultureIdFromItemId(item.id);
     const phaseType = this.timelineService.getPhaseTypeFromItemId(item.id);
-    const bedId = <number>event.item.group;
+    const bedId = this.timelineService.getBedIdFromGroupId(item.group);
 
     const startMoment = moment(item.start);
     const endMoment = moment(item.end);
@@ -115,10 +115,12 @@ export class BedsTimelineComponent implements OnInit {
       end: endDateString,
     };
 
+    const updateBedTask: (culture: WsCulture) => Observable<any>
+      = bedId == null ? () => of(null) : (culture) => this.updateCultureBed(culture, bedId);
 
     this.loading.next(true);
     this.cultureClient.getCulture(cultureId).pipe(
-      mergeMap(culture => this.updateCultureBed(culture, bedId)),
+      mergeMap(culture => updateBedTask(culture)),
       mergeMap(ref => this.cultureClient.updateCulturePhase(cultureId, phaseType, dateRange)),
     )
       .subscribe(ref => {

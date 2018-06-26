@@ -25,7 +25,17 @@
     h2 {
       font-size: 1.2em;
       text-align: center;
+
+      >* {
+        display: inline-block;
+      }
+      > .form-icon {
+        width: 1.2em;
+        height: 1.2em;
+        margin: 0 .5em;
+      }
     }
+
   }
 
   .row {
@@ -45,6 +55,20 @@
       flex: 0 0 10em;
       overflow: hidden;
       margin: .3em 0;
+    }
+
+
+    > .form-icon {
+      flex: 0 0 1.3em;
+
+      width: 1.2em;
+      height: 1.2em;
+      margin: 0 .2em;
+    }
+
+    >.label {
+      display: inline-block;
+      margin: .3em;
     }
   }
 

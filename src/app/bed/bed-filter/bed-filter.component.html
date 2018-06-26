@@ -1,9 +1,19 @@
 <span class="bed-filter">
-  <input pInputText
-         [ngModel]="searchQuery | async"
-         (ngModelChange)="onQueryChanged($event)"
-         name="query"
-         placeholder="Type to search" i18n-placeholder
-         autofocus
-  >
+  <span class="name">
+    <input pInputText
+           [ngModel]="searchQuery | async"
+           (ngModelChange)="onQueryChanged($event)"
+           name="query"
+           placeholder="Type to search" i18n-placeholder
+           autofocus
+    >
+  </span>
+  <span class="patch">
+    <pc-patch-input [ngModel]="patch | async"
+                    (ngModelChange)="onPatchChanged($event)"
+                    [forceSelection]="true"
+                    placeholder="Patch" i18n-placeholder
+                    name="patch"
+    ></pc-patch-input>
+  </span>
 </span>

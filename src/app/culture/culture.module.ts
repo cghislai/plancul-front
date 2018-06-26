@@ -10,6 +10,7 @@ import {ButtonModule, CheckboxModule, DropdownModule, EditorModule, InputTextMod
 import {SharedModule} from '../shared/shared.module';
 import {DataViewModule} from 'primeng/dataview';
 import {FormsModule} from '@angular/forms';
+import {IconsModule} from '../icons/icons.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
 
     SharedModule,
+    IconsModule,
 
     InputTextModule,
     DataViewModule,

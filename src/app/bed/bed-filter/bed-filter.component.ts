@@ -12,15 +12,18 @@ import {SelectedTenantService} from '../../main/service/selected-tenant.service'
 export class BedFilterComponent implements OnInit {
 
   searchQuery = new BehaviorSubject<string>(null);
+  patch = new BehaviorSubject<string>(null);
+
   @Output()
   filterChanged: Observable<WsBedFilter>;
 
   constructor(private selectedTenantService: SelectedTenantService) {
     this.filterChanged = combineLatest(
       this.searchQuery.pipe(debounceTime(200)),
+      this.patch,
       this.selectedTenantService.getSelectedTenantRef(),
     ).pipe(
-      map(results => this.createFilter(results[0], results[1])),
+      map(results => this.createFilter(results[0], results[1], results[2])),
       publishReplay(1), refCount(),
     );
   }
@@ -32,13 +35,20 @@ export class BedFilterComponent implements OnInit {
     this.searchQuery.next(query);
   }
 
-  private createFilter(query: string, tenantRef: WsRef<WsTenant>): WsBedFilter {
+  onPatchChanged(patch: string) {
+    this.patch.next(patch);
+  }
+
+  private createFilter(query: string, patch: string, tenantRef: WsRef<WsTenant>): WsBedFilter {
     const filter: WsBedFilter = {};
     if (tenantRef != null) {
       filter.tenantWsRef = tenantRef;
     }
     if (query != null) {
       filter.nameQuery = query;
+    }
+    if (patch != null) {
+      filter.patch = patch;
     }
     return filter;
   }

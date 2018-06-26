@@ -12,6 +12,8 @@ export class BedComponent implements OnInit {
 
   @Input()
   showIcon = true;
+  @Input()
+  showPatch = true;
 
   @Input()
   set id(value: number) {
@@ -21,6 +23,7 @@ export class BedComponent implements OnInit {
   private idSource = new ReplaySubject<number>(1);
 
   name: Observable<string>;
+  patch: Observable<string>;
 
   constructor(private bedClient: BedClientService) {
   }
@@ -32,6 +35,10 @@ export class BedComponent implements OnInit {
     );
     this.name = bed.pipe(
       map(b => b.name),
+      publishReplay(1), refCount(),
+    );
+    this.patch = bed.pipe(
+      map(b => b.patch),
       publishReplay(1), refCount(),
     );
   }

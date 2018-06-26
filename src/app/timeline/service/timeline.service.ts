@@ -22,11 +22,12 @@ export class TimelineService {
   ) {
   }
 
-  createBedGroups(bedRefs: WsRef<WsBed>[]): Observable<vis.DataGroup[]> {
-    const taskList = bedRefs.map(ref => this.createBedRefGroup(ref));
+  createBedGroups(bedRefs: WsRef<WsBed>[]): Observable<vis.DataSet<vis.DataGroup>> {
+    const taskList = bedRefs.map(ref => this.fetchBed(ref));
     const itemsTask = taskList.length === 0 ? of([]) : forkJoin(taskList);
     return itemsTask.pipe(
-      map(items => [...items, this.createNurseryBedItem()]),
+      map(beds => this.createBedPatchGroups(beds)),
+      map(groups => this.wrapGroupsInDataset(groups)),
     );
   }
 
@@ -49,10 +50,43 @@ export class TimelineService {
     }
   }
 
-  private createBedRefGroup(bedRef: WsRef<WsBed>): Observable<vis.DataGroup> {
-    return this.bedClient.getBed(bedRef.id).pipe(
-      map(bed => this.createBedGroup(bed)),
-    );
+
+  getCultureIdFromItemId(suffixedId: string | number): number {
+    if (suffixedId as string) {
+      const suffixedIdString = suffixedId as string;
+      const splitted = suffixedIdString.split(':');
+      if (splitted.length < 2) {
+        return null;
+      }
+      return parseInt(splitted[0], 10);
+    } else {
+      return null;
+    }
+  }
+
+  getPhaseTypeFromItemId(suffixedId: string | number): WsCulturePhaseType {
+    if (suffixedId as string) {
+      const suffixedIdString = suffixedId as string;
+      const splitted = suffixedIdString.split(':');
+      if (splitted.length < 2) {
+        return null;
+      }
+      const typeName = splitted[1];
+      return <WsCulturePhaseType>typeName;
+    } else {
+      return null;
+    }
+  }
+
+  getBedIdFromGroupId(groupId: string | number): number | null {
+    if (typeof groupId !== 'number') {
+      return null;
+    }
+    return <number>groupId;
+  }
+
+  private fetchBed(bedRef: WsRef<WsBed>): Observable<WsBed> {
+    return this.bedClient.getBed(bedRef.id);
   }
 
   private createBedGroup(bed: WsBed): vis.DataGroup {
@@ -104,32 +138,6 @@ export class TimelineService {
     return `${id}:${typeName}`;
   }
 
-  getCultureIdFromItemId(suffixedId: string | number): number {
-    if (suffixedId as string) {
-      const suffixedIdString = suffixedId as string;
-      const splitted = suffixedIdString.split(':');
-      if (splitted.length < 2) {
-        return null;
-      }
-      return parseInt(splitted[0], 10);
-    } else {
-      return null;
-    }
-  }
-
-  getPhaseTypeFromItemId(suffixedId: string | number): WsCulturePhaseType {
-    if (suffixedId as string) {
-      const suffixedIdString = suffixedId as string;
-      const splitted = suffixedIdString.split(':');
-      if (splitted.length < 2) {
-        return null;
-      }
-      const typeName = splitted[1];
-      return <WsCulturePhaseType>typeName;
-    } else {
-      return null;
-    }
-  }
 
   private getCultureLabel(cultureRef: WsRef<WsCulture>): Observable<string> {
     return this.cultureClient.getCulture(cultureRef.id)
@@ -153,5 +161,64 @@ export class TimelineService {
     // TODO: i18n
     const phaseTypeName = <string>phase.phaseType;
     return `${cultureLabel} (${phaseTypeName.toLowerCase()})`;
+  }
+
+  private createBedPatchGroups(beds: WsBed[]): vis.DataGroup[] {
+    const patchGroups = this.createPatchGroups(beds);
+    const bedGroups = beds.map(bed => this.createBedGroup(bed));
+    const nursery = this.createNurseryBedItem();
+    return [...patchGroups, ...bedGroups, nursery];
+  }
+
+  private createPatchGroups(items: WsBed[]) {
+    const patchBedIdsDict: { [patchName: string]: number[] } = {};
+    const patchGroupsDict: { [patchName: string]: vis.DataGroup } = {};
+
+    items.forEach(item => this.appendToPatch(item, patchBedIdsDict, patchGroupsDict));
+
+    const patchGroups: vis.DataGroup[] = [];
+    for (const patch in patchGroupsDict) {
+      if (typeof patch !== 'string') {
+        continue;
+      }
+      const patchGroup = patchGroupsDict[patch];
+      const nestedItems = patchBedIdsDict[patch];
+      patchGroup.nestedGroups = nestedItems;
+      patchGroups.push(patchGroup);
+    }
+    return patchGroups;
+  }
+
+  private appendToPatch(bed: WsBed, patchItemsDict: { [p: string]: number[] }, patchGroupsDict: { [p: string]: vis.DataGroup }) {
+    const patch = bed.patch;
+    if (patch == null) {
+      return;
+    }
+    let idList = patchItemsDict[patch];
+    if (idList == null) {
+      idList = [];
+      patchItemsDict[patch] = idList;
+    }
+    idList.push(bed.id);
+
+    let patchGroup = patchGroupsDict[patch];
+    if (patchGroup == null) {
+      patchGroup = this.createPatchGroup(patch);
+      patchGroupsDict[patch] = patchGroup;
+    }
+  }
+
+  private createPatchGroup(patch: string): vis.DataGroup {
+    return {
+      id: patch,
+      content: patch,
+      className: 'bed-patch',
+    };
+  }
+
+  private wrapGroupsInDataset(groups: vis.DataGroup[]): vis.DataSet<vis.DataGroup> {
+    const dataSet = new vis.DataSet<vis.DataGroup>();
+    groups.forEach(group => dataSet.add(group));
+    return dataSet;
   }
 }

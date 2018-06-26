@@ -11,6 +11,7 @@
       <div class="col">
 
         <div class="row" *templateVar="cropRef | async; let model">
+          <span class="form-icon"><pc-seedlings-icon></pc-seedlings-icon></span>
           <label i18n>Crop</label>
           <span>
             <pc-crop-select [ngModel]="model.propertyValue"
@@ -26,6 +27,7 @@
         </div>
 
         <div class="row" *templateVar="bedRef | async; let model">
+          <span class="form-icon"><pc-fields-icon></pc-fields-icon></span>
           <label i18n>Bed</label>
           <span>
             <pc-bed-select [ngModel]="model.propertyValue"
@@ -40,113 +42,129 @@
           </span>
         </div>
 
-        <div class="row" *templateVar="sowingDate | async; let model">
-          <label i18n>Sowing date</label>
-          <span>
-            <pc-date-select [ngModel]="model.propertyValue"
-                            (ngModelChange)="onSowingDateChange($event)"
-                            [name]="model.property"
-                            required
-                            #control="ngModel"
-            ></pc-date-select>
-            <pc-validation-errors [errors]="model.validationErrors"
-                                  *ngIf="control.touched"
-            ></pc-validation-errors>
-          </span>
-        </div>
+        <section class="germination">
+          <h2>
+            <span class="form-icon"><pc-sowing-icon></pc-sowing-icon></span>
+            <span>Sowing</span>
+          </h2>
 
-        <div class="row" *templateVar="daysUntilGermination | async; let model">
-          <label i18n>Germination</label>
-          <span>
-            <div class="days-until">
-              <div>
-                <p-spinner [ngModel]="model.propertyValue"
-                           (ngModelChange)="onDaysUntilGerminationChange($event)"
-                           [name]="model.property"
-                           required
-                           [min]="1" [step]="1"
-                           [size]="4"
-                           #control="ngModel"
-                ></p-spinner>
-                <label i18n class="unit">days</label>
-              </div>
+          <div class="row" *templateVar="sowingDate | async; let model">
+            <label i18n>Sowing date</label>
+            <span>
+              <pc-date-select [ngModel]="model.propertyValue"
+                              (ngModelChange)="onSowingDateChange($event)"
+                              [name]="model.property"
+                              required
+                              #control="ngModel"
+              ></pc-date-select>
               <pc-validation-errors [errors]="model.validationErrors"
                                     *ngIf="control.touched"
               ></pc-validation-errors>
-            </div>
-            <div class="end-date">
-                <span i18n>Until </span>
-                <pc-date-select [ngModel]="germinationDateValue | async"
-                                (ngModelChange)="onGerminationDateChange($event)"
-                                name="germination-date"
-                                [min]="sowingDateValue | async"
-                ></pc-date-select>
-            </div>
-          </span>
-        </div>
+            </span>
+          </div>
 
-
-        <div class="row" *templateVar="daysUntilFirstHarvest | async; let model">
-          <label i18n>First harvest</label>
-          <span>
-            <div class="days-until">
-              <div>
-                <p-spinner [ngModel]="model.propertyValue"
-                           (ngModelChange)="onDaysUntilFirstHarvestChange($event)"
-                           [name]="model.property"
-                           required
-                           [min]="daysUntilGerminationValue | async" [step]="1"
-                           [size]="4"
-                           #control="ngModel"
-                ></p-spinner>
-                <label i18n class="unit">days after sowing</label>
+          <div class="row" *templateVar="daysUntilGermination | async; let model">
+            <label i18n>Germination</label>
+            <span class="germination">
+              <div class="days-until">
+                <div>
+                  <p-spinner [ngModel]="model.propertyValue"
+                             (ngModelChange)="onDaysUntilGerminationChange($event)"
+                             [name]="model.property"
+                             required
+                             [min]="1" [step]="1"
+                             [size]="4"
+                             #control="ngModel"
+                  ></p-spinner>
+                  <label i18n class="unit">days</label>
+                </div>
+                <pc-validation-errors [errors]="model.validationErrors"
+                                      *ngIf="control.touched"
+                ></pc-validation-errors>
               </div>
-              <pc-validation-errors [errors]="model.validationErrors"
-                                    *ngIf="control.touched"
-              ></pc-validation-errors>
-            </div>
-            <div class="end-date">
-                <pc-date-select [ngModel]="firstHarvestDateValue | async"
-                                (ngModelChange)="onFirstHarvestDateChange($event)"
-                                name="first-harvest-date"
-                                [min]="germinationDateValue | async"
-                ></pc-date-select>
-            </div>
-          </span>
-        </div>
-
-
-        <div class="row" *templateVar="harvestDayDuration | async; let model">
-          <label i18n>Last harvest</label>
-          <span>
-            <div class="days-until">
-              <div>
-                <p-spinner [ngModel]="model.propertyValue"
-                           (ngModelChange)="onHarvestDurationChange($event)"
-                           [name]="model.property"
-                           required
-                           [min]="1" [step]="1"
-                           [size]="4"
-                           #control="ngModel"
-                ></p-spinner>
-                <label i18n class="unit">days after first harvest</label>
+              <div class="end-date">
+                  <span i18n>Until </span>
+                  <span>
+                    <pc-date-select [ngModel]="germinationDateValue | async"
+                                    (ngModelChange)="onGerminationDateChange($event)"
+                                    name="germination-date"
+                                    [min]="sowingDateValue | async"
+                    ></pc-date-select>
+                  </span>
               </div>
-              <pc-validation-errors [errors]="model.validationErrors"
-                                    *ngIf="control.touched"
-              ></pc-validation-errors>
-            </div>
-            <div class="end-date">
-                <pc-date-select [ngModel]="lastHarvestDateValue | async"
-                                (ngModelChange)="onLastHarvestDateChange($event)"
-                                name="last-harvest-date"
-                                [min]="firstHarvestDateValue | async"
-                ></pc-date-select>
-            </div>
-          </span>
-        </div>
+            </span>
+          </div>
+        </section>
 
+
+        <section class="harvest">
+          <h2>
+            <span class="form-icon"><pc-harvest-icon></pc-harvest-icon></span>
+            <span>Harvest</span>
+          </h2>
+
+          <div class="row" *templateVar="daysUntilFirstHarvest | async; let model">
+            <label i18n>First harvest</label>
+            <span>
+              <div class="days-until">
+                <div>
+                  <p-spinner [ngModel]="model.propertyValue"
+                             (ngModelChange)="onDaysUntilFirstHarvestChange($event)"
+                             [name]="model.property"
+                             required
+                             [min]="daysUntilGerminationValue | async" [step]="1"
+                             [size]="4"
+                             #control="ngModel"
+                  ></p-spinner>
+                  <label i18n class="unit">days after sowing</label>
+                </div>
+                <pc-validation-errors [errors]="model.validationErrors"
+                                      *ngIf="control.touched"
+                ></pc-validation-errors>
+              </div>
+              <div class="end-date">
+                  <pc-date-select [ngModel]="firstHarvestDateValue | async"
+                                  (ngModelChange)="onFirstHarvestDateChange($event)"
+                                  name="first-harvest-date"
+                                  [min]="germinationDateValue | async"
+                  ></pc-date-select>
+              </div>
+            </span>
+          </div>
+
+
+          <div class="row" *templateVar="harvestDayDuration | async; let model">
+            <label i18n>Last harvest</label>
+            <span>
+              <div class="days-until">
+                <div>
+                  <p-spinner [ngModel]="model.propertyValue"
+                             (ngModelChange)="onHarvestDurationChange($event)"
+                             [name]="model.property"
+                             required
+                             [min]="1" [step]="1"
+                             [size]="4"
+                             #control="ngModel"
+                  ></p-spinner>
+                  <label i18n class="unit">days after first harvest</label>
+                </div>
+                <pc-validation-errors [errors]="model.validationErrors"
+                                      *ngIf="control.touched"
+                ></pc-validation-errors>
+              </div>
+              <div class="end-date">
+                  <pc-date-select [ngModel]="lastHarvestDateValue | async"
+                                  (ngModelChange)="onLastHarvestDateChange($event)"
+                                  name="last-harvest-date"
+                                  [min]="firstHarvestDateValue | async"
+                  ></pc-date-select>
+              </div>
+            </span>
+          </div>
+        </section>
 
         <div class="row">
+          <span class="form-icon"><pc-nursing-icon></pc-nursing-icon></span>
           <p-checkbox [ngModel]="hasNursing | async"
                       (ngModelChange)="onNursingChanged($event)"
                       [binary]="true"
@@ -169,13 +187,17 @@
                            #control="ngModel"
                 ></p-spinner>
                 <label i18n class="unit">days</label>
-                <span class="transplantation-date">
-                  {{ nursingEndDate | async | date }}
-                </span>
               </div>
               <pc-validation-errors [errors]="model.validationErrors"
                                     *ngIf="control.touched"
               ></pc-validation-errors>
+            </span>
+          </div>
+          <div class="row transplantationDate" *ngIf="(nursingEndDate | async) != null">
+            <span class="form-icon"><pc-transplanting-icon></pc-transplanting-icon></span>
+            <label i18n>Transplantation</label>
+            <span class="transplantation-date label">
+                {{ nursingEndDate | async | date }}
             </span>
           </div>
 
@@ -183,6 +205,7 @@
 
 
         <div class="row">
+          <span class="form-icon"><pc-ground-cover-icon></pc-ground-cover-icon></span>
           <p-checkbox [ngModel]="hasBedPreparation | async"
                       (ngModelChange)="onPreparationChanged($event)"
                       [binary]="true"
