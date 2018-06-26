@@ -29,10 +29,14 @@ export class CropResolver implements Resolve<WsCrop> {
 
   private createNewCrop(): Observable<WsCrop> {
     const crop: WsCrop = {
+      id: null,
+      displayName: null,
+      family: null,
+      species: null,
+      subSpecies: null,
+      cultivar: null,
       agrovocPlantWsRef: null,
       agrovocProductWsRef: null,
-      cultivar: null,
-      id: null,
       tenantRestriction: null,
     };
     return of(crop);

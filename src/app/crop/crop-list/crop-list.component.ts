@@ -26,13 +26,13 @@ export class CropListComponent implements OnInit {
 
   constructor(private cropClient: CropClientService,
               private router: Router) {
-  }
-
-  ngOnInit() {
     this.helper = new ListHolderHelper(
       (filter, pagination) => this.cropClient.searchCrops(filter, pagination),
       (id) => this.cropClient.getCrop(id),
     );
+  }
+
+  ngOnInit() {
     this.cropResults = this.helper.getResults();
     this.resultCount = this.helper.getResultCount();
     this.resultLoading = this.helper.getResultsLoading();
@@ -67,10 +67,9 @@ export class CropListComponent implements OnInit {
     };
   }
 
-
   private createInitialSort(): Sort {
     return {
-      field: WsCropSortField.PLANT_NAME,
+      field: WsCropSortField.DISPLAY_NAME,
       order: WsSortOrder.ASC,
     };
   }

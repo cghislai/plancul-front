@@ -24,9 +24,12 @@ export class CropComponent implements OnInit {
 
   private idSource = new ReplaySubject<number>(1);
 
-  taxon: Observable<string>;
+  family: Observable<string>;
+  species: Observable<string>;
+  subspecies: Observable<string>;
   cultivar: Observable<string>;
   productName: Observable<string>;
+  displayName: Observable<string>;
 
   constructor(private cropClient: CropClientService,
               private agrovocPlantClient: AgrovocPlantClientService,
@@ -39,14 +42,24 @@ export class CropComponent implements OnInit {
       switchMap(id => this.cropClient.getCrop(id)),
       publishReplay(1), refCount(),
     );
-    this.taxon = crop.pipe(
-      map(c => c.agrovocPlantWsRef),
-      switchMap(ref => this.agrovocPlantClient.getAgrovocPlant(ref.id)),
-      map(plant => plant.preferedLabel),
+    this.family = crop.pipe(
+      map(c => c.family),
+      publishReplay(1), refCount(),
+    );
+    this.species = crop.pipe(
+      map(c => c.species),
+      publishReplay(1), refCount(),
+    );
+    this.subspecies = crop.pipe(
+      map(c => c.cultivar),
       publishReplay(1), refCount(),
     );
     this.cultivar = crop.pipe(
       map(c => c.cultivar),
+      publishReplay(1), refCount(),
+    );
+    this.displayName = crop.pipe(
+      map(c => c.displayName),
       publishReplay(1), refCount(),
     );
     this.productName = crop.pipe(

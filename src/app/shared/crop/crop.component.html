@@ -2,13 +2,20 @@
   <span class="icon" *ngIf="showIcon">
     <pc-single-seedlings-icon></pc-single-seedlings-icon>
   </span>
-  <span class="plant">
-    <span class="pc-product">
-      {{ productName | async }}
-    </span>
-    <span class="pc-cultivar">{{ cultivar | async }}</span>
+  <span class="display-name">
+      {{ displayName | async }}
   </span>
   <span class="taxon" *ngIf="showTaxon">
-    <span class="pc-taxon">{{ taxon | async }}</span>
+    <div>
+      <span class="pc-species">
+        {{ species | async }}
+      </span>
+      <span class="pc-cultivar"
+            *ngIf="(cultivar | async) != null"
+      >
+        {{ cultivar | async }}
+      </span>
+    </div>
+    <span class="family">{{ family| async }}</span>
   </span>
 </div>

@@ -72,8 +72,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (isAdmin) {
       this.redirectToAdminArea();
     } else {
-      this.redirectUrl.pipe(take(1))
-        .subscribe(redirectParam => this.triggerRedirect(redirectParam));
+      if (this.redirectUrl != null) {
+        this.redirectUrl.pipe(take(1))
+          .subscribe(redirectParam => this.triggerRedirect(redirectParam));
+      } else {
+        this.redirectToUserArea();
+      }
     }
   }
 

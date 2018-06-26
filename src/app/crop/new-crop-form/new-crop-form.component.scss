@@ -2,6 +2,18 @@
   text-align: center;
 
   form {
-    width: 50em;
+    width: 40em;
+
+    .agrovoc-search {
+      border-bottom: 1px solid lightgray;
+      margin: 0;
+      padding: .5em 0;
+    }
+
+    .hint {
+      font-size: .8em;
+      margin: .2em 0;
+      opacity: .6;
+    }
   }
 }

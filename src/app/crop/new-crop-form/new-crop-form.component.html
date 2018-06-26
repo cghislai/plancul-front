@@ -6,13 +6,62 @@
   <form #cropForm="ngForm" (submit)="onSubmit()" class="pc-form"
         *ngIf="crop != null">
 
+    <section class="agrovoc-search">
+      <div class="row">
+        <label i18n>FAO query</label>
+        <pc-agrovoc-plant-product-tuple-select ngModel
+                                               (ngModelChange)="onPlanProductTupleChange($event)"
+                                               name="crop-agrovoc-search"
+                                               pcAutofocus
+        ></pc-agrovoc-plant-product-tuple-select>
+      </div>
+      <div class="hint">
+        <span i18n>
+          Try to use one of the FAO results in order to be able to correlate the crop information with open databases.
+          Pay extra care with accents that must be correctly provided in the query.
+        </span>
+      </div>
+    </section>
+
+
     <div class="row">
-      <label i18n>Taxon</label>
-      <pc-agrovoc-plant-product-tuple-select ngModel
-                                             (ngModelChange)="onPlanProductTupleChange($event)"
-                                             name="crop-plant"
-                                             required
-      ></pc-agrovoc-plant-product-tuple-select>
+      <label i18n>Display name</label>
+      <input pInputText
+             [(ngModel)]="crop.displayName"
+             name="crop-displayname"
+             required>
+    </div>
+
+
+    <div class="row">
+      <label i18n>Family</label>
+      <input pInputText
+             [(ngModel)]="crop.family"
+             [disabled]="crop.agrovocPlantURI != null"
+             required
+             name="crop-family"
+      >
+    </div>
+
+
+    <div class="row">
+      <label i18n>Species</label>
+      <input pInputText
+             [(ngModel)]="crop.species"
+             [disabled]="crop.agrovocPlantURI != null"
+             required
+             name="crop-species"
+      >
+    </div>
+
+
+    <div class="row">
+      <label i18n>Subspecies</label>
+      <input pInputText
+             [(ngModel)]="crop.subSpecies"
+             [disabled]="crop.agrovocPlantURI != null"
+             name="crop-subSpecies"
+      >
     </div>
 
     <div class="row">
@@ -24,16 +73,23 @@
     </div>
 
     <div class="row">
-      <p-checkbox [ngModel]="crop.tenantRestrictionRef == null"
-                  (ngModelChange)="onShareChanged($event)"
+      <p-checkbox [(ngModel)]="crop.shared"
                   [binary]="true"
                   name="crop-share"
-                  label="Make this crop available to other users as well" i18n-label
+                  label="Make this information available to other users as well" i18n-label
       ></p-checkbox>
     </div>
+    <div class="hint">
+      <span i18n>
+        Sharing this crop with other users will allow to aggregate valuable information that will benefit to all.
+        Since shared crops may not be edited or removed easily, make sure you entered valid information above before
+        submitting the form.
+      </span>
+    </div>
+
 
     <div class="actions">
-      <button type="submit" hidden></button>
+      <!--<button type="submit" hidden></button>-->
 
       <button pButton type="button"
               [disabled]="!cropForm.valid"

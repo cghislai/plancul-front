@@ -64,13 +64,7 @@ export class CropClientService {
     );
   }
 
-  private getCropLabelFromCrop(crop: WsCrop): Observable<string> {
-    const cultivar = crop.cultivar;
-    const productId = crop.agrovocProductWsRef.id;
-    return this.productClient.getAgrovocProduct(productId)
-      .pipe(
-        map(product => product.preferedLabel),
-        map(productLabel => `${productLabel} '${cultivar}'`),
-      );
+  private getCropLabelFromCrop(crop: WsCrop): string {
+    return crop.displayName;
   }
 }

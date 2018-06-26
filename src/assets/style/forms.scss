@@ -29,12 +29,16 @@
   }
 
   .row {
-    margin: .5em 0;
+    margin: .5em .3em;
     display: flex;
 
     > * {
       flex: 1 1 100%;
       position: relative;
+
+      input {
+        width: 100%;
+      }
     }
 
     > label {

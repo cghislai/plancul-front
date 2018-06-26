@@ -84,20 +84,12 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
     }
     return this.cropClient.getCrop(ref.id)
       .pipe(
-        switchMap(crop => this.createSelectItemWithCrop(crop)),
+        map(crop => this.createSelectItemWithCrop(crop)),
       );
   }
 
-  private createSelectItemWithCrop(crop: WsCrop): Observable<SelectItem> {
-    return this.agroPlantClient.getAgrovocPlant(crop.agrovocPlantWsRef.id)
-      .pipe(
-        map(plant => plant.preferedLabel),
-        map(label => this.createSelectItemWithLabel(crop, label)),
-      );
-  }
-
-  private createSelectItemWithLabel(crop: WsCrop, taxon: string): SelectItem {
-    const label = `${taxon} '${crop.cultivar}'`;
+  private createSelectItemWithCrop(crop: WsCrop): SelectItem {
+    const label = `${crop.displayName}`;
     return {
       label: label,
       value: <WsRef<WsCrop>>{id: crop.id},

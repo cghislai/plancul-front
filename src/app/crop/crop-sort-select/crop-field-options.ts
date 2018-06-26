@@ -3,7 +3,11 @@ import {WsCropSortField} from '@charlyghislain/plancul-ws-api';
 
 export const CROP_FIELD_OPTIONS: SelectItem[] = [
   {
-    label: 'Taxon',
+    label: 'Name',
+    value: WsCropSortField.DISPLAY_NAME,
+  },
+  {
+    label: 'Species',
     value: WsCropSortField.PLANT_NAME,
   },
   {

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestService} from './request.service';
-import {WsAgrovocPlant, WsPlantProductResult, WsPlantProductTupleFilter} from '@charlyghislain/plancul-ws-api';
+import {WsAgrovocPlant, WsAgrovocPlantData, WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/plancul-ws-api';
 import {Pagination} from '../domain/pagination';
 import {Observable, of} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -19,8 +19,13 @@ export class AgrovocPlantClientService {
   constructor(private requestService: RequestService) {
   }
 
-  searchPlantProductTuple(filter: WsPlantProductTupleFilter, pagination: Pagination): Observable<WsPlantProductResult[]> {
-    return this.requestService.post('/plantProductTuple/search', filter, pagination);
+  searchPlantProductTuple(filter: WsPlantProductTupleFilter, pagination: Pagination): Observable<WsAgrovocPlantProduct[]> {
+    return this.requestService.post('/agrovoc/plantProductTuple/search', filter, pagination);
+  }
+
+
+  searchPlantData(plantUri: string): Observable<WsAgrovocPlantData> {
+    return this.requestService.post('/agrovoc/plantData/search', plantUri);
   }
 
 
