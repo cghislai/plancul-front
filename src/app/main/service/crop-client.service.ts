@@ -60,7 +60,7 @@ export class CropClientService {
 
   getCropLabel(id: number): Observable<string> {
     return this.getCrop(id).pipe(
-      switchMap(crop => this.getCropLabelFromCrop(crop)),
+      map(crop => this.getCropLabelFromCrop(crop)),
     );
   }
 
