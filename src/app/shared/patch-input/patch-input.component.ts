@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {WsBedFilter} from '@charlyghislain/plancul-ws-api';
+import {WsBedFilter} from '@charlyghislain/plancul-api';
 import {BedClientService} from '../../main/service/bed-client.service';
 
 @Component({

@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {DateRange} from '../../main/domain/date-range';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {DateAsString} from '@charlyghislain/plancul-ws-api';
+import {DateAsString} from '@charlyghislain/plancul-api';
 import {filter, map, publishReplay, refCount} from 'rxjs/operators';
 import moment from 'moment-es6';
 

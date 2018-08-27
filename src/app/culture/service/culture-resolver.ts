@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsCulture, WsRef, WsTenant} from '@charlyghislain/plancul-ws-api';
+import {WsCulture, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable, throwError} from 'rxjs';
 import {CultureClientService} from '../../main/service/culture-client.service';

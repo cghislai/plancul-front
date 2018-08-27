@@ -6,6 +6,7 @@ import {LoggedUserService} from '../service/logged-user.service';
 import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationMessageService} from '../service/notification-message.service';
+import {WsApplicationGroups} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-login',
@@ -29,14 +30,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = new Subscription();
-    const userLoggedSubscription = this.loggedUserService.getIsUserObservable()
+    const userLoggedSubscription = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER)
       .pipe(
         filter(user => user),
       ).subscribe(() => this.redirectOnLoginSuccess(false));
-    const adminLoggedSubscription = this.loggedUserService.getIsAdminObservable()
-      .pipe(
-        filter(user => user),
-      ).subscribe(() => this.redirectOnLoginSuccess(true));
 
     const routeParams = this.activatedRoute.params
       .pipe(publishReplay(1), refCount());
@@ -46,7 +43,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(userLoggedSubscription);
-    this.subscription.add(adminLoggedSubscription);
 
     this.login = this.loggedUserService.getLastUserLogin();
   }
@@ -62,8 +58,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         error => this.onLoginError(error));
   }
 
+  onNewAccountClick() {
+
+  }
+
+  onForgotPasswordClick() {
+
+  }
+
   private onLoginSuccess() {
-    this.loggedUserService.getIsAdminObservable()
+    this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.ADMIN)
       .pipe(take(1))
       .subscribe(admin => this.redirectOnLoginSuccess(admin));
   }

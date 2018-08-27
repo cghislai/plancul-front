@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Sort} from '../../main/domain/sort';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-api';
 import {filter, map, publishReplay, refCount} from 'rxjs/operators';
 import {SelectItem} from 'primeng/api';
 import {CROP_FIELD_OPTIONS} from './crop-field-options';

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {WsBedPreparationType} from '@charlyghislain/plancul-ws-api';
+import {WsBedPreparationType} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-bed-preparation-type-select',

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WsBedPreparationType} from '@charlyghislain/plancul-ws-api';
+import {WsBedPreparationType} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-bed-preparation-type',

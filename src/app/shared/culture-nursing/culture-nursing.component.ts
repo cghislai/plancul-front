@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DateAsString, WsCultureNursing} from '@charlyghislain/plancul-ws-api';
+import {DateAsString, WsCultureNursing} from '@charlyghislain/plancul-api';
 import {Observable, ReplaySubject} from 'rxjs';
 import {map, publishReplay, refCount} from 'rxjs/operators';
 

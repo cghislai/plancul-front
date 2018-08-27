@@ -1,6 +1,6 @@
 import {Pagination} from '../../domain/pagination';
 import {Sort} from '../../domain/sort';
-import {WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsSortOrder} from '@charlyghislain/plancul-api';
 import {LazyLoadEvent} from 'primeng/api';
 
 export class PaginationUtils {

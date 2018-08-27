@@ -6,7 +6,7 @@ import {CredentialProviderService} from './credential-provider.service';
 import {catchError, map, mergeMap, take} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
 import {Pagination} from '../domain/pagination';
-import {WsError, WsSearchQueryParams} from '@charlyghislain/plancul-ws-api';
+import {WsError, WsSearchQueryParams} from '@charlyghislain/plancul-api';
 import {PaginationUtils} from './util/pagination-utils';
 import {PlanCulClientConfig} from '../domain/plan-cul-client-config';
 import {PLAN_CUL_CLIENT_CONFIG} from './util/client-config.token';
@@ -27,8 +27,8 @@ export class RequestService {
   }
 
 
-  get<T>(apiPath: string, credential?: Credential): Observable<T> {
-    return this.http.get<T>(this.buildUrl(apiPath), {
+  get<T>(url: string, credential?: Credential): Observable<T> {
+    return this.http.get<T>(url, {
       headers: {
         'Authorization': this.getAuthorizationHeader(credential),
       },
@@ -37,8 +37,8 @@ export class RequestService {
       .pipe(catchError(e => this.handleRequestError(e)));
   }
 
-  getPlainText(apiPath: string, credential?: Credential): Observable<string> {
-    return this.http.get(this.buildUrl(apiPath), {
+  getPlainText(url: string, credential?: Credential): Observable<string> {
+    return this.http.get(url, {
       headers: {
         'Authorization': this.getAuthorizationHeader(credential),
       },
@@ -49,8 +49,9 @@ export class RequestService {
   }
 
 
-  sendLoginRequest( credential?: Credential) {
-    return this.http.get(this.buildUrl('/user/me/token'), {
+  sendLoginRequest(credential?: Credential) {
+    const url = this.getAuthenticatorTokenUrl();
+    return this.http.get(url, {
       headers: {
         'Authorization': this.getAuthorizationHeader(credential),
       },
@@ -60,8 +61,8 @@ export class RequestService {
   }
 
 
-  post<T>(apiPath: string, body: any, pagination?: Pagination): Observable<T> {
-    return this.http.post<T>(this.buildUrl(apiPath), body, {
+  post<T>(url: string, body: any, pagination?: Pagination): Observable<T> {
+    return this.http.post<T>(url, body, {
       headers: {
         'Authorization': this.getAuthorizationHeader(),
       },
@@ -71,19 +72,8 @@ export class RequestService {
       .pipe(catchError(e => this.handleRequestError(e)));
   }
 
-  postPlainText(apiPath: string, body: any, credential?: Credential): Observable<string> {
-    return this.http.post(this.buildUrl(apiPath), body, {
-      headers: {
-        'Authorization': this.getAuthorizationHeader(credential),
-      },
-      withCredentials: true,
-      responseType: 'text',
-    })
-      .pipe(catchError(e => this.handleRequestError(e)));
-  }
-
-  put<T>(apiPath: string, body: any, credential?: Credential): Observable<T> {
-    return this.http.put<T>(this.buildUrl(apiPath), body, {
+  put<T>(url: string, body: any, credential?: Credential): Observable<T> {
+    return this.http.put<T>(url, body, {
       headers: {
         'Authorization': this.getAuthorizationHeader(credential),
       },
@@ -92,8 +82,8 @@ export class RequestService {
       .pipe(catchError(e => this.handleRequestError(e)));
   }
 
-  delete<T>(apiPath: string, credential?: Credential): Observable<T> {
-    return this.http.delete<T>(this.buildUrl(apiPath), {
+  delete<T>(url: string, credential?: Credential): Observable<T> {
+    return this.http.delete<T>(url, {
       headers: {
         'Authorization': this.getAuthorizationHeader(credential),
       },
@@ -163,9 +153,20 @@ export class RequestService {
       error => this.handletokenRenewalError(error));
   }
 
-  private buildUrl(apiPth: string) {
+  buildPlanCulApiUrl(apiPth: string) {
     const apiUrl = this.clientConfig.apiUrl;
     return `${apiUrl}${apiPth}`;
+  }
+
+  builAuthenticatordApiUrl(apiPth: string) {
+    const apiUrl = this.clientConfig.authenticatorApiUrl;
+    return `${apiUrl}${apiPth}`;
+  }
+
+  getAuthenticatorTokenUrl() {
+    const appName = this.clientConfig.authenticatorApplicationName;
+    const url = this.builAuthenticatordApiUrl(`/token/${appName}`);
+    return url;
   }
 
   private getAuthorizationHeader(providedCredential?: Credential) {

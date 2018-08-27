@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, Subscription, timer} from 'rxjs';
+import {combineLatest, Observable, of, Subscription, timer} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
 import {RequestService} from './request.service';
 import {filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
-import {WsTenantUserRole, WsUser} from '@charlyghislain/plancul-ws-api';
+import {WsApplicationGroups, WsTenantUserRole, WsUser} from '@charlyghislain/plancul-api';
+import {WsUser as WsAuthenticatorUser} from '@charlyghislain/authenticator-api';
 import {JosePayload} from '../domain/jose-payload';
 import {JwtCrential} from '../domain/jwt-crential';
 import {LocalStorageService} from './local-storage.service';
@@ -15,10 +16,9 @@ import {Router} from '@angular/router';
 export class LoggedUserService {
 
   private readonly groups: Observable<string[]>;
-  private readonly isAdmin: Observable<boolean>;
-  private readonly isUser: Observable<boolean>;
   private readonly user: Observable<WsUser | null>;
-  private readonly tenantsRoles: Observable<WsTenantUserRole[]>;
+  private readonly authenticatorUser: Observable<WsAuthenticatorUser | null>;
+  private readonly tenantsRoles: Observable<WsTenantUserRole[] | null>;
 
   private subscription: Subscription;
   private nextRenewalSubscription: Subscription;
@@ -34,23 +34,25 @@ export class LoggedUserService {
         publishReplay(1), refCount(),
       );
     this.groups = this.credentialService.getJosePayloadObservable().pipe(
-      map(p => (p == null || p.grps == null) ? [] : p.grps),
+      map(p => (p == null || p.groups == null) ? [] : p.groups),
       publishReplay(1), refCount(),
     );
-    this.isAdmin = this.groups.pipe(
-      map(grps => grps.find(grp => grp === 'ADMIN') != null),
-      publishReplay(1), refCount(),
-    );
-    this.isUser = this.groups.pipe(
-      map(grps => grps.find(grp => grp === 'USER') != null),
-      publishReplay(1), refCount(),
-    );
+
+    const loggedPlanculUserUrl = this.requestService.buildPlanCulApiUrl(`/user/me`);
     this.user = credentialSource.pipe(
-      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsUser>('/user/me')),
+      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsUser>(loggedPlanculUserUrl)),
       publishReplay(1), refCount(),
     );
+
+    const loggedAuthenticatorUserUrl = this.requestService.builAuthenticatordApiUrl(`/me`);
+    this.authenticatorUser = credentialSource.pipe(
+      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsAuthenticatorUser>(loggedAuthenticatorUserUrl)),
+      publishReplay(1), refCount(),
+    );
+
+    const loggedPlanculUserTenantsUrl = this.requestService.buildPlanCulApiUrl(`/user/me/tenants`);
     this.tenantsRoles = credentialSource.pipe(
-      switchMap(credential => credential == null ? of([]) : this.requestService.get<WsTenantUserRole[]>('/user/me/tenants')),
+      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsTenantUserRole[]>(loggedPlanculUserTenantsUrl)),
       publishReplay(1), refCount(),
     );
 
@@ -60,6 +62,7 @@ export class LoggedUserService {
     const newTokenSubscription = credentialSource
       .pipe(filter(cred => cred != null))
       .subscribe(credential => this.saveToken(credential));
+
     this.subscription.add(newPayloadSubscription);
     this.subscription.add(newTokenSubscription);
 
@@ -70,31 +73,40 @@ export class LoggedUserService {
     return this.lasUerLogin;
   }
 
-  getIsAdminObservable(): Observable<boolean> {
-    return this.isAdmin;
+  getIsInGroupsObservable(group: WsApplicationGroups | string): Observable<boolean> {
+    return this.groups.pipe(
+      map(groups => this.hasGroup(groups, group)),
+      publishReplay(1), refCount(),
+    );
   }
 
-  getIsUserObservable(): Observable<boolean> {
-    return this.isUser;
+  getHasEitherGroupObservable(...groupsToCheck: WsApplicationGroups[]): Observable<boolean> {
+    return this.groups.pipe(
+      map(groups => this.hasEitherGroups(groups, groupsToCheck)),
+      publishReplay(1), refCount(),
+    );
   }
 
   getUserObservable(): Observable<WsUser | null> {
     return this.user;
   }
 
-  getTenantRolesObservable(): Observable<WsTenantUserRole[]> {
-    return this.tenantsRoles;
+  getAuthenticatorUserObservable(): Observable<WsAuthenticatorUser | null> {
+    return this.authenticatorUser;
   }
 
-
-  checkPasswordExpired(): Observable<boolean> {
-    return this.requestService.get('/user/me/password/expired');
+  getTenantRolesObservable(): Observable<WsTenantUserRole[]> {
+    return this.tenantsRoles;
   }
 
   logout() {
     this.localStorageService.clearAuthToken();
     this.credentialProvider.setCredential(null);
     this.router.navigate(['/login']);
+  }
+
+  refreshToken() {
+    return this.requestService.sendLoginRequest();
   }
 
   private onNewPayloadReceived(payload: JosePayload | null) {
@@ -132,8 +144,23 @@ export class LoggedUserService {
       return;
     }
     const jwtCredential = new JwtCrential(token);
-    this.requestService.getPlainText('/user/me/token', jwtCredential)
+    const url = this.requestService.getAuthenticatorTokenUrl();
+    this.requestService.getPlainText(url, jwtCredential)
       .subscribe(newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)));
+  }
+
+  private hasEitherGroups(groups: string[], groupsToCheck: WsApplicationGroups[]) {
+    for (const group of groupsToCheck) {
+      if (this.hasGroup(groups, group)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  private hasGroup(groups, group: WsApplicationGroups | string) {
+    return groups.find(grp => grp === group) != null;
   }
 
 }

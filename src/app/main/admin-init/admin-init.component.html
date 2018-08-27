@@ -1,0 +1,165 @@
+<div class="admin-init ui-widget">
+
+  <h1 i18n="admin-init page title">
+    Welcome !
+  </h1>
+
+  <header >
+    <span i18n="admin-init page header">
+      You need to setup the admin account before continuing.
+      <br/>
+      Check for the initialization token in your server log.
+    </span>
+  </header>
+
+  <form class="register-form pc-form" #registerForm="ngForm" (ngSubmit)="onRegister()"
+        validateFieldEquality="password,passwordCheck">
+
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="registration.adminToken"
+             title="Admin initialization token"
+             placeholder="Admin initialization token"
+             i18n-title="adminToken field title@@adminToken-field-title"
+             i18n-placeholder="adminToken field title@@adminToken-field-title"
+             required
+             autofocus
+             type="text"
+             name="adminToken">
+    </div>
+
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="registration.user.firstName"
+             title="First name"
+             placeholder="First name"
+             i18n-title="firtname field title@@name-field-title"
+             i18n-placeholder="firtname field title@@name-field-title"
+             required
+             name="firstName"
+             type="text"
+      >
+    </div>
+
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="registration.user.lastName"
+             title="Last name"
+             placeholder="Last name"
+             i18n-title="lastname field title@@name-field-title"
+             i18n-placeholder="lastname field title@@name-field-title"
+             required
+             name="lastName"
+             type="text"
+      >
+    </div>
+
+    <div class="row">
+      <p-checkbox [(ngModel)]="useExistingAccount"
+                  [binary]="true"
+                  label="Use an existing account"
+                  i18n-label
+                  [ngModelOptions]="{'standalone': true}"
+      ></p-checkbox>
+    </div>
+
+    <section *ngIf="useExistingAccount">
+      <div class="row">
+        <input pInputText
+               [(ngModel)]="existingAccountLogin"
+               title="Email"
+               placeholder="Email"
+               i18n-title="login field title@@login-field-title"
+               i18n-placeholder="login field title@@login-field-title"
+               required
+               autofocus
+               type="text"
+               name="login">
+      </div>
+
+      <div class="row">
+        <input pInputText
+               [(ngModel)]="existingAccountPassword"
+               title="Password"
+               placeholder="Password"
+               i18n-title="password field title@@password-field-title"
+               i18n-placeholder="password field title@@password-field-title"
+               required
+               minlength="8"
+               name="password"
+               type="password"
+        >
+      </div>
+    </section>
+
+    <section *ngIf="!useExistingAccount">
+
+      <div class="row">
+        <input pInputText
+               [(ngModel)]="registration.name"
+               title="Login"
+               placeholder="Login"
+               i18n-title="name field title@@name-field-title"
+               i18n-placeholder="name  field title@@name-field-title"
+               required
+               name="name"
+               type="text"
+        >
+      </div>
+
+      <div class="row">
+        <input pInputText
+               [(ngModel)]="registration.email"
+               title="Email"
+               placeholder="Email"
+               i18n-title="email field title@@email-field-title"
+               i18n-placeholder="email field title@@email-field-title"
+               required
+               autofocus
+               type="email"
+               name="email">
+      </div>
+
+      <div class="row">
+        <input pInputText
+               [(ngModel)]="registration.password"
+               title="Password"
+               placeholder="Password"
+               i18n-title="password field title@@password-field-title"
+               i18n-placeholder="password field title@@password-field-title"
+               required
+               minlength="8"
+               [ngClass]="{'password-mismatch': registerForm.errors?.validateFieldEquality}"
+               name="password"
+               type="password"
+        >
+      </div>
+
+
+      <div class="row">
+        <input pInputText
+               [(ngModel)]="newAccountPasswordCheck"
+               title="Password check"
+               placeholder="Password check"
+               i18n-title="password-check field title@@password-check-field-title"
+               i18n-placeholder="password-check field title@@password-check-field-title"
+               required
+               minlength="8"
+               [class.ng-]="{'password-mismatch': registerForm.errors?.validateFieldEquality}"
+               name="passwordCheck"
+               type="password"
+        >
+      </div>
+    </section>
+
+    <div class="actions">
+      <button type="submit" hidden></button>
+      <button pButton type="button"
+              label="Create administrator account"
+              i18n-label="admin-init button label"
+              [disabled]="registerForm.invalid"
+              (click)="onRegister()"
+      ></button>
+    </div>
+  </form>
+</div>

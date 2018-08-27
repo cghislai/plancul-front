@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
 import {CultureClientService} from '../../main/service/culture-client.service';
-import {DateAsString, WsBedPreparation, WsCulture, WsCultureNursing} from '@charlyghislain/plancul-ws-api';
+import {DateAsString, WsBedPreparation, WsCulture, WsCultureNursing} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-culture',

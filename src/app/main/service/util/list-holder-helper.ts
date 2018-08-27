@@ -1,4 +1,4 @@
-import {WsDomainEntity, WsRef, WsSearchResult} from '@charlyghislain/plancul-ws-api';
+import {WsDomainEntity, WsRef, WsSearchResult} from '@charlyghislain/plancul-api';
 import {BehaviorSubject, combineLatest, EMPTY, forkJoin, Observable, of, ReplaySubject} from 'rxjs';
 import {Pagination} from '../../domain/pagination';
 import {Sort} from '../../domain/sort';

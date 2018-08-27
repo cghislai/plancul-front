@@ -1,5 +1,5 @@
 import moment from 'moment-es6';
-import {DateAsString} from '@charlyghislain/plancul-ws-api';
+import {DateAsString} from '@charlyghislain/plancul-api';
 
 export class DateUtils {
 

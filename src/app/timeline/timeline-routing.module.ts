@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoggedUserGuard} from '../main/service/logged-user.guard';
 import {BedsTimelineComponent} from './beds-timeline/beds-timeline.component';
 
 const routes: Routes = [
@@ -11,7 +10,6 @@ const routes: Routes = [
   },
   {
     path: '_',
-    canActivate: [LoggedUserGuard],
     children: [
       {
         path: 'beds',

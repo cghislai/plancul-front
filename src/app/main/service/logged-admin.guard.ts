@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {forkJoin, Observable} from 'rxjs';
+import {combineLatest, Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from './logged-user.service';
-import {map, take} from 'rxjs/operators';
+import {filter, map, take} from 'rxjs/operators';
+import {WsApplicationGroups} from '@charlyghislain/plancul-api';
 
 @Injectable({
   providedIn: 'root',
@@ -11,18 +12,17 @@ export class LoggedAdminGuard implements CanActivate {
 
   constructor(private loggedUserService: LoggedUserService,
               private router: Router) {
-  }
+ }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const isAdmin = this.loggedUserService.getIsAdminObservable()
-      .pipe(take(1));
-    const isUser = this.loggedUserService.getIsUserObservable()
-      .pipe(take(1));
+    const isAdmin = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.ADMIN);
+    const isRegisteredUser = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER);
 
-    return forkJoin(isAdmin, isUser)
+    return combineLatest(isAdmin, isRegisteredUser)
       .pipe(
+        take(1),
         map(results => this.checkAuthorization(results[0], results[1], next)),
       );
   }

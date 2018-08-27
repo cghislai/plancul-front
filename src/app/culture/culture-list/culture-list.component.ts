@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WsCropFilter, WsCulture, WsCultureFilter, WsCultureSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsCropFilter, WsCulture, WsCultureFilter, WsCultureSortField, WsSortOrder} from '@charlyghislain/plancul-api';
 import {Observable} from 'rxjs';
 import {ListHolderHelper} from '../../main/service/util/list-holder-helper';
 import {CultureClientService} from '../../main/service/culture-client.service';

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {WsCropFilter, WsRef, WsTenant} from '@charlyghislain/plancul-ws-api';
+import {WsCropFilter, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
 import {QueryType} from '../crop-search-query-type/query-type';

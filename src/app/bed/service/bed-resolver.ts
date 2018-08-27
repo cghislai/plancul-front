@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsBed, WsPlot, WsRef} from '@charlyghislain/plancul-ws-api';
+import {WsBed, WsPlot, WsRef} from '@charlyghislain/plancul-api';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable, throwError} from 'rxjs';
 import {BedClientService} from '../../main/service/bed-client.service';

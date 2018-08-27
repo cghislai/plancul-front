@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RequestService} from './request.service';
-import {WsAgrovocPlant, WsAgrovocPlantData, WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/plancul-ws-api';
+import {WsAgrovocPlant, WsAgrovocPlantData, WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/plancul-api';
 import {Pagination} from '../domain/pagination';
 import {Observable, of} from 'rxjs';
 import {tap} from 'rxjs/operators';
@@ -20,17 +20,20 @@ export class AgrovocPlantClientService {
   }
 
   searchPlantProductTuple(filter: WsPlantProductTupleFilter, pagination: Pagination): Observable<WsAgrovocPlantProduct[]> {
-    return this.requestService.post('/agrovoc/plantProductTuple/search', filter, pagination);
+    const url = this.requestService.buildPlanCulApiUrl('/agrovoc/plantProductTuple/search');
+    return this.requestService.post(url, filter, pagination);
   }
 
 
   searchPlantData(plantUri: string): Observable<WsAgrovocPlantData> {
-    return this.requestService.post('/agrovoc/plantData/search', plantUri);
+    const url = this.requestService.buildPlanCulApiUrl('/agrovoc/plantData/search');
+    return this.requestService.post(url, plantUri);
   }
 
 
   fetchAgrovocPlant(id: number): Observable<WsAgrovocPlant> {
-    const fetchTask = this.requestService.get<WsAgrovocPlant>(`/agrovocPlant/${id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/agrovocPlant/${id}`);
+    const fetchTask = this.requestService.get<WsAgrovocPlant>(url)
       .pipe(tap(e => this.cache.putInCache(e)));
     const cachedTask = this.requestCache.shareInCache(id, fetchTask);
     return cachedTask;

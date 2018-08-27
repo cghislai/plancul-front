@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsCrop} from '@charlyghislain/plancul-ws-api';
+import {WsCrop} from '@charlyghislain/plancul-api';
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import {Observable, of, throwError} from 'rxjs';
 import {CropClientService} from '../../main/service/crop-client.service';

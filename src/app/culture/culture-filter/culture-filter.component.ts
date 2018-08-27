@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {WsCropFilter, WsCultureFilter} from '@charlyghislain/plancul-ws-api';
+import {WsCropFilter, WsCultureFilter} from '@charlyghislain/plancul-api';
 import {filter, map, publishReplay, refCount} from 'rxjs/operators';
 
 @Component({

@@ -14,13 +14,13 @@
     <div class="row">
       <input pInputText
              [(ngModel)]="login"
-             title="Email"
-             placeholder="Email"
+             title="Login"
+             placeholder="Login"
              i18n-title="login field title@@login-field-title"
              i18n-placeholder="login field title@@login-field-title"
              required
              autofocus
-             type="email"
+             type="text"
              name="login">
     </div>
 
@@ -45,6 +45,21 @@
               i18n-label="login button label"
               (click)="onLogin()"
       ></button>
+    </div>
+    <div class="actions">
+      <a [routerLink]="['/register']"
+         i18n="login new-account-link label"
+         title="Create new account"
+         i18n-title="login new-account-link title">
+        Create a new account
+      </a>
+      <a (click)="onForgotPasswordClick()"
+         i18n="login password-reset label"
+         title="Forgot your password?"
+         i18n-title="login password-reset  title">
+        Forgot your password?
+      </a>
+
     </div>
   </form>
 </div>

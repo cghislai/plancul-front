@@ -12,7 +12,7 @@ import {
   WsCulture,
   WsCultureNursing,
   WsRef,
-} from '@charlyghislain/plancul-ws-api';
+} from '@charlyghislain/plancul-api';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {combineLatest, Observable, Subscription} from 'rxjs';
 import {map, take} from 'rxjs/operators';

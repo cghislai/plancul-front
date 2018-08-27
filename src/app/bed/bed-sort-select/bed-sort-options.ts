@@ -1,5 +1,5 @@
 import {SelectItem} from 'primeng/api';
-import {WsBedSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsBedSortField, WsSortOrder} from '@charlyghislain/plancul-api';
 import {Sort} from '../../main/domain/sort';
 
 // FIXME: i18n

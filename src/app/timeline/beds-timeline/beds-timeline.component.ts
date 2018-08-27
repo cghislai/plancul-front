@@ -15,7 +15,7 @@ import {
   WsRef,
   WsSortOrder,
   WsTenant,
-} from '@charlyghislain/plancul-ws-api';
+} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
 import {TimelineService} from '../service/timeline.service';

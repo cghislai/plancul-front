@@ -1,5 +1,5 @@
 import {BehaviorSubject, merge, Observable, of, throwError} from 'rxjs';
-import {WsContraintViolation, WsDomainEntity, WsValidationError} from '@charlyghislain/plancul-ws-api';
+import {WsContraintViolation, WsDomainEntity, WsValidationError} from '@charlyghislain/plancul-api';
 import {ValidatedFormModel} from '../../domain/validated-form-model';
 import {
   catchError,

@@ -4,7 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
 import {TimelineItemCallbackHandler} from './timeline-item-callback-handler';
-import {WsDateRange} from '@charlyghislain/plancul-ws-api';
+import {WsDateRange} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-timeline',

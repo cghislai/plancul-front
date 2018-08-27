@@ -1,4 +1,4 @@
-import {WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsSortOrder} from '@charlyghislain/plancul-api';
 
 export interface Sort {
   field: any;

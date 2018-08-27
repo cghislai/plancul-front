@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsRef, WsTenant} from '@charlyghislain/plancul-ws-api';
+import {WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from '../../main/service/request.service';
 import {IdResourceCache} from './util/id-resource-cache';
@@ -19,7 +19,8 @@ export class TenantClientService {
 
 
   fetchTenant(id: number): Observable<WsTenant> {
-    const fetchTask = this.requestService.get<WsTenant>(`/tenant/${id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/tenant/${id}`);
+    const fetchTask = this.requestService.get<WsTenant>(url)
       .pipe(tap(e => this.cache.putInCache(e)));
     const cachedTask = this.requestCache.shareInCache(id, fetchTask);
     return cachedTask;
@@ -46,11 +47,13 @@ export class TenantClientService {
   }
 
   createTenant(tenant: WsTenant): Observable<WsRef<WsTenant>> {
-    return this.requestService.post<WsRef<WsTenant>>(`/tenant`, tenant);
+    const url = this.requestService.buildPlanCulApiUrl('/tenant');
+    return this.requestService.post<WsRef<WsTenant>>(url, tenant);
   }
 
   updateTenant(tenant: WsTenant): Observable<WsRef<WsTenant>> {
-    return this.requestService.put<WsRef<WsTenant>>(`/tenant/${tenant.id}`, tenant)
+    const url = this.requestService.buildPlanCulApiUrl(`/tenant/${tenant.id}`);
+    return this.requestService.put<WsRef<WsTenant>>(url, tenant)
       .pipe(tap(ref => this.clearCachedTenant(ref.id)));
   }
 

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsCrop, WsCropCreationRequest, WsCropFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-ws-api';
+import {WsCrop, WsCropCreationRequest, WsCropFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from './request.service';
 import {Pagination} from '../domain/pagination';
@@ -22,11 +22,14 @@ export class CropClientService {
 
 
   searchCrops(filter: WsCropFilter, pagination: Pagination): Observable<WsSearchResult<WsCrop>> {
-    return this.requestService.post<WsSearchResult<WsCrop>>('/crop/search', filter, pagination);
+    const url = this.requestService.buildPlanCulApiUrl('/crop/search');
+    return this.requestService.post<WsSearchResult<WsCrop>>(url, filter, pagination);
   }
 
   fetchCrop(id: number): Observable<WsCrop> {
-    const fetchTask = this.requestService.get<WsCrop>(`/crop/${id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/crop/${id}`);
+
+    const fetchTask = this.requestService.get<WsCrop>(url)
       .pipe(tap(e => this.cache.putInCache(e)));
     const cachedTask = this.requestCache.shareInCache(id, fetchTask);
     return cachedTask;
@@ -45,11 +48,13 @@ export class CropClientService {
   }
 
   createCrop(crop: WsCropCreationRequest): Observable<WsRef<WsCrop>> {
-    return this.requestService.post<WsRef<WsCrop>>(`/crop`, crop);
+    const url = this.requestService.buildPlanCulApiUrl('/crop');
+    return this.requestService.post<WsRef<WsCrop>>(url, crop);
   }
 
   updateCrop(crop: WsCrop): Observable<WsRef<WsCrop>> {
-    return this.requestService.put<WsRef<WsCrop>>(`/crop/${crop.id}`, crop)
+    const url = this.requestService.buildPlanCulApiUrl(`/crop/${crop.id}`);
+    return this.requestService.put<WsRef<WsCrop>>(url, crop)
       .pipe(tap(ref => this.clearCachedCrop(ref.id)));
   }
 

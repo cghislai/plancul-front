@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
-import {WsPlot, WsPlotFilter, WsRef, WsTenant, WsTenantRole, WsTenantUserRole} from '@charlyghislain/plancul-ws-api';
+import {WsPlot, WsPlotFilter, WsRef, WsTenant, WsTenantRole, WsTenantUserRole} from '@charlyghislain/plancul-api';
 import {LoggedUserService} from './logged-user.service';
 import {map, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {TenantClientService} from './tenant-client.service';

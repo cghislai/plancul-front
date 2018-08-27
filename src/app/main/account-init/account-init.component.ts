@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {WsUserAccountInitRequest} from '@charlyghislain/plancul-ws-api';
 import {LoginService} from '../service/login.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {LoggedUserService} from '../service/logged-user.service';
@@ -7,6 +6,7 @@ import {take} from 'rxjs/operators';
 import {NotificationMessageService} from '../service/notification-message.service';
 import {RequestService} from '../service/request.service';
 import {Subscription} from 'rxjs';
+import {WsApplicationGroups} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-account-init',
@@ -52,19 +52,19 @@ export class AccountInitComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const requestData: WsUserAccountInitRequest = {
-      email: this.email,
-      passwordToken: this.token,
-      password: this.password,
-    };
-    this.loginService.activateAccount(requestData)
-      .subscribe(() => this.onInitSuccess(),
-        (error) => this.onInitError(error));
+    // const requestData: WsUserAccountInitRequest = {
+    //   email: this.email,
+    //   passwordToken: this.token,
+    //   password: this.password,
+    // };
+    // this.loginService.activateAccount(requestData)
+    //   .subscribe(() => this.onInitSuccess(),
+    //     (error) => this.onInitError(error));
   }
 
   private onInitSuccess() {
     this.notificationMessageService.addInfo('Password saved');
-    this.loggedUserService.getIsAdminObservable()
+    this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER)
       .pipe(take(1))
       .subscribe(admin => this.redirectOnLoginSuccess(admin));
   }

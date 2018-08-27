@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {DateAsString} from '@charlyghislain/plancul-ws-api';
+import {DateAsString} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-date-select',

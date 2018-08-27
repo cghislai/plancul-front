@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WsLanguage} from '@charlyghislain/plancul-ws-api';
+import {WsLanguage} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-language',

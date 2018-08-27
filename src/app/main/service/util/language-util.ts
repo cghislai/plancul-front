@@ -1,4 +1,4 @@
-import {WsLanguage} from '@charlyghislain/plancul-ws-api';
+import {WsLanguage} from '@charlyghislain/plancul-api';
 
 export class LanguageUtil {
 

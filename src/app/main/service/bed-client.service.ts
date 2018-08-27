@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsBed, WsBedFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-ws-api';
+import {WsBed, WsBedFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from '../../main/service/request.service';
 import {Pagination} from '../../main/domain/pagination';
@@ -20,15 +20,19 @@ export class BedClientService {
 
 
   searchBeds(filter: WsBedFilter, pagination: Pagination): Observable<WsSearchResult<WsBed>> {
-    return this.requestService.post<WsSearchResult<WsBed>>('/bed/search', filter, pagination);
+    const url = this.requestService.buildPlanCulApiUrl('/bed/search');
+    return this.requestService.post<WsSearchResult<WsBed>>(url, filter, pagination);
   }
 
   searchBedPatches(filter: WsBedFilter): Observable<string[]> {
-    return this.requestService.post<string[]>('/bed/patch/search', filter);
+    const url = this.requestService.buildPlanCulApiUrl('/bed/patch/search');
+    return this.requestService.post<string[]>(url, filter);
   }
 
   fetchBed(id: number): Observable<WsBed> {
-    const fetchTask = this.requestService.get<WsBed>(`/bed/${id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/bed/${id}`);
+
+    const fetchTask = this.requestService.get<WsBed>(url)
       .pipe(tap(e => this.cache.putInCache(e)));
     const cachedTask = this.requestCache.shareInCache(id, fetchTask);
     return cachedTask;
@@ -55,16 +59,19 @@ export class BedClientService {
   }
 
   createBed(bed: WsBed): Observable<WsRef<WsBed>> {
-    return this.requestService.post<WsRef<WsBed>>(`/bed`, bed);
+    const url = this.requestService.buildPlanCulApiUrl('/bed/');
+    return this.requestService.post<WsRef<WsBed>>(url, bed);
   }
 
   updateBed(bed: WsBed): Observable<WsRef<WsBed>> {
-    return this.requestService.put<WsRef<WsBed>>(`/bed/${bed.id}`, bed)
+    const url = this.requestService.buildPlanCulApiUrl(`/bed/${bed.id}`);
+    return this.requestService.put<WsRef<WsBed>>(url, bed)
       .pipe(tap(ref => this.clearCachedBed(ref.id)));
   }
 
   deleteBed(bed: WsBed): Observable<any> {
-    return this.requestService.delete(`/bed/${bed.id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/bed/${bed.id}`);
+    return this.requestService.delete(url)
       .pipe(tap(() => this.clearCachedBed(bed.id)));
   }
 

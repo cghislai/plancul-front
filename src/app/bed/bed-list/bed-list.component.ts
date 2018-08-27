@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WsBed, WsBedFilter, WsBedSortField, WsCropFilter, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsBed, WsBedFilter, WsBedSortField, WsCropFilter, WsSortOrder} from '@charlyghislain/plancul-api';
 import {Observable} from 'rxjs';
 import {LazyLoadEvent} from 'primeng/api';
 import {Router} from '@angular/router';

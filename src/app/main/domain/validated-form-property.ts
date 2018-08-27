@@ -1,4 +1,4 @@
-import {WsContraintViolation} from '@charlyghislain/plancul-ws-api';
+import {WsContraintViolation} from '@charlyghislain/plancul-api';
 
 
 export interface ValidatedFormProperty<E, K extends keyof E> {

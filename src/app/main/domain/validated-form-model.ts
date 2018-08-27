@@ -1,4 +1,4 @@
-import {WsDomainEntity} from '@charlyghislain/plancul-ws-api';
+import {WsDomainEntity} from '@charlyghislain/plancul-api';
 import {ValidatedFormProperty} from './validated-form-property';
 
 export interface ValidatedFormModel<E = WsDomainEntity> {

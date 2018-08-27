@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DateAsString} from '@charlyghislain/plancul-ws-api';
+import {DateAsString} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-culture-transplanting',

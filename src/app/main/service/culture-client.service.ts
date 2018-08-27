@@ -7,7 +7,7 @@ import {
   WsDateRange,
   WsRef,
   WsSearchResult,
-} from '@charlyghislain/plancul-ws-api';
+} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from './request.service';
 import {Pagination} from '../domain/pagination';
@@ -30,11 +30,13 @@ export class CultureClientService {
 
 
   searchCultures(filter: WsCultureFilter, pagination: Pagination): Observable<WsSearchResult<WsCulture>> {
-    return this.requestService.post<WsSearchResult<WsCulture>>('/culture/search', filter, pagination);
+    const url = this.requestService.buildPlanCulApiUrl('/culture/search');
+    return this.requestService.post<WsSearchResult<WsCulture>>(url, filter, pagination);
   }
 
   fetchCulture(id: number): Observable<WsCulture> {
-    const fetchTask = this.requestService.get<WsCulture>(`/culture/${id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/culture/${id}`);
+    const fetchTask = this.requestService.get<WsCulture>(url)
       .pipe(tap(e => this.cache.putInCache(e)));
     const cachedTask = this.requestCache.shareInCache(id, fetchTask);
     return cachedTask;
@@ -53,12 +55,14 @@ export class CultureClientService {
   }
 
   updateCulturePhase(id: number, phase: WsCulturePhaseType, dateRange: WsDateRange): Observable<WsRef<WsCulture>> {
-    return this.requestService.put<WsRef<WsCulture>>(`/culture/${id}/${phase}`, dateRange)
+    const url = this.requestService.buildPlanCulApiUrl(`/culture/${id}/${phase}`);
+    return this.requestService.put<WsRef<WsCulture>>(url, dateRange)
       .pipe(tap(() => this.clearCachedCulture(id)));
   }
 
   getCulturePhases(id: number): Observable<WsCulturePhase[]> {
-    return this.requestService.get<WsCulturePhase[]>(`/culture/${id}/phases`);
+    const url = this.requestService.buildPlanCulApiUrl(`/culture/${id}/phases`);
+    return this.requestService.get<WsCulturePhase[]>(url);
   }
 
   saveCulture(culture: WsCulture): Observable<WsRef<WsCulture>> {
@@ -77,20 +81,24 @@ export class CultureClientService {
   }
 
   validateCulture(culture: WsCulture): Observable<WsCulture> {
-    return this.requestService.put<WsCulture>(`/culture/validate`, culture);
+    const url = this.requestService.buildPlanCulApiUrl(`/culture/validate`);
+    return this.requestService.put<WsCulture>(url, culture);
   }
 
   createCulture(culture: WsCulture): Observable<WsRef<WsCulture>> {
-    return this.requestService.post<WsRef<WsCulture>>(`/culture`, culture);
+    const url = this.requestService.buildPlanCulApiUrl('/culture');
+    return this.requestService.post<WsRef<WsCulture>>(url, culture);
   }
 
   updateCulture(culture: WsCulture): Observable<WsRef<WsCulture>> {
-    return this.requestService.put<WsRef<WsCulture>>(`/culture/${culture.id}`, culture)
+    const url = this.requestService.buildPlanCulApiUrl(`/culture/${culture.id}`);
+    return this.requestService.put<WsRef<WsCulture>>(url, culture)
       .pipe(tap(ref => this.clearCachedCulture(ref.id)));
   }
 
   deleteCulture(culture: WsCulture): Observable<any> {
-    return this.requestService.delete(`/culture/${culture.id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/culture/${culture.id}`);
+    return this.requestService.delete(url)
       .pipe(tap(() => this.clearCachedCulture(culture.id)));
   }
 

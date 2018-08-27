@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {WsCrop, WsCropFilter, WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsCrop, WsCropFilter, WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-api';
 import {LazyLoadEvent} from 'primeng/api';
 import {Router} from '@angular/router';
 import {CropClientService} from '../../main/service/crop-client.service';

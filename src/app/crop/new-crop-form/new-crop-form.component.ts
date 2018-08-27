@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {WsAgrovocPlantProduct, WsCrop, WsCropCreationRequest, WsRef, WsTenant} from '@charlyghislain/plancul-ws-api';
+import {WsAgrovocPlantProduct, WsCrop, WsCropCreationRequest, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';

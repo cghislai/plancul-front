@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {JwtCrential} from '../domain/jwt-crential';
-import {JosePayload} from '../domain/jose-payload';
 import {map, publishReplay, refCount} from 'rxjs/operators';
 import moment from 'moment-es6';
+import {JosePayload} from '../domain/jose-payload';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +21,6 @@ export class CredentialProviderService {
         map(token => this.decodeJwtPayload(token)),
         publishReplay(1), refCount(),
       );
-
-
   }
 
   getCredential(): JwtCrential | null {

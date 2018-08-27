@@ -1,5 +1,5 @@
 import {SelectItem} from 'primeng/api';
-import {WsCultureSortField} from '@charlyghislain/plancul-ws-api';
+import {WsCultureSortField} from '@charlyghislain/plancul-api';
 
 // FIXME: i18n
 export const CULTURE_SORT_OPTIONS: SelectItem[] = [

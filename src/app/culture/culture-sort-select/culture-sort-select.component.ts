@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {Sort} from '../../main/domain/sort';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {WsCultureSortField, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsCultureSortField, WsSortOrder} from '@charlyghislain/plancul-api';
 import {filter, map, publishReplay, refCount} from 'rxjs/operators';
 import {CULTURE_SORT_OPTIONS} from './culture-fiels-options';
 import {SelectItem} from 'primeng/api';

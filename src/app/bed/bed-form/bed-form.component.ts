@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Data, Router} from '@angular/router';
-import {WsBed, WsRef} from '@charlyghislain/plancul-ws-api';
+import {WsBed, WsRef} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';

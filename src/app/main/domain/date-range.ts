@@ -1,4 +1,4 @@
-import {DateAsString} from '@charlyghislain/plancul-ws-api';
+import {DateAsString} from '@charlyghislain/plancul-api';
 
 export interface DateRange {
   from: DateAsString;

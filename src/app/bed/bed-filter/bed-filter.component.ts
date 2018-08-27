@@ -1,6 +1,6 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
-import {WsBedFilter, WsRef, WsTenant} from '@charlyghislain/plancul-ws-api';
+import {WsBedFilter, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {debounceTime, map, publishReplay, refCount} from 'rxjs/operators';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 

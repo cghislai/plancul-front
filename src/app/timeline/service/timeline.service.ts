@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as vis from 'vis';
-import {WsAgrovocPlant, WsBed, WsCrop, WsCulture, WsCulturePhase, WsCulturePhaseType, WsRef} from '@charlyghislain/plancul-ws-api';
+import {WsAgrovocPlant, WsBed, WsCrop, WsCulture, WsCulturePhase, WsCulturePhaseType, WsRef} from '@charlyghislain/plancul-api';
 import {forkJoin, Observable, of} from 'rxjs';
 import {CropClientService} from '../../main/service/crop-client.service';
 import {AgrovocPlantClientService} from '../../main/service/agrovoc-plant-client.service';

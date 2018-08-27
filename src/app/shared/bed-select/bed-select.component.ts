@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {WsBed, WsBedFilter, WsBedSortField, WsRef, WsSortOrder} from '@charlyghislain/plancul-ws-api';
+import {WsBed, WsBedFilter, WsBedSortField, WsRef, WsSortOrder} from '@charlyghislain/plancul-api';
 import {map, publishReplay, refCount, switchMap} from 'rxjs/operators';
 import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
 import {Pagination} from '../../main/domain/pagination';

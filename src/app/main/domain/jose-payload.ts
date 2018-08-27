@@ -6,5 +6,5 @@ export interface JosePayload {
   iat: number;
   nbf: number;
   sub: string;
-  grps: string[];
+  groups: string[];
 }

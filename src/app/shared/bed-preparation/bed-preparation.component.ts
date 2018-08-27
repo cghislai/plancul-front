@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
-import {DateAsString, WsBedPreparation, WsBedPreparationType} from '@charlyghislain/plancul-ws-api';
+import {DateAsString, WsBedPreparation, WsBedPreparationType} from '@charlyghislain/plancul-api';
 import {map, publishReplay, refCount} from 'rxjs/operators';
 
 @Component({

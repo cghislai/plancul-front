@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoggedUserGuard} from '../main/service/logged-user.guard';
 import {BedListComponent} from './bed-list/bed-list.component';
 import {BedFormComponent} from './bed-form/bed-form.component';
 import {BedResolver} from './service/bed-resolver';
@@ -13,7 +12,6 @@ const routes: Routes = [
   },
   {
     path: '_',
-    canActivate: [LoggedUserGuard],
     children: [
       {
         path: 'list',

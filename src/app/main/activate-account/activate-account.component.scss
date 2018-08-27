@@ -1,0 +1,13 @@
+.activate-account {
+  text-align: center;
+  margin: 2em;
+
+
+  form {
+    min-width: 30em;
+  }
+
+  .password-mismatch {
+    border: 1px solid red;
+  }
+}

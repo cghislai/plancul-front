@@ -9,60 +9,13 @@
   <form #newTenantForm="ngForm" (ngSubmit)="onSubmit()"
         class="request-form pc-form">
 
-    <section class="manager">
-      <h2 i18n>Manager information</h2>
-
-      <div class="row">
-        <label>First name</label>
-        <input pInputText
-               [(ngModel)]="formData.firstName"
-               title="First name"
-               i18n-title="new tenant first name title"
-               required
-               autofocus
-               name="first-name">
-      </div>
-
-
-      <div class="row">
-        <label>Last name</label>
-        <input pInputText
-               [(ngModel)]="formData.lastName"
-               title="Last name"
-               i18n-title="new tenant first name title"
-               required
-               name="last-name">
-      </div>
-
-      <div class="row">
-        <label>Email</label>
-        <input pInputText
-               [(ngModel)]="formData.email"
-               title="Email"
-               i18n-title="new tenant email title"
-               required
-               name="email">
-      </div>
-
-      <div class="row">
-        <label>Language</label>
-        <pc-language-select [(ngModel)]="formData.language"
-                            title="Language"
-                            i18n-title="new tenant language title"
-                            required
-                            name="language">
-        </pc-language-select>
-      </div>
-
-    </section>
-
     <section class="tenant">
       <h2 i18n>Tenant information</h2>
 
       <div class="row">
         <label>Name</label>
         <input pInputText
-               [(ngModel)]="formData.tenant.name"
+               [(ngModel)]="tenant.name"
                title="Name"
                i18n-title="new tenant name title"
                required

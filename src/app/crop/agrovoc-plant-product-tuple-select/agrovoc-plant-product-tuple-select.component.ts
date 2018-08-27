@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {AgrovocPlantClientService} from '../../main/service/agrovoc-plant-client.service';
 import {Pagination} from '../../main/domain/pagination';
-import {WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/plancul-ws-api';
+import {WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/plancul-api';
 
 @Component({
   selector: 'pc-agrovoc-plant-product-tuple-select',

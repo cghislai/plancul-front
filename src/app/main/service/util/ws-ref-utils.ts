@@ -1,4 +1,4 @@
-import {WsRef} from '@charlyghislain/plancul-ws-api';
+import {WsRef} from '@charlyghislain/plancul-api';
 
 export class WsRefUtils {
   static isSameRef(refA: WsRef<any> | null, refB: WsRef<any> | null): boolean {

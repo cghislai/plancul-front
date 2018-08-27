@@ -2,11 +2,15 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import {PlanCulClientConfig} from '../app/main/domain/plan-cul-client-config';
+
 export const environment = {
   production: false,
-  defaultClientConfig: {
-    apiUrl: 'https://localhost:8181/plancul-ws',
-  }
+  defaultClientConfig: <PlanCulClientConfig>{
+    apiUrl: 'https://localhost:8183/plancul-ws',
+    authenticatorApiUrl: 'https://localhost:8443',
+    authenticatorApplicationName: 'plancul',
+  },
 };
 
 /*

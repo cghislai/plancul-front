@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsPlot, WsPlotFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-ws-api';
+import {WsPlot, WsPlotFilter, WsRef, WsSearchResult} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from '../../main/service/request.service';
 import {Pagination} from '../../main/domain/pagination';
@@ -20,11 +20,13 @@ export class PlotClientService {
 
 
   searchPlots(filter: WsPlotFilter, pagination: Pagination): Observable<WsSearchResult<WsPlot>> {
-    return this.requestService.post<WsSearchResult<WsPlot>>('/plot/search', filter, pagination);
+    const url = this.requestService.buildPlanCulApiUrl('/plot/search');
+    return this.requestService.post<WsSearchResult<WsPlot>>(url, filter, pagination);
   }
 
   fetchPlot(id: number): Observable<WsPlot> {
-    const fetchTask = this.requestService.get<WsPlot>(`/plot/${id}`)
+    const url = this.requestService.buildPlanCulApiUrl(`/plot/${id}`);
+    const fetchTask = this.requestService.get<WsPlot>(url)
       .pipe(tap(e => this.cache.putInCache(e)));
     const cachedTask = this.requestCache.shareInCache(id, fetchTask);
     return cachedTask;
@@ -51,11 +53,13 @@ export class PlotClientService {
   }
 
   createPlot(plot: WsPlot): Observable<WsRef<WsPlot>> {
-    return this.requestService.post<WsRef<WsPlot>>(`/plot`, plot);
+    const url = this.requestService.buildPlanCulApiUrl('/plot');
+    return this.requestService.post<WsRef<WsPlot>>(url, plot);
   }
 
   updatePlot(plot: WsPlot): Observable<WsRef<WsPlot>> {
-    return this.requestService.put<WsRef<WsPlot>>(`/plot/${plot.id}`, plot)
+    const url = this.requestService.buildPlanCulApiUrl(`/plot/${plot.id}`);
+    return this.requestService.put<WsRef<WsPlot>>(url, plot)
       .pipe(tap(ref => this.clearCachedPlot(ref.id)));
   }
 

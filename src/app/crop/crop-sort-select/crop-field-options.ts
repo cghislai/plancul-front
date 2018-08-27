@@ -1,5 +1,5 @@
 import {SelectItem} from 'primeng/api';
-import {WsCropSortField} from '@charlyghislain/plancul-ws-api';
+import {WsCropSortField} from '@charlyghislain/plancul-api';
 
 export const CROP_FIELD_OPTIONS: SelectItem[] = [
   {
