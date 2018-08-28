@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {combineLatest, Observable, of, Subscription, timer} from 'rxjs';
+import {Observable, of, Subscription, timer} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
 import {RequestService} from './request.service';
-import {filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
+import {catchError, filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
 import {WsApplicationGroups, WsTenantUserRole, WsUser} from '@charlyghislain/plancul-api';
 import {WsUser as WsAuthenticatorUser} from '@charlyghislain/authenticator-api';
 import {JosePayload} from '../domain/jose-payload';
@@ -38,21 +38,18 @@ export class LoggedUserService {
       publishReplay(1), refCount(),
     );
 
-    const loggedPlanculUserUrl = this.requestService.buildPlanCulApiUrl(`/user/me`);
     this.user = credentialSource.pipe(
-      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsUser>(loggedPlanculUserUrl)),
+      switchMap(credential => credential == null ? of(undefined) : this.fetchLoggedUser()),
       publishReplay(1), refCount(),
     );
 
-    const loggedAuthenticatorUserUrl = this.requestService.builAuthenticatordApiUrl(`/me`);
     this.authenticatorUser = credentialSource.pipe(
-      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsAuthenticatorUser>(loggedAuthenticatorUserUrl)),
+      switchMap(credential => credential == null ? of(undefined) : this.fetchAuthenticatorUser()),
       publishReplay(1), refCount(),
     );
 
-    const loggedPlanculUserTenantsUrl = this.requestService.buildPlanCulApiUrl(`/user/me/tenants`);
     this.tenantsRoles = credentialSource.pipe(
-      switchMap(credential => credential == null ? of(null) : this.requestService.get<WsTenantUserRole[]>(loggedPlanculUserTenantsUrl)),
+      switchMap(credential => credential == null ? of(undefined) : this.fetchTenantRoles()),
       publishReplay(1), refCount(),
     );
 
@@ -68,6 +65,7 @@ export class LoggedUserService {
 
     this.restoreToken();
   }
+
 
   getLastUserLogin(): string | null {
     return this.lasUerLogin;
@@ -108,6 +106,25 @@ export class LoggedUserService {
   refreshToken() {
     return this.requestService.sendLoginRequest();
   }
+
+  private fetchLoggedUser() {
+    const loggedPlanculUserUrl = this.requestService.buildPlanCulApiUrl(`/user/me`);
+    return this.requestService.get<WsUser>(loggedPlanculUserUrl)
+      .pipe(catchError(e => of(null)));
+  }
+
+  private fetchAuthenticatorUser() {
+    const loggedAuthenticatorUserUrl = this.requestService.builAuthenticatordApiUrl(`/me`);
+    return this.requestService.get<WsAuthenticatorUser>(loggedAuthenticatorUserUrl)
+      .pipe(catchError(e => of(null)));
+  }
+
+  private fetchTenantRoles() {
+    const loggedPlanculUserTenantsUrl = this.requestService.buildPlanCulApiUrl(`/user/me/tenants`);
+    return this.requestService.get<WsTenantUserRole[]>(loggedPlanculUserTenantsUrl)
+      .pipe(catchError(e => of(null)));
+  }
+
 
   private onNewPayloadReceived(payload: JosePayload | null) {
     this.watchTokenExpiration(payload);

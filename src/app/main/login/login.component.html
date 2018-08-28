@@ -14,8 +14,8 @@
     <div class="row">
       <input pInputText
              [(ngModel)]="login"
-             title="Login"
-             placeholder="Login"
+             title="Login or email"
+             placeholder="Login or email"
              i18n-title="login field title@@login-field-title"
              i18n-placeholder="login field title@@login-field-title"
              required
@@ -53,7 +53,7 @@
          i18n-title="login new-account-link title">
         Create a new account
       </a>
-      <a (click)="onForgotPasswordClick()"
+      <a [routerLink]="['/password-reset/new']"
          i18n="login password-reset label"
          title="Forgot your password?"
          i18n-title="login password-reset  title">

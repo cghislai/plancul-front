@@ -12,5 +12,44 @@
     </span>
   </header>
 
+  <form class="activate-account-form pc-form" #activationForm="ngForm" (ngSubmit)="onActivate()"
+        validateFieldEquality="password,passwordCheck">
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="email"
+             title="Email"
+             placeholder="Email"
+             i18n-title="email field title@@email-field-title"
+             i18n-placeholder="email field title@@email-field-title"
+             required
+             autofocus
+             type="email"
+             name="email">
+    </div>
+
+    <div class="row">
+      <input pInputText
+             [(ngModel)]="token"
+             title="Activation token"
+             placeholder="Activation token"
+             i18n-title="token field title@@token-field-title"
+             i18n-placeholder="token field title@@token-field-title"
+             required
+             autofocus
+             type="text"
+             name="token">
+    </div>
+
+    <div class="actions">
+      <button type="submit" hidden></button>
+      <button pButton type="button"
+              label="Activate your account"
+              i18n-label="activate button label"
+              [disabled]="activationForm.invalid"
+              (click)="onActivate()"
+      ></button>
+    </div>
+  </form>
+
 
 </div>

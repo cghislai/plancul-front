@@ -9,6 +9,7 @@ import {NotificationMessageService} from '../service/notification-message.servic
 import {Router} from '@angular/router';
 import {ApplicationStatusClientService} from '../service/application-status-client.service';
 import {LoggedUserService} from '../service/logged-user.service';
+import {UserService} from '../service/user.service';
 
 @Component({
   selector: 'pc-admin-init',
@@ -32,6 +33,7 @@ export class AdminInitComponent implements OnInit, OnDestroy {
               private loggedUserService: LoggedUserService,
               private applicationStatusClientService: ApplicationStatusClientService,
               private loginService: LoginService,
+              private userService: UserService,
               private router: Router,
               private notificationMessageService: NotificationMessageService,
   ) {
@@ -98,9 +100,9 @@ export class AdminInitComponent implements OnInit, OnDestroy {
 
   private register(useExistingAccount: boolean) {
     if (useExistingAccount) {
-      return this.loginService.registerUser(this.registration);
+      return this.userService.registerUser(this.registration);
     } else {
-      return this.loginService.createNewUser(this.registration);
+      return this.userService.createNewUser(this.registration);
     }
   }
 

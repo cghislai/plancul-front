@@ -9,7 +9,6 @@ import {WelcomeComponent} from './welcome/welcome.component';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AccountInitComponent} from './account-init/account-init.component';
 import {ShellComponent} from './shell/shell.component';
 import {MenuComponent} from './menu/menu.component';
 import {IconsModule} from '../icons/icons.module';
@@ -18,6 +17,8 @@ import {AdminInitComponent} from './admin-init/admin-init.component';
 import {FieldEqualityValidator} from './service/util/field-equality-validator';
 import { NewTenantComponent } from './new-tenant/new-tenant.component';
 import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { NewPasswordResetComponent } from './new-password-reset/new-password-reset.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 @NgModule({
   imports: [
@@ -39,17 +40,17 @@ import { ActivateAccountComponent } from './activate-account/activate-account.co
   declarations: [
     LoginComponent,
     WelcomeComponent,
-    AccountInitComponent,
     ShellComponent,
     MenuComponent,
     RegisterComponent,
     AdminInitComponent,
+    NewTenantComponent,
+    ActivateAccountComponent,
+    NewPasswordResetComponent,
+    PasswordResetComponent,
 
     FieldEqualityValidator,
 
-    NewTenantComponent,
-
-    ActivateAccountComponent,
   ],
   exports: [
     ButtonModule,

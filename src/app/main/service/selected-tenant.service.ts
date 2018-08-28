@@ -63,14 +63,14 @@ export class SelectedTenantService {
 
   private updateSelectionFromAvailablity(tenantsRoles: WsTenantUserRole[]) {
     const curSelection = this.selectedTenantRef.getValue();
-    const availableSelectedTenantRole = tenantsRoles
-      .find(role => WsRefUtils.isSameRef(role.tenantWsRef, curSelection));
+    const availableSelectedTenantRole = tenantsRoles == null ? null :
+      tenantsRoles.find(role => WsRefUtils.isSameRef(role.tenantWsRef, curSelection));
 
     if (availableSelectedTenantRole != null) {
       this.selectedTenantRole.next(availableSelectedTenantRole.role);
       return;
     }
-    if (tenantsRoles.length > 0) {
+    if (tenantsRoles != null && tenantsRoles.length > 0) {
       const newSelectedRole = tenantsRoles[0];
       this.selectedTenantRef.next(newSelectedRole.tenantWsRef);
       this.selectedTenantRole.next(newSelectedRole.role);
@@ -81,6 +81,9 @@ export class SelectedTenantService {
   }
 
   private fetchTenants(tenantRoles: WsTenantUserRole[]) {
+    if (tenantRoles == null) {
+      return of([]);
+    }
     const taskList = tenantRoles.map(role => role.tenantWsRef)
       .map(ref => this.tenantClient.getTenant(ref.id));
     return taskList.length === 0 ? of([]) : forkJoin(taskList);

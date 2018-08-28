@@ -2,13 +2,15 @@ import {Component, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
 import {WsApplicationGroups, WsUser, WsUserRegistration} from '@charlyghislain/plancul-api';
 import {LanguageUtil} from '../service/util/language-util';
 import {LoginService} from '../service/login.service';
-import {combineLatest, Observable, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
 import {mergeMap, take} from 'rxjs/operators';
 import {BasicCredential} from '../domain/basic-credential';
 import {Router} from '@angular/router';
 import {NotificationMessageService} from '../service/notification-message.service';
 import {AuthenticatorGroups} from '../service/util/authenticator-groups';
+import {UserService} from '../service/user.service';
+import {WsUser as WsAuthenticatorUser} from '@charlyghislain/authenticator-api';
 
 @Component({
   selector: 'pc-register',
@@ -26,6 +28,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(@Inject(LOCALE_ID) private localeId: string,
+              private userService: UserService,
               private loginService: LoginService,
               private loggedUserService: LoggedUserService,
               private router: Router,
@@ -34,11 +37,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscription = new Subscription();
     this.hasExistingAccount = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.UNREGISTERED_USER);
 
-    const registered = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER);
-    const active = this.loggedUserService.getIsInGroupsObservable(AuthenticatorGroups.ACTIVE);
-    const userRegisteredSubscription = combineLatest(registered, active)
-      .subscribe(results => this.onRegisteredUserLoggedIn(results[0], results[1]));
-    this.subscription.add(userRegisteredSubscription);
+    // const registered = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER);
+    // const active = this.loggedUserService.getIsInGroupsObservable(AuthenticatorGroups.ACTIVE);
+    // const userRegisteredSubscription = combineLatest(registered, active)
+    //   .subscribe(results => this.onRegisteredUserLoggedIn(results[0], results[1]));
+    // this.subscription.add(userRegisteredSubscription);
 
 
     this.registration = {
@@ -78,30 +81,29 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if (hasAccount) {
       this.registration.name = null;
       this.registration.password = null;
-      registerTask = this.loginService.registerUser(this.registration);
+      registerTask = this.userService.registerUser(this.registration);
     } else {
-      registerTask = this.loginService.createNewUser(this.registration);
+      registerTask = this.userService.createNewUser(this.registration);
     }
     return registerTask;
   }
 
   private onRegistered(user: WsUser) {
     this.notificationMessageService.addInfo('Account created');
-    this.loginPostRegistration(user).subscribe(
-      () => {
-      },
-      error => this.router.navigate(['/activate-account']),
-    );
+    this.loginPostRegistration(user)
+      .pipe(
+        mergeMap(() => this.loggedUserService.getIsInGroupsObservable(AuthenticatorGroups.ACTIVE)),
+      )
+      .subscribe(active => this.onRegisteredUserLoggedIn(active),
+        error => this.router.navigate(['/activate-account']),
+      );
   }
 
-  private onRegisteredUserLoggedIn(registered: boolean, active: boolean) {
-    if (!registered) {
-      return;
-    }
-    if (!active) {
-      this.router.navigate(['/activate-account']);
-    } else {
+  private onRegisteredUserLoggedIn(active: boolean) {
+    if (active) {
       this.router.navigate(['/welcome']);
+    } else {
+      this.router.navigate(['/activate-account']);
     }
   }
 
@@ -110,18 +112,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private loginPostRegistration(newUser: WsUser) {
-    return this.loggedUserService.getUserObservable().pipe(
+    return this.loggedUserService.getAuthenticatorUserObservable().pipe(
       take(1),
       mergeMap(loggedUser => this.loginWithNewUserIfRequired(loggedUser, newUser)),
     );
   }
 
-  private loginWithNewUserIfRequired(loggedUser: WsUser, newUser: WsUser) {
-    if (loggedUser != null && loggedUser.id === newUser.id) {
-      return this.loggedUserService.refreshToken();
+  private loginWithNewUserIfRequired(loggedUser: WsAuthenticatorUser, newUser: WsUser) {
+    if (loggedUser == null) {
+      return this.loginService.login(new BasicCredential(
+        this.registration.name, this.registration.password,
+      ));
+    } else {
+      return this.loginService.relogin();
     }
-    return this.loginService.login(new BasicCredential(
-      this.registration.name, this.registration.password,
-    ));
   }
 }

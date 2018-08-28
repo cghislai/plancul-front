@@ -11,13 +11,12 @@ import {NewTenantComponent} from './main/new-tenant/new-tenant.component';
 import {AppNotInitializedGuard} from './main/service/app-not-initialized.guard';
 import {ActivateAccountComponent} from './main/activate-account/activate-account.component';
 import {LoggedUserGuard} from './main/service/logged-user-guard';
+import {NewPasswordResetComponent} from './main/new-password-reset/new-password-reset.component';
+import {PasswordResetComponent} from './main/password-reset/password-reset.component';
+import {SelectedTenantGuard} from './main/service/selected-tenant-guard';
 
 
-const userWithTenantRoutes: Routes = [
-  {
-    path: 'welcome',
-    component: WelcomeComponent,
-  },
+const tenantRoutes: Routes = [
   {
     path: 'crops',
     loadChildren: './crop/crop.module#CropModule',
@@ -33,6 +32,18 @@ const userWithTenantRoutes: Routes = [
   {
     path: 'timeline',
     loadChildren: './timeline/timeline.module#TimelineModule',
+  },
+];
+
+const userWithTenantRoutes: Routes = [
+  {
+    path: 'welcome',
+    component: WelcomeComponent,
+  },
+  {
+    path: '',
+    canActivate: [SelectedTenantGuard],
+    children: tenantRoutes,
   },
 ];
 
@@ -53,6 +64,14 @@ const adminAccountInitializedRoutes: Routes = [
   {
     path: 'tenant/new',
     component: NewTenantComponent,
+  },
+  {
+    path: 'password-reset/new',
+    component: NewPasswordResetComponent,
+  },
+  {
+    path: 'password-reset',
+    component: PasswordResetComponent,
   },
   {
     path: '',

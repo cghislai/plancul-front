@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
-import {Observable, Subscription} from 'rxjs';
+import {combineLatest, Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
 import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const userLoggedSubscription = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER)
       .pipe(
         filter(user => user),
-      ).subscribe(() => this.redirectOnLoginSuccess(false));
+      ).subscribe(() => this.redirectOnLoginSuccess(false, false));
 
     const routeParams = this.activatedRoute.params
       .pipe(publishReplay(1), refCount());
@@ -58,21 +58,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         error => this.onLoginError(error));
   }
 
-  onNewAccountClick() {
-
-  }
-
-  onForgotPasswordClick() {
-
-  }
-
   private onLoginSuccess() {
-    this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.ADMIN)
+    const unregistered = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.UNREGISTERED_USER);
+    const admin = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.ADMIN);
+    combineLatest(unregistered, admin)
       .pipe(take(1))
-      .subscribe(admin => this.redirectOnLoginSuccess(admin));
+      .subscribe(results => this.redirectOnLoginSuccess(results[0], results[1]));
   }
 
-  private redirectOnLoginSuccess(isAdmin: boolean) {
+  private redirectOnLoginSuccess(unregistered: boolean, isAdmin: boolean) {
+    if (unregistered) {
+      this.notificationMessageService.addWarning('Your account needs activation');
+      this.router.navigate(['/register']);
+      return;
+    }
     if (isAdmin) {
       this.redirectToAdminArea();
     } else {
@@ -109,4 +108,5 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.notificationMessageService.addError('Login failed', 'Unexpected error');
     }
   }
+
 }
