@@ -21,8 +21,7 @@ export class LoggedUserGuard implements CanActivate {
     const isUserWithTenant = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.TENANT_USER);
     const isRegisteredUser = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER);
     const isUnRegisteredUser = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.UNREGISTERED_USER);
-    const authenticatorUser = this.loggedUserService.getAuthenticatorUserObservable()
-      .pipe(filter(u => u !== undefined));
+    const authenticatorUser = this.loggedUserService.getAuthenticatorUserObservable();
     return combineLatest(authenticatorUser, isUserWithTenant, isRegisteredUser, isUnRegisteredUser)
       .pipe(
         take(1),

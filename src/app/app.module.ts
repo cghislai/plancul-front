@@ -4,7 +4,9 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {MainModule} from './main/main.module';
-import {MessagesModule} from 'primeng/primeng';
+import {ToastModule} from 'primeng/toast';
+import {FormsModule} from '@angular/forms';
+import {MessageService} from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -14,10 +16,11 @@ import {MessagesModule} from 'primeng/primeng';
     BrowserModule,
     AppRoutingModule,
     MainModule,
+    FormsModule,
 
-    MessagesModule,
+    ToastModule,
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

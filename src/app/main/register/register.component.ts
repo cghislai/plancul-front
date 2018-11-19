@@ -47,6 +47,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.registration = {
       email: null,
       name: null,
+      password: null,
       user: {
         firstName: null,
         lastName: null,

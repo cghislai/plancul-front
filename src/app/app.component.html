@@ -1,16 +1,14 @@
 <div class="app">
   <div class="messages-overlay">
     <span class="messages-container">
-      <p-messages [value]="notificationMessages | async"
-                  [closable]="false"
-      ></p-messages>
+      <p-toast></p-toast>
     </span>
   </div>
   <router-outlet></router-outlet>
 
   <span class="version ui-widget">
     <a class="name-version"
-        [href]="appInfo.projectUrl">
+       [href]="appInfo.projectUrl">
       {{ appInfo.name }} {{ appInfo.version }}
     </a>
     <span class="copyleft">©</span>

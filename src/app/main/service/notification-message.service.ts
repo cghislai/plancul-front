@@ -1,20 +1,15 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, timer} from 'rxjs';
-import {Message} from 'primeng/api';
+import {Message, MessageService} from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationMessageService {
 
-  private messageSource = new BehaviorSubject<Message[]>([]);
   private readonly MESSAGE_DELAY_TIMOUT_MS = 3000;
 
-  constructor() {
-  }
-
-  getMessagesObservable(): Observable<Message[]> {
-    return this.messageSource.asObservable();
+  constructor(private messageService: MessageService) {
   }
 
   addInfo(title: string, details?: string) {
@@ -35,10 +30,10 @@ export class NotificationMessageService {
     this.addMessage(message);
   }
 
-  addError(title: string, details?: string) {
+  addError(title: string, error?: any) {
     const message = <Message>{
       summary: title,
-      detail: details,
+      detail: this.getErrorMessage(error),
       severity: 'error',
     };
     this.addMessage(message);
@@ -46,22 +41,33 @@ export class NotificationMessageService {
 
 
   addMessage(message: Message) {
-    const newMessages = [
-      ...this.messageSource.getValue(),
-      message,
-    ];
-    this.messageSource.next(newMessages);
-    this.delayMessageRemoval(message);
+    this.messageService.add(message);
   }
 
-  private delayMessageRemoval(message: Message) {
-    timer(this.MESSAGE_DELAY_TIMOUT_MS)
-      .subscribe(() => this.removeMessage(message));
+  private getErrorMessage(error: any) {
+    const errorMessageNullable = this.getErrorMessageNullable(error);
+    return errorMessageNullable == null ? 'Unknown error' : errorMessageNullable;
   }
 
-  private removeMessage(message: Message) {
-    const newMessages = this.messageSource.getValue()
-      .filter(m => m !== message);
-    this.messageSource.next(newMessages);
+  private getErrorMessageNullable(error: any): string | null {
+    if (typeof error === 'string') {
+      return error;
+
+    } else if (typeof error === 'object') {
+
+      const subError = error['error'];
+      if (subError != null) {
+        const subErrorMessage = this.getErrorMessageNullable(subError);
+        if (subErrorMessage != null) {
+          return subErrorMessage;
+        }
+      }
+
+      const messageValue = error['message'];
+      if (messageValue != null) {
+        return messageValue;
+      }
+    }
+    return null;
   }
 }

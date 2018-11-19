@@ -12,11 +12,8 @@ import {PLAN_CUL_APP_INFO} from './main/service/util/app-info-token';
 })
 export class AppComponent {
 
-  notificationMessages: Observable<Message[]>;
 
-  constructor(private notificationService: NotificationMessageService,
-              @Inject(PLAN_CUL_APP_INFO)
+  constructor(@Inject(PLAN_CUL_APP_INFO)
               public appInfo: PlanCulApplicationInfo) {
-    this.notificationMessages = this.notificationService.getMessagesObservable();
   }
 }
