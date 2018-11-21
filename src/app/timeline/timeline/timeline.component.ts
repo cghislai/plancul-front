@@ -1,17 +1,19 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import * as vis from 'vis';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
 import {TimelineItemCallbackHandler} from './timeline-item-callback-handler';
 import {WsDateRange} from '@charlyghislain/plancul-api';
+import {distinctUntilChanged} from 'rxjs/operators';
+import {TimelineService} from '../service/timeline.service';
 
 @Component({
   selector: 'pc-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss'],
 })
-export class TimelineComponent implements OnInit, AfterViewInit {
+export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   @Input()
@@ -20,9 +22,6 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       return;
     }
     this.itemsSource.next(items);
-    if (this.timeline) {
-      this.timeline.setItems(items);
-    }
   }
 
   @Input()
@@ -66,6 +65,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   private container: ElementRef;
 
   private timeline: vis.Timeline;
+  private subscription: Subscription;
 
   // Used as buffers until timeline created
   private itemsSource = new BehaviorSubject<vis.DataItem[]>([]);
@@ -86,6 +86,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
     tooltipOnItemUpdateTime: {
       template: (item, element, data) => this.createMovingItemTooltipTemplate(item, element, data),
     },
+    template: (item, element, data) => this.createItemTemplate(item, element, data),
     zoomMin: 1000 * 60 * 60 * 24 * 4,
     zoomMax: 1000 * 60 * 60 * 24 * 365 * 5,
     // zoomKey: 'ctrlKey',
@@ -103,7 +104,7 @@ export class TimelineComponent implements OnInit, AfterViewInit {
     moment: (date) => this.createMoment(date),
   });
 
-  constructor() {
+  constructor(private timelineService: TimelineService) {
   }
 
   ngOnInit() {
@@ -112,12 +113,23 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       this.groupsSource.getValue(),
       this.optionsSource.getValue(),
     );
-    console.log('timeline');
 
     this.timeline.on('rangechanged', e => this.onRangeChanged(e));
+
+    this.subscription = this.itemsSource.pipe(
+      distinctUntilChanged(),
+    ).subscribe(items => {
+      if (this.timeline) {
+        this.timeline.setItems(items);
+      }
+    });
   }
 
   ngAfterViewInit() {
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private onRangeChanged(event: any) {
@@ -153,5 +165,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
       <div>${startDate} - ${endDate}</div>
     `;
     return htmlContent;
+  }
+
+  private createItemTemplate(item: vis.DataItem, element: any, data: any) {
+    return this.timelineService.createItemHtmlTemplate(item);
   }
 }

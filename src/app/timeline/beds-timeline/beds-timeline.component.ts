@@ -17,7 +17,7 @@ import {
   WsTenant,
 } from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
+import {debounceTime, delay, filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
 import {TimelineService} from '../service/timeline.service';
 import {Pagination} from '../../main/domain/pagination';
 import {CultureClientService} from '../../main/service/culture-client.service';
@@ -52,7 +52,11 @@ export class BedsTimelineComponent implements OnInit {
 
   ngOnInit() {
     this.createInitialBedFilter();
-    this.dateRange = this.dateRangeSource.asObservable();
+    this.dateRange = this.dateRangeSource.asObservable().pipe(
+      delay(0),
+      tap(a => this.loading.next(true)),
+      publishReplay(1), refCount(),
+    );
 
     const tenantRef = this.selectedTenantService.getSelectedTenantRef()
       .pipe(
@@ -60,7 +64,7 @@ export class BedsTimelineComponent implements OnInit {
         publishReplay(1), refCount(),
       );
 
-    this.cultureFilter = combineLatest(tenantRef, this.dateRangeSource)
+    this.cultureFilter = combineLatest(tenantRef, this.dateRange)
       .pipe(
         map(results => this.createCultureFilter(results[0], results[1])),
         publishReplay(1), refCount(),
@@ -70,11 +74,20 @@ export class BedsTimelineComponent implements OnInit {
       switchMap(searchFilter => this.searchBedsGroups(searchFilter)),
       publishReplay(1), refCount(),
     );
-    this.timelineData = combineLatest(this.cultureFilter, this.reloadTrigger)
+    const cultureBedsItems$ = combineLatest(this.cultureFilter, this.reloadTrigger).pipe(
+      map(results => results[0]),
+      switchMap(searchFilter => this.searchCultureRefs(searchFilter)),
+      publishReplay(1), refCount(),
+    );
+    const eventItems$ = combineLatest(this.dateRange, this.reloadTrigger).pipe(
+      map(results => results[0]),
+      switchMap(range => this.searchAstronomyEvents$(range)),
+      publishReplay(1), refCount(),
+    );
+    this.timelineData = combineLatest(cultureBedsItems$, eventItems$)
       .pipe(
-        map(results => results[0]),
-        tap(a => this.loading.next(true)),
-        switchMap(searchFilter => this.searchCultureRefs(searchFilter)),
+        map(items => [...items[0], ...items[1]]),
+        debounceTime(300),
         tap(a => this.loading.next(false)),
         publishReplay(1), refCount(),
       );
@@ -173,7 +186,7 @@ export class BedsTimelineComponent implements OnInit {
     return this.bedClient.searchBeds(searchFilter, pagination)
       .pipe(
         map(results => results.list),
-        switchMap(refList => this.timelineService.createBedGroups(refList)),
+        switchMap(refList => this.timelineService.createTimelineGroups(refList)),
       );
   }
 
@@ -206,7 +219,7 @@ export class BedsTimelineComponent implements OnInit {
   }
 
   private updateCultureBed(culture: WsCulture, bedId: number | string): Observable<WsRef<WsCulture>> {
-    if (typeof  bedId !== 'number') {
+    if (typeof bedId !== 'number') {
       return of({id: culture.id});
     }
     if (culture.bedWsRef.id === bedId) {
@@ -216,5 +229,9 @@ export class BedsTimelineComponent implements OnInit {
       bedWsRef: {id: bedId},
     });
     return this.cultureClient.updateCulture(updatedCulture);
+  }
+
+  private searchAstronomyEvents$(range: WsDateRange): Observable<vis.DataItem[]> {
+    return this.timelineService.createAstronomyItems(range);
   }
 }

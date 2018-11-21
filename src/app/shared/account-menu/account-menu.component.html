@@ -1,0 +1,13 @@
+<span class="user-menu ui-widget" *ngIf="isUserLogged$ | async">
+  <span class="user-name"
+        (click)="accountMenu.toggle($event)">
+    <i class="fa fa-user"></i>
+    <span>{{ loggedUserName$ | async }}</span>
+  </span>
+  <p-overlayPanel #accountMenu>
+    <a (click)="onLogoutClick()" class="menu-link">
+      <i class="fa fa-sign-out"></i>
+      <span>Logout</span>
+    </a>
+  </p-overlayPanel>
+</span>

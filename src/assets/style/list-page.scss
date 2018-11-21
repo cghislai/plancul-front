@@ -1,16 +1,18 @@
 .pc-list-page {
   margin: .5em;
+
   header {
     display: flex;
     align-items: center;
 
     > * {
       display: inline-block;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
     }
 
     > .actions {
-      flex: 0 0 auto;
+      flex: 1 1 auto;
+      margin-left: 2em;
     }
   }
 }
@@ -21,7 +23,7 @@
   margin: .3em;
 
   &:not(:first-child) {
-    @media (min-width: 600px){
+    @media (min-width: 600px) {
       margin-left: 2em;
     }
   }
@@ -30,6 +32,7 @@
     display: inline;
     vertical-align: middle;
   }
+
   > label {
     margin-right: .5em;
 
@@ -53,6 +56,7 @@
   > * {
     flex: 1 1 auto;
   }
+
   > .actions {
     flex: 0 0 auto;
     margin: .5em;

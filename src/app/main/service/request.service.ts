@@ -163,6 +163,11 @@ export class RequestService {
     return `${apiUrl}${apiPth}`;
   }
 
+  buildAstronomuApiUrl(apiPth: string) {
+    const apiUrl = this.clientConfig.astronomyApiUrl;
+    return `${apiUrl}${apiPth}`;
+  }
+
   getAuthenticatorTokenUrl() {
     const appName = this.clientConfig.authenticatorApplicationName;
     const url = this.builAuthenticatordApiUrl(`/token/${appName}`);

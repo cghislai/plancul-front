@@ -84,6 +84,10 @@ const adminAccountInitializedRoutes: Routes = [
     loadChildren: './admin/admin.module#AdminModule',
     canActivate: [LoggedAdminGuard],
   },
+  {
+    path: '**',
+    redirectTo: '/login',
+  },
 ];
 
 const routes: Routes = [
@@ -106,7 +110,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    enableTracing: true,
+    enableTracing: false,
   })],
   exports: [RouterModule],
 })

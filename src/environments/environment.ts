@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   defaultClientConfig: <PlanCulClientConfig>{
     apiUrl: 'https://localhost:8183/plancul-ws',
+    astronomyApiUrl: 'https://localhost:8183/astronomy-ws',
     authenticatorApiUrl: 'https://localhost:8443',
     authenticatorApplicationName: 'plancul',
   },

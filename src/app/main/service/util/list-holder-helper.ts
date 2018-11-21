@@ -6,6 +6,7 @@ import {delay, distinctUntilChanged, filter, map, mergeMap, publishReplay, refCo
 import {PaginationUtils} from './pagination-utils';
 import {myThrottleTime} from '../../domain/my-throttle-time';
 import {LazyLoadEvent} from 'primeng/api';
+import {SortComparator} from '../../domain/sort-comparator';
 
 export class ListHolderHelper<E extends WsDomainEntity, FILTER> {
 
@@ -73,8 +74,16 @@ export class ListHolderHelper<E extends WsDomainEntity, FILTER> {
     this.filterSource.next(searchFilter);
   }
 
-  setSort(sort: Sort) {
+  setSort(sort: Sort, force?: boolean) {
     const curPagination = this.paginationSource.getValue();
+    if (force !== true && curPagination != null) {
+      if (curPagination.sorts.length === 1) {
+        const curSort = curPagination.sorts[0];
+        if (SortComparator.equal(curSort, sort)) {
+          return;
+        }
+      }
+    }
     const newPagination = PaginationUtils.applySort(curPagination, sort);
     this.paginationSource.next(newPagination);
   }

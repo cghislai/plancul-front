@@ -1,9 +1,37 @@
-<p-selectButton [options]="options"
-                [ngModel]="value"
-                (ngModelChange)="onChange($event)"
->
-  <ng-template let-item>
-    <pc-language [language]="item"
-    ></pc-language>
-  </ng-template>
-</p-selectButton>
+<span class="language-select-button"
+      *ngIf="mode === 'button'">
+  <p-selectButton [options]="options"
+                  [ngModel]="value"
+                  (ngModelChange)="onChange($event)"
+  >
+    <ng-template let-item>
+      <pc-language [language]="item"
+      ></pc-language>
+    </ng-template>
+  </p-selectButton>
+</span>
+
+<span class="language-select-dropdown ui-widget"
+      *ngIf="mode === 'dropdown'">
+
+  <span class="selection"
+        (click)="languagesPanel.toggle($event)"
+  >
+     <pc-language [language]="value"
+                  [showLabel]="showLabel"
+     ></pc-language>
+  </span>
+
+  <p-overlayPanel #languagesPanel>
+    <a *ngFor="let lang of options" class="language-dropdown-option"
+       (click)="onChange(lang)"
+       [class.selected]="lang === value">
+
+      <pc-language [language]="lang"
+                   [showLabel]="showDropdownLabel"
+      ></pc-language>
+
+    </a>
+  </p-overlayPanel>
+
+</span>

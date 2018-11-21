@@ -1,4 +1,22 @@
 .language {
   margin: .3em;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+
+  > .flag {
+    flex: 0 0 auto;
+    display: inline-block;
+    margin: .2em;
+    height: 1.2em;
+
+    > * {
+      width: 1.2em;
+      height: 1.2em;
+    }
+  }
+
+  > .label {
+    flex: 1 1 auto;
+    display: inline-block;
+  }
 }

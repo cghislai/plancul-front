@@ -1,4 +1,7 @@
 <span class="language">
+  <span class="flag">
+    <img [src]="getIconPath()">
+  </span>
   <span class="label" i18n [ngSwitch]="language">
     <ng-container *ngSwitchCase="'ENGLISH'">
       English

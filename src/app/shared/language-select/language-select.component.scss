@@ -1,0 +1,39 @@
+.language-select-dropdown {
+  position: relative;
+
+  .selection {
+    display: inline-block;
+  }
+
+  .language-dropdown-option {
+    display: block;
+  }
+
+  .selection, .language-dropdown-option {
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &.selected {
+      background-color: rgba(31, 137, 206, 0.49);
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(50, 110, 144, 0.61);
+      }
+
+    }
+  }
+
+  ::ng-deep {
+    .ui-overlaypanel {
+      left: auto !important;
+    }
+
+    .ui-overlaypanel-content {
+      padding: 0;
+    }
+  }
+}

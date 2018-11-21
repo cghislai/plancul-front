@@ -1,17 +1,20 @@
-.messages-overlay {
+
+.account-toolbar {
   position: absolute;
-  margin: auto;
+  z-index: 100;
   top: 0;
   right: 0;
-  left: 0;
-  height: 0;
-  text-align: center;
-  z-index: 100;
+  height: 2em;
+  display: inline-flex;
+  align-items: stretch;
 
-  >.messages-container {
-    display: inline-block;
-    max-width: 50%;
+  >* {
+    flex: 0 0 auto;
+    margin: 0 .3em;
+    position: relative;
   }
+
+
 }
 
 .version {
@@ -22,7 +25,7 @@
   bottom: 0;
   opacity: .5;
 
-  >* {
+  > * {
     display: inline-block;
   }
 
@@ -37,6 +40,7 @@
       cursor: pointer;
     }
   }
+
   .copyleft {
     display: inline-block;
     transform: scaleX(-1);

@@ -7,6 +7,7 @@ import {MainModule} from './main/main.module';
 import {ToastModule} from 'primeng/toast';
 import {FormsModule} from '@angular/forms';
 import {MessageService} from 'primeng/api';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {MessageService} from 'primeng/api';
     BrowserModule,
     AppRoutingModule,
     MainModule,
+    SharedModule,
     FormsModule,
 
     ToastModule,

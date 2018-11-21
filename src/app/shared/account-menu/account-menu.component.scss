@@ -1,0 +1,53 @@
+.user-menu {
+  position: relative;
+  height: 100%;
+
+  .user-name {
+    display: inline-block;
+    height: 100%;
+  }
+
+  .menu-link {
+    display: block;
+
+
+  }
+
+  .user-name, .menu-link {
+    padding: .3em;
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &.selected {
+      background-color: rgba(31, 137, 206, 0.49);
+
+      &:hover {
+        cursor: pointer;
+        background-color: rgba(50, 110, 144, 0.61);
+      }
+
+    }
+
+    i {
+      margin-right: .3em;
+    }
+  }
+
+  ::ng-deep {
+    .ui-overlaypanel {
+      left: auto !important;
+    }
+
+    .ui-overlaypanel-content {
+      padding: 0;
+    }
+  }
+}

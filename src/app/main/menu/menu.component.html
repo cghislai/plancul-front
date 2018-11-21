@@ -1,10 +1,4 @@
 <div class="menu ui-widget">
-  <a class="logged-user"
-     (click)="userMenuPanel.toggle($event)"
-  >
-    <i class="pi pi-user"></i>
-  </a>
-
   <a class="crops"
      [routerLink]="['/crops']"
      routerLinkActive="active-link"
@@ -40,19 +34,3 @@
 
 
 </div>
-
-<p-overlayPanel class="user-menu "
-                [showCloseIcon]="false"
-                [dismissable]="true"
-                #userMenuPanel
->
-  <a class="logout"
-     (click)="onLogoutClick()"
-     title="Sign out" i18n-title
-  >
-    <i class="fa fa-sign-out"></i>
-    <span i18n>
-      Sign out
-    </span>
-  </a>
-</p-overlayPanel>

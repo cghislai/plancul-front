@@ -1,9 +1,9 @@
 import {Component, Inject} from '@angular/core';
-import {NotificationMessageService} from './main/service/notification-message.service';
-import {Observable} from 'rxjs';
-import {Message} from 'primeng/api';
 import {PlanCulApplicationInfo} from './main/domain/plan-cul-application-info';
 import {PLAN_CUL_APP_INFO} from './main/service/util/app-info-token';
+import {WsLanguage} from '@charlyghislain/plancul-api';
+import {ApplicationLanguageService} from './main/service/application-language.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pc-root',
@@ -12,8 +12,26 @@ import {PLAN_CUL_APP_INFO} from './main/service/util/app-info-token';
 })
 export class AppComponent {
 
+  currentLanguage: WsLanguage;
+  languages: WsLanguage[];
 
   constructor(@Inject(PLAN_CUL_APP_INFO)
-              public appInfo: PlanCulApplicationInfo) {
+              public appInfo: PlanCulApplicationInfo,
+              private router: Router,
+              private appLanguageService: ApplicationLanguageService,
+  ) {
+    this.languages = appLanguageService.getAllLanguages();
+    this.currentLanguage = appLanguageService.getCurrentLanguage();
+  }
+
+  onLanguageChanged(lang: WsLanguage) {
+    if (lang == null) {
+      return;
+    }
+    const url = this.appInfo.applicationUrlsByLanguages[lang.toLowerCase()];
+    if (url == null) {
+      return;
+    }
+    window.location.assign(url);
   }
 }

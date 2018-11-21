@@ -2,9 +2,10 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {Sort} from '../../main/domain/sort';
 import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {WsCropSortField, WsSortOrder} from '@charlyghislain/plancul-api';
-import {filter, map, publishReplay, refCount} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, publishReplay, refCount, tap} from 'rxjs/operators';
 import {SelectItem} from 'primeng/api';
 import {CROP_FIELD_OPTIONS} from './crop-field-options';
+import {SortComparator} from '../../main/domain/sort-comparator';
 
 @Component({
   selector: 'pc-crop-sort-select',
@@ -35,6 +36,7 @@ export class CropSortSelectComponent implements OnInit {
       .pipe(
         filter(r => r[0] != null && r[1] != null),
         map(results => <Sort>{field: results[0], order: results[1]}),
+        distinctUntilChanged(SortComparator.equal),
         publishReplay(1), refCount(),
       );
     this.orderIcon = this.orderValue.pipe(

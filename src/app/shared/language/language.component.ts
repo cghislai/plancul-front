@@ -10,6 +10,8 @@ export class LanguageComponent implements OnInit {
 
   @Input()
   language: WsLanguage;
+  @Input()
+  showLabel = true;
 
   constructor() {
   }
@@ -17,4 +19,11 @@ export class LanguageComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  getIconPath() {
+    if (this.language == null) {
+      return null;
+    }
+    return `assets/icons/languages/${this.language.toLowerCase()}.svg`;
+  }
 }

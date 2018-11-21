@@ -1,9 +1,18 @@
 <div class="app">
-  <div class="messages-overlay">
-    <span class="messages-container">
-      <p-toast></p-toast>
+  <p-toast position="top-center"></p-toast>
+
+  <div class="account-toolbar">
+    <span class="languages">
+      <pc-language-select [ngModel]="currentLanguage"
+                          (ngModelChange)="onLanguageChanged($event)"
+                          name="language"
+      ></pc-language-select>
+    </span>
+    <span class="account">
+      <pc-account-menu></pc-account-menu>
     </span>
   </div>
+
   <router-outlet></router-outlet>
 
   <span class="version ui-widget">

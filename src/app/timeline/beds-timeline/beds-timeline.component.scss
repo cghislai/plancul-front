@@ -1,32 +1,207 @@
 .beds-timeline {
+  ::ng-deep {
 
-  ::ng-deep .vis-item {
+    $moon_bg: #304e7a;
+    $moon_fg: rgb(255, 242, 216);;
 
-    &.preparation_presowing {
-      background-color: #49300a;
-      color: #a4a4a4;
-      border-color: black;
-    }
-    &.preparation_cover {
-      background-color: #090652;
-      color: #a4a4a4;
-      border-color: black;
-    }
+    // Row labels
+    .vis-label {
+      &.moon-phase-group {
+        background-color: $moon_bg;
+        color: $moon_fg;
+        border-bottom: none;
+      }
 
-    &.growth {
-      background-color: #60914b;
-      border-color: darkgreen;
-    }
-
-    &.harvest {
-      background-color: #f4b849;
-      border-color: #b35b1d;
+      &.moon-zodiac-group {
+        background-color: $moon_bg;
+        color: $moon_fg;
+      }
     }
 
-    &.vis-selected {
-      outline: 2px solid red;
-      outline-radius: 2px;
+    // Rows
+    .vis-group {
+      &.moon-phase-group {
+        background-color: $moon_bg;
+        color: $moon_fg;
+        border-bottom: none;
+      }
+
+      &.moon-zodiac-group {
+        background-color: $moon_bg;
+        color: $moon_fg;
+      }
+    }
+
+    // Event items
+    .vis-item {
+
+      &.moon-phase {
+        //border-color: red;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        height: 1.3em;
+        //top: 0;
+        //bottom: 0;
+
+        > .vis-item-overflow {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          overflow: visible;
+
+          > .vis-item-content {
+            text-align: center;
+            height: 1.3em;
+            position: relative;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            padding: 0;
+
+            span.moon-phase {
+
+              display: inline-block;
+              width: 1.3em;
+              height: 1.3em;
+              zoom: 1.5;
+              position: absolute;
+              top: -25%;
+              margin-left: -.65em;
+
+              // Svg icon set in inline style as as background mask
+            }
+          }
+        }
+
+        &.full_moon {
+          background: linear-gradient(to right,
+            rgba(255, 242, 216, 0.0) 0%,
+            rgba(255, 242, 216, 0.1) 10%,
+            rgba(255, 242, 216, 0.8) 40%,
+            rgba(255, 242, 216, 0.9) 50%,
+            rgba(255, 242, 216, 0.8) 60%,
+            rgba(255, 242, 216, 0.1) 90%,
+            rgba(255, 242, 216, 0.0) 100%
+          );
+          span.moon-phase {
+              background-color: $moon_fg;
+          }
+        }
+
+        &.new_moon {
+          background: linear-gradient(to right,
+            rgba(20, 17, 14, 0.0) 0%,
+            rgba(20, 17, 14, 0.2) 10%,
+            rgba(20, 17, 14, 0.9) 50%,
+            rgba(20, 17, 14, 0.2) 90%,
+            rgba(20, 17, 14, 0.0) 100%
+          );
+          span.moon-phase {
+            background-color: black;
+          }
+        }
+
+      }
+
+      &.moon-zodiac {
+        background-color: transparent;
+        border: 0;
+        color: $moon_fg;
+        height: 1.3em;
+
+        > .vis-item-overflow {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+
+          > .vis-item-content {
+            text-align: center;
+            height: 1.3em;
+            position: relative;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            padding: 0;
+
+            span.zodiac {
+              display: inline-block;
+              width: 1.3em;
+              height: 1.3em;
+              // Svg icon set in inline style as as background mask
+            }
+          }
+        }
+
+        @mixin element_gradient_bg($r, $g, $b) {
+          background: linear-gradient(to right,
+            rgba($r, $g, $b, 0.0) 0%,
+            rgba($r, $g, $b, 0.3) 10%,
+            rgba($r, $g, $b, 0.5) 50%,
+            rgba($r, $g, $b, 0.3) 90%,
+            rgba($r, $g, $b, 0.0) 100%
+          )
+        }
+
+        &.fire {
+          @include element_gradient_bg(255, 214, 37);
+          span.zodiac {
+            background-color: #ffd625;
+          }
+        }
+
+        &.water {
+          @include element_gradient_bg(8, 151, 255);
+          span.zodiac {
+            background-color: #0897ff;
+          }
+        }
+
+        &.earth {
+          @include element_gradient_bg(179, 78, 40);
+          span.zodiac {
+            background-color: #b34e28;
+          }
+        }
+
+        &.air {
+          @include element_gradient_bg(174, 255, 255);
+          span.zodiac {
+            background-color: #aeffff;
+          }
+        }
+      }
+
+      &.preparation_presowing {
+        background-color: #49300a;
+        color: #a4a4a4;
+        border-color: black;
+      }
+
+      &.preparation_cover {
+        background-color: #090652;
+        color: #a4a4a4;
+        border-color: black;
+      }
+
+      &.growth {
+        background-color: #60914b;
+        border-color: darkgreen;
+      }
+
+      &.harvest {
+        background-color: #f4b849;
+        border-color: #b35b1d;
+      }
+
+      &.vis-selected {
+        outline: 2px solid red;
+        outline-radius: 2px;
+      }
     }
   }
-
 }

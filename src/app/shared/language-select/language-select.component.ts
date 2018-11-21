@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {WsLanguage} from '@charlyghislain/plancul-api';
 
@@ -13,6 +13,14 @@ import {WsLanguage} from '@charlyghislain/plancul-api';
   }],
 })
 export class LanguageSelectComponent implements OnInit, ControlValueAccessor {
+
+  @Input()
+  mode: 'button' | 'dropdown' = 'dropdown';
+  @Input()
+  showLabel = true;
+  @Input()
+  showDropdownLabel = true;
+
 
   value: WsLanguage;
   options = [WsLanguage.ENGLISH, WsLanguage.FRENCH];

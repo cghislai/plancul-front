@@ -6,6 +6,7 @@ import {CropClientService} from '../../main/service/crop-client.service';
 import {Sort} from '../../main/domain/sort';
 import {ListHolderHelper} from '../../main/service/util/list-holder-helper';
 import {Observable} from 'rxjs';
+import {delay} from 'rxjs/operators';
 
 @Component({
   selector: 'pc-crop-list',
@@ -36,9 +37,10 @@ export class CropListComponent implements OnInit {
     this.cropResults = this.helper.getResults();
     this.resultCount = this.helper.getResultCount();
     this.resultLoading = this.helper.getResultsLoading();
-    this.sort = this.helper.getSort();
-    this.sortField = this.helper.getSortField();
-    this.sortOrder = this.helper.getSOrtOrder();
+    // Delay avoid dependency check thinking we are looping
+    this.sort = this.helper.getSort().pipe(delay(0));
+    this.sortField = this.helper.getSortField().pipe(delay(0));
+    this.sortOrder = this.helper.getSOrtOrder().pipe(delay(0));
     this.filter = this.helper.getFilter();
 
     this.helper.setFilter(this.createInitialFilter());

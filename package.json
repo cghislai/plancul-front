@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^7.0.4",
     "@angular/platform-browser-dynamic": "^7.0.4",
     "@angular/router": "^7.0.4",
+    "@charlyghislain/astronomy-api": "file:../back/astronomy-api/target/npm",
     "@charlyghislain/authenticator-api": "^1.0.0",
     "@charlyghislain/plancul-api": "file:../back/plancul-api/target/npm",
     "@types/vis": "^4.21.5",

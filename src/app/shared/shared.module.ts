@@ -5,7 +5,7 @@ import {CropComponent} from './crop/crop.component';
 import {IconsModule} from '../icons/icons.module';
 import {CultureComponent} from './culture/culture.component';
 import {CropFilterComponent} from './crop-filter/crop-filter.component';
-import {AutoCompleteModule, ButtonModule, CheckboxModule, InputTextModule, SelectButtonModule} from 'primeng/primeng';
+import {AutoCompleteModule, ButtonModule, CheckboxModule, InputTextModule, OverlayPanelModule, SelectButtonModule} from 'primeng/primeng';
 import {CropSearchQueryTypeComponent} from './crop-search-query-type/crop-search-query-type.component';
 import {FormsModule} from '@angular/forms';
 import {CropSelectComponent} from './crop-select/crop-select.component';
@@ -25,6 +25,7 @@ import {CultureHarvestComponent} from './culture-harvest/culture-harvest.compone
 import {LanguageSelectComponent} from './language-select/language-select.component';
 import {LanguageComponent} from './language/language.component';
 import {PatchInputComponent} from './patch-input/patch-input.component';
+import {AccountMenuComponent} from './account-menu/account-menu.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import {PatchInputComponent} from './patch-input/patch-input.component';
     ButtonModule,
     InputTextModule,
     AutoCompleteModule,
+    OverlayPanelModule,
   ],
   declarations: [
     BedComponent,
@@ -61,6 +63,8 @@ import {PatchInputComponent} from './patch-input/patch-input.component';
     LanguageSelectComponent,
     LanguageComponent,
     PatchInputComponent,
+
+    AccountMenuComponent,
 
     TemplateVarDirective,
   ],
@@ -87,6 +91,8 @@ import {PatchInputComponent} from './patch-input/patch-input.component';
     LanguageSelectComponent,
     LanguageComponent,
     PatchInputComponent,
+
+    AccountMenuComponent,
 
     TemplateVarDirective,
   ],

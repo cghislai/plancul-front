@@ -66,7 +66,7 @@ export class NewCropFormComponent implements OnInit {
       family: null,
       species: null,
       tenantRef: tenantRef,
-      shared: true,
+      shared: false,
       subSpecies: null,
       cultivar: null,
       agrovocPlantURI: null,
