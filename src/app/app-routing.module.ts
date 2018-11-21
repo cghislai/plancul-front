@@ -7,7 +7,6 @@ import {ShellComponent} from './main/shell/shell.component';
 import {RegisterComponent} from './main/register/register.component';
 import {AppInitializedGuard} from './main/service/app-initialized.guard';
 import {AdminInitComponent} from './main/admin-init/admin-init.component';
-import {NewTenantComponent} from './main/new-tenant/new-tenant.component';
 import {AppNotInitializedGuard} from './main/service/app-not-initialized.guard';
 import {ActivateAccountComponent} from './main/activate-account/activate-account.component';
 import {LoggedUserGuard} from './main/service/logged-user-guard';
@@ -60,10 +59,6 @@ const adminAccountInitializedRoutes: Routes = [
   {
     path: 'activate-account',
     component: ActivateAccountComponent,
-  },
-  {
-    path: 'tenant/new',
-    component: NewTenantComponent,
   },
   {
     path: 'password-reset/new',

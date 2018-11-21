@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from '@ngx-translate/core';
 
 import {CultureRoutingModule} from './culture-routing.module';
 import {CultureFilterComponent} from './culture-filter/culture-filter.component';
@@ -17,6 +18,7 @@ import {IconsModule} from '../icons/icons.module';
     CommonModule,
     CultureRoutingModule,
     FormsModule,
+    TranslateModule.forChild(),
 
     SharedModule,
     IconsModule,

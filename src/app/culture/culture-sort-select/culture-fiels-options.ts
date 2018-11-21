@@ -1,62 +1,62 @@
-import {SelectItem} from 'primeng/api';
 import {WsCultureSortField} from '@charlyghislain/plancul-api';
+import {UntranslatedSelectItem} from '../../main/service/util/untranslated-select-item';
+import {MessageKeys} from '../../main/service/util/message-keys';
 
-// FIXME: i18n
-export const CULTURE_SORT_OPTIONS: SelectItem[] = [
+export const CULTURE_SORT_OPTIONS: UntranslatedSelectItem[] = [
   {
-    label: 'Plant',
+    label_key: MessageKeys.CROP_PLANT_LABEL,
     value: WsCultureSortField.CROP_PLANT_NAME,
   },
   {
-    label: 'Crop product',
+    label_key: MessageKeys.CROP_PRODUCT_LABEL,
     value: WsCultureSortField.CROP_PRODUCT_NAME,
   },
   {
-    label: 'Cultivar',
+    label_key: MessageKeys.CULTIVAR_LABEL,
     value: WsCultureSortField.CROP_CULTIVAR,
   },
   {
-    label: 'Bed',
+    label_key: MessageKeys.BED_LABEL,
     value: WsCultureSortField.BED_NAME,
   },
   {
-    label: 'Sowing date',
+    label_key: MessageKeys.SOWING_DATE_LABEL,
     value: WsCultureSortField.SOWING_DATE,
   },
   {
-    label: 'Germination date',
+    label_key: MessageKeys.GERMINATION_DATE_LABEL,
     value: WsCultureSortField.GERMINATION_DATE,
   },
   {
-    label: 'First harvest',
+    label_key: MessageKeys.FIRST_HARVEST_LABEL,
     value: WsCultureSortField.FIRST_HARVEST_DATE,
   },
   {
-    label: 'Last harvest',
+    label_key: MessageKeys.LAST_HARVEST_LABEL,
     value: WsCultureSortField.LAST_HARVEST_DATE,
   },
   {
-    label: 'Bed occupancy (start)',
+    label_key: MessageKeys.BED_OCCUPANCY_START_DATE_LABEL,
     value: WsCultureSortField.BED_OCCUPANCY_START_DATE,
   },
   {
-    label: 'Notes',
+    label_key: MessageKeys.HTML_NOTES_LABEL,
     value: WsCultureSortField.HTML_NOTES,
   },
   {
-    label: 'Nursing duration',
+    label_key: MessageKeys.NURSERING_DURATION_LABEL,
     value: WsCultureSortField.NURSERING_DURATION,
   },
   {
-    label: 'Nursing start date',
+    label_key: MessageKeys.NURSERING_START_DATE_LABEL,
     value: WsCultureSortField.NURSERING_START_DATE,
   },
   {
-    label: 'Bed preparation duration',
+    label_key: MessageKeys.CULTURE_PREPARATION_DURATION_LABEL,
     value: WsCultureSortField.CULTURE_PREPARATION_DURATION,
   },
   {
-    label: 'Bed preparation start date',
+    label_key: MessageKeys.CULTURE_PREPARATION_START_DATE_LABEL,
     value: WsCultureSortField.CULTURE_PREPARATION_START_DATE,
   },
 ];

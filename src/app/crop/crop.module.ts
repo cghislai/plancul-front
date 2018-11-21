@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TranslateModule} from '@ngx-translate/core';
 
 import {CropRoutingModule} from './crop-routing.module';
 import {CropListComponent} from './crop-list/crop-list.component';
@@ -16,6 +17,7 @@ import {CropSortSelectComponent} from './crop-sort-select/crop-sort-select.compo
     CommonModule,
     CropRoutingModule,
     FormsModule,
+    TranslateModule.forChild(),
 
     SharedModule,
 

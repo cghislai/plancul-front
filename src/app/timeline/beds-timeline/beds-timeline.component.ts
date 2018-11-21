@@ -23,6 +23,8 @@ import {Pagination} from '../../main/domain/pagination';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {TimelineItemCallbackHandler} from '../timeline/timeline-item-callback-handler';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
+import {LocalizationService} from '../../main/service/localization.service';
+import {MessageKeys} from '../../main/service/util/message-keys';
 
 @Component({
   selector: 'pc-beds-timeline',
@@ -43,6 +45,7 @@ export class BedsTimelineComponent implements OnInit {
   private reloadTrigger = new BehaviorSubject<any>(true);
 
   constructor(private bedClient: BedClientService,
+              private localizationService: LocalizationService,
               private cultureClient: CultureClientService,
               private selectedTenantService: SelectedTenantService,
               private notificationMessageService: NotificationMessageService,
@@ -143,8 +146,9 @@ export class BedsTimelineComponent implements OnInit {
       }, error => {
         // TODO i18n
         callback(null);
+        this.localizationService.getTranslation(MessageKeys.ERROR_UPDATING_CULTURE_TITLE)
+          .subscribe(msg => this.notificationMessageService.addError(msg, error));
         this.loading.next(false);
-        this.notificationMessageService.addError('Error while updating culture');
         this.reloadTrigger.next(true);
       });
   }

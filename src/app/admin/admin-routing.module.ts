@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {AdminAreaComponent} from './admin-area/admin-area.component';
 import {LoggedAdminGuard} from '../main/service/logged-admin.guard';
 import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
-import {NewTenantFormComponent} from './new-tenant-form/new-tenant-form.component';
 
 const routes: Routes = [
   {
@@ -23,10 +22,6 @@ const routes: Routes = [
       {
         path: 'tenant',
         children: [
-          {
-            path: 'new',
-            component: NewTenantFormComponent,
-          },
         ],
       },
     ],

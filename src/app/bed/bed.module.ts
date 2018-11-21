@@ -9,13 +9,15 @@ import {FormsModule} from '@angular/forms';
 import {ButtonModule, DropdownModule, InputTextModule} from 'primeng/primeng';
 import {DataViewModule} from 'primeng/dataview';
 import {SharedModule} from '../shared/shared.module';
-import { BedSortSelectComponent } from './bed-sort-select/bed-sort-select.component';
+import {BedSortSelectComponent} from './bed-sort-select/bed-sort-select.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     BedRoutingModule,
     FormsModule,
+    TranslateModule.forChild(),
 
     SharedModule,
 

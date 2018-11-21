@@ -14,12 +14,15 @@ import {
   WsRef,
 } from '@charlyghislain/plancul-api';
 import {CultureClientService} from '../../main/service/culture-client.service';
-import {combineLatest, Observable, Subscription} from 'rxjs';
+import {combineLatest, forkJoin, Observable, Subscription} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {Message} from 'primeng/api';
 import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
 import {ValidatedFormProperty} from '../../main/domain/validated-form-property';
 import {DateUtils} from '../../main/service/util/date-utils';
+import {MessageKeys} from '../../main/service/util/message-keys';
+import {LocalizationService} from '../../main/service/localization.service';
+import {ErrorKeys} from '../../main/service/util/error-keys';
 
 @Component({
   selector: 'pc-culture-form',
@@ -61,6 +64,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   constructor(private router: Router,
+              private localizationService: LocalizationService,
               private activatedRoute: ActivatedRoute,
               private tenantSelectionService: SelectedTenantService,
               private notificationService: NotificationMessageService,
@@ -278,15 +282,22 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   }
 
   private onCreationSuccess(ref: WsRef<WsCulture>) {
-    this.notificationService.addInfo('Saved');
+    this.localizationService.getTranslation(MessageKeys.SAVED_TITLE)
+      .subscribe(msg => this.notificationService.addInfo(msg));
     this.navigateOut();
   }
 
   private onCreationError(error: any) {
     if (this.requestService.isBadRequestError(error)) {
-      this.notificationService.addError('Error', 'The form is invalid');
+      forkJoin(
+        this.localizationService.getTranslation(MessageKeys.ERROR_TITLE),
+        this.localizationService.getTranslation(ErrorKeys.INVALID_FORM),
+      ).subscribe(msgs => this.notificationService.addError(msgs[0], msgs[1]));
     } else {
-      this.notificationService.addError('Error', 'Unexpected error');
+      forkJoin(
+        this.localizationService.getTranslation(MessageKeys.ERROR_TITLE),
+        this.localizationService.getTranslation(ErrorKeys.UNEXPECTED_ERROR),
+      ).subscribe(msgs => this.notificationService.addError(msgs[0], msgs[1]));
     }
   }
 

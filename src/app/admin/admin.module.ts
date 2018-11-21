@@ -9,7 +9,6 @@ import {ButtonModule} from 'primeng/button';
 import {InputTextModule} from 'primeng/primeng';
 import {FormsModule} from '@angular/forms';
 import {HeaderMenuComponent} from './header-menu/header-menu.component';
-import {NewTenantFormComponent} from './new-tenant-form/new-tenant-form.component';
 import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
@@ -24,7 +23,7 @@ import {SharedModule} from '../shared/shared.module';
     ButtonModule,
     InputTextModule,
   ],
-  declarations: [AdminAreaComponent, AdminDashboardComponent, HeaderMenuComponent, NewTenantFormComponent],
+  declarations: [AdminAreaComponent, AdminDashboardComponent, HeaderMenuComponent],
 })
 export class AdminModule {
 }

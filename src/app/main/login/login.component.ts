@@ -1,12 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
-import {combineLatest, Observable, Subscription} from 'rxjs';
+import {combineLatest, forkJoin, Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
 import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationMessageService} from '../service/notification-message.service';
 import {WsApplicationGroups} from '@charlyghislain/plancul-api';
+import {LocalizationService} from '../service/localization.service';
+import {ErrorKeys} from '../service/util/error-keys';
+import {MessageKeys} from '../service/util/message-keys';
 
 @Component({
   selector: 'pc-login',
@@ -23,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private loginService: LoginService,
               private router: Router,
+              private localizationService: LocalizationService,
               private activatedRoute: ActivatedRoute,
               private notificationMessageService: NotificationMessageService,
               private loggedUserService: LoggedUserService) {
@@ -68,7 +72,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private redirectOnLoginSuccess(unregistered: boolean, isAdmin: boolean) {
     if (unregistered) {
-      this.notificationMessageService.addWarning('Your account needs activation');
+      this.localizationService.getTranslation(ErrorKeys.ACOOUNT_NEEDS_ACTIVATION)
+        .subscribe(msg => this.notificationMessageService.addWarning(msg));
       this.router.navigate(['/register']);
       return;
     }
@@ -102,10 +107,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private onLoginError(error: any) {
     if (this.loginService.isInvalidCredentialError(error)) {
-      // TODO: translate in backend and use error message
-      this.notificationMessageService.addError('Login failed', 'Invalid credential');
+      forkJoin(
+        this.localizationService.getTranslation(MessageKeys.LOGIN_FAILED_TITLE),
+        this.localizationService.getTranslation(ErrorKeys.INVALID_CREDENTIALS),
+      ).subscribe(msgs => this.notificationMessageService.addError(msgs[0], msgs[1]));
     } else {
-      this.notificationMessageService.addError('Login failed', 'Unexpected error');
+      forkJoin(
+        this.localizationService.getTranslation(MessageKeys.LOGIN_FAILED_TITLE),
+        this.localizationService.getTranslation(ErrorKeys.UNEXPECTED_ERROR),
+      ).subscribe(msgs => this.notificationMessageService.addError(msgs[0], msgs[1]));
     }
   }
 

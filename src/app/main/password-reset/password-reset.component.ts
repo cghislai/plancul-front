@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../service/user.service';
 import {LoggedUserService} from '../service/logged-user.service';
@@ -8,6 +8,8 @@ import {filter} from 'rxjs/operators';
 import {WsPasswordReset} from '@charlyghislain/plancul-api';
 import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
+import {LocalizationService} from '../service/localization.service';
+import {MessageKeys} from '../service/util/message-keys';
 
 @Component({
   selector: 'pc-password-reset',
@@ -26,6 +28,7 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private userService: UserService,
+              private localizationService: LocalizationService,
               private loginService: LoginService,
               private loggedUserService: LoggedUserService,
               private notificationMessageService: NotificationMessageService,
@@ -65,13 +68,17 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
   }
 
   private onResetSucceeded() {
-    this.notificationMessageService.addInfo('Password reset');
+    forkJoin(
+      this.localizationService.getTranslation(MessageKeys.PASSWORD_RESET_SUCCESS_TITLE),
+      this.localizationService.getTranslation(MessageKeys.PASSWORD_RESET_SUCCESS_MESSAGE),
+    ).subscribe(msgs => this.notificationMessageService.addInfo(msgs[0], msgs[1]));
     this.loginService.login(new BasicCredential(
       this.email, this.password,
     )).subscribe(() => this.router.navigate(['/welcome']));
   }
 
   private onResetError(error) {
-    this.notificationMessageService.addError(error);
+    this.localizationService.getTranslation(MessageKeys.PASSWORD_RESET_ERROR_TITLE)
+      .subscribe(msg => this.notificationMessageService.addError(msg, error));
   }
 }

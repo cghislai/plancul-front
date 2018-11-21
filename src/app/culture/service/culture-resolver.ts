@@ -4,7 +4,9 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable, throwError} from 'rxjs';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {filter, map, take} from 'rxjs/operators';
+import {filter, map, mergeMap, take} from 'rxjs/operators';
+import {LocalizationService} from '../../main/service/localization.service';
+import {ErrorKeys} from '../../main/service/util/error-keys';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ import {filter, map, take} from 'rxjs/operators';
 export class CultureResolver implements Resolve<WsCulture> {
 
   constructor(private cultureClient: CultureClientService,
+              private localizationService: LocalizationService,
               private tenantSelectionService: SelectedTenantService,
   ) {
   }
@@ -19,14 +22,18 @@ export class CultureResolver implements Resolve<WsCulture> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<WsCulture> | Promise<WsCulture> | WsCulture {
     const idParam = route.paramMap.get('id');
     if (idParam == null) {
-      return throwError('invalid id');
+      return this.localizationService.getTranslation(ErrorKeys.INVALID_ID).pipe(
+        mergeMap(msg => throwError(new Error(msg))),
+      );
     }
     if (idParam === 'new') {
       return this.createNewCulture();
     }
     const idIntParam = parseInt(idParam, 10);
     if (isNaN(idIntParam)) {
-      return throwError('invalid id');
+      return this.localizationService.getTranslation(ErrorKeys.INVALID_ID).pipe(
+        mergeMap(msg => throwError(new Error(msg))),
+      );
     }
     return this.cultureClient.fetchCulture(idIntParam);
   }

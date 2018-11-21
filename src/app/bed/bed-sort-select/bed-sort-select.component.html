@@ -1,4 +1,4 @@
-<p-dropdown [options]="sortOptions"
+<p-dropdown [options]="sortOptions | async"
             [(ngModel)]="sortValue"
             (onChange)="onSortChange($event)"
             [autoWidth]="false"

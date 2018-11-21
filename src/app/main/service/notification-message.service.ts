@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, timer} from 'rxjs';
 import {Message, MessageService} from 'primeng/api';
 
 @Injectable({
@@ -7,7 +6,6 @@ import {Message, MessageService} from 'primeng/api';
 })
 export class NotificationMessageService {
 
-  private readonly MESSAGE_DELAY_TIMOUT_MS = 3000;
 
   constructor(private messageService: MessageService) {
   }

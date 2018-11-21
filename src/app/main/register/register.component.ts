@@ -11,6 +11,9 @@ import {NotificationMessageService} from '../service/notification-message.servic
 import {AuthenticatorGroups} from '../service/util/authenticator-groups';
 import {UserService} from '../service/user.service';
 import {WsUser as WsAuthenticatorUser} from '@charlyghislain/authenticator-api';
+import {LocalizationService} from '../service/localization.service';
+import {ErrorKeys} from '../service/util/error-keys';
+import {MessageKeys} from '../service/util/message-keys';
 
 @Component({
   selector: 'pc-register',
@@ -30,6 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   constructor(@Inject(LOCALE_ID) private localeId: string,
               private userService: UserService,
               private loginService: LoginService,
+              private localizationService: LocalizationService,
               private loggedUserService: LoggedUserService,
               private router: Router,
               private notificationMessageService: NotificationMessageService,
@@ -90,7 +94,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private onRegistered(user: WsUser) {
-    this.notificationMessageService.addInfo('Account created');
+    this.localizationService.getTranslation(MessageKeys.ACCOUNT_CREATED_TITLE)
+      .subscribe(msg => this.notificationMessageService.addInfo(msg));
     this.loginPostRegistration(user)
       .pipe(
         mergeMap(() => this.loggedUserService.getIsInGroupsObservable(AuthenticatorGroups.ACTIVE)),
@@ -109,7 +114,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private onRegistrationError(error: any) {
-    this.notificationMessageService.addError('Failed to create your account', error);
+    this.localizationService.getTranslation(MessageKeys.ACCOUNT_REGISTRATION_ERROR_TITLE)
+      .subscribe(msg => this.notificationMessageService.addError(msg, error));
   }
 
   private loginPostRegistration(newUser: WsUser) {

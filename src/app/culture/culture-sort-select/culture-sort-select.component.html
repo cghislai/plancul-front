@@ -1,5 +1,5 @@
 <span class="culture-sort-select pc-sort-select">
-  <p-dropdown [options]="fieldOptions"
+  <p-dropdown [options]="fieldOptions$ | async"
               [ngModel]="fieldValue | async"
               (ngModelChange)="onFieldChange($event)"
               [autoWidth]="false"

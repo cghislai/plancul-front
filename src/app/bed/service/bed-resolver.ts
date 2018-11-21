@@ -4,7 +4,9 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import {Observable, throwError} from 'rxjs';
 import {BedClientService} from '../../main/service/bed-client.service';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {map, publishReplay, refCount, take, tap} from 'rxjs/operators';
+import {map, mergeMap, mergeMapTo, take} from 'rxjs/operators';
+import {LocalizationService} from '../../main/service/localization.service';
+import {ErrorKeys} from '../../main/service/util/error-keys';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +14,7 @@ import {map, publishReplay, refCount, take, tap} from 'rxjs/operators';
 export class BedResolver implements Resolve<WsBed> {
 
   constructor(private bedClient: BedClientService,
+              private localizationService: LocalizationService,
               private tenantSelectionService: SelectedTenantService,
   ) {
   }
@@ -19,14 +22,18 @@ export class BedResolver implements Resolve<WsBed> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<WsBed> | Promise<WsBed> | WsBed {
     const idParam = route.paramMap.get('id');
     if (idParam == null) {
-      return throwError('invalid id');
+      return this.localizationService.getTranslation(ErrorKeys.INVALID_ID).pipe(
+        mergeMap(msg => throwError(new Error(msg))),
+      );
     }
     if (idParam === 'new') {
       return this.createNewBed();
     }
     const idIntParam = parseInt(idParam, 10);
     if (isNaN(idIntParam)) {
-      return throwError('invalid id');
+      return this.localizationService.getTranslation(ErrorKeys.INVALID_ID).pipe(
+        mergeMap(msg => throwError(new Error(msg))),
+      );
     }
     return this.bedClient.fetchBed(idIntParam);
   }

@@ -6,6 +6,8 @@ import {distinctUntilChanged, filter, map, publishReplay, refCount, tap} from 'r
 import {SelectItem} from 'primeng/api';
 import {CROP_FIELD_OPTIONS} from './crop-field-options';
 import {SortComparator} from '../../main/domain/sort-comparator';
+import {LocalizationService} from '../../main/service/localization.service';
+import {CssClassConstants} from '../../main/service/util/css-class-constants';
 
 @Component({
   selector: 'pc-crop-sort-select',
@@ -26,12 +28,12 @@ export class CropSortSelectComponent implements OnInit {
   @Output()
   private selectionChange: Observable<Sort>;
 
-  fieldOptions = CROP_FIELD_OPTIONS.sort(this.sortFieldOption);
+  fieldOptions$: Observable<SelectItem[]>;
   fieldValue = new BehaviorSubject<WsCropSortField>(null);
   orderValue = new BehaviorSubject<WsSortOrder>(WsSortOrder.ASC);
   orderIcon: Observable<string>;
 
-  constructor() {
+  constructor(private localizationService: LocalizationService) {
     this.selectionChange = combineLatest(this.fieldValue, this.orderValue)
       .pipe(
         filter(r => r[0] != null && r[1] != null),
@@ -40,8 +42,12 @@ export class CropSortSelectComponent implements OnInit {
         publishReplay(1), refCount(),
       );
     this.orderIcon = this.orderValue.pipe(
-      map(order => order === WsSortOrder.ASC ? 'fa-sort-amount-asc' : 'fa-sort-amount-desc'),
+      map(order => order === WsSortOrder.ASC ? CssClassConstants.FA_SORT_ASC_ICON : CssClassConstants.FA_SORT_DESC_ICON),
       map(icon => `fa ${icon}`),
+      publishReplay(1), refCount(),
+    );
+    this.fieldOptions$ = this.localizationService.getSelectItemTranslations(CROP_FIELD_OPTIONS).pipe(
+      map(options => options.sort(this.sortFieldOption)),
       publishReplay(1), refCount(),
     );
   }

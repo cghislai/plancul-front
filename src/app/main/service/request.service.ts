@@ -1,6 +1,6 @@
 import {Credential} from '../domain/credential';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {EMPTY, Observable, throwError} from 'rxjs';
+import {EMPTY, forkJoin, Observable, throwError} from 'rxjs';
 import {Inject, Injectable} from '@angular/core';
 import {CredentialProviderService} from './credential-provider.service';
 import {catchError, map, mergeMap, take} from 'rxjs/operators';
@@ -12,6 +12,8 @@ import {PlanCulClientConfig} from '../domain/plan-cul-client-config';
 import {PLAN_CUL_CLIENT_CONFIG} from './util/client-config.token';
 import {JwtCrential} from '../domain/jwt-crential';
 import {Router} from '@angular/router';
+import {LocalizationService} from './localization.service';
+import {MessageKeys} from './util/message-keys';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +23,7 @@ export class RequestService {
 
   constructor(private http: HttpClient,
               private router: Router,
+              private localizationService: LocalizationService,
               private notificationMessageService: NotificationMessageService,
               private credentialProvider: CredentialProviderService,
               @Inject(PLAN_CUL_CLIENT_CONFIG) private clientConfig: PlanCulClientConfig) {
@@ -212,7 +215,10 @@ export class RequestService {
 
 
   private handletokenRenewalError(error: any) {
-    this.notificationMessageService.addError('Session expired', 'Please sign in again');
+    forkJoin(
+      this.localizationService.getTranslation(MessageKeys.SESSION_EXPIRED_TITLE),
+      this.localizationService.getTranslation(MessageKeys.SIGN_IN_AGAIN_MESSAGE),
+    ).subscribe(msgs => this.notificationMessageService.addError(msgs[0], msgs[1]));
     this.credentialProvider.setCredential(null);
     this.router.navigate(['/login']);
   }

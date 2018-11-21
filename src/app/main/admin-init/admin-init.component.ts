@@ -2,7 +2,7 @@ import {Component, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
 import {WsApplicationGroups, WsUser, WsUserRegistration} from '@charlyghislain/plancul-api';
 import {LoginService} from '../service/login.service';
 import {LanguageUtil} from '../service/util/language-util';
-import {Observable, of, Subscription} from 'rxjs';
+import {forkJoin, Observable, of, Subscription} from 'rxjs';
 import {BasicCredential} from '../domain/basic-credential';
 import {filter, mergeMap, take} from 'rxjs/operators';
 import {NotificationMessageService} from '../service/notification-message.service';
@@ -10,6 +10,9 @@ import {Router} from '@angular/router';
 import {ApplicationStatusClientService} from '../service/application-status-client.service';
 import {LoggedUserService} from '../service/logged-user.service';
 import {UserService} from '../service/user.service';
+import {MessageKeys} from '../service/util/message-keys';
+import {LocalizationService} from '../service/localization.service';
+import {ErrorKeys} from '../service/util/error-keys';
 
 @Component({
   selector: 'pc-admin-init',
@@ -31,6 +34,7 @@ export class AdminInitComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(LOCALE_ID) private localeId: string,
               private loggedUserService: LoggedUserService,
+              private localizationService: LocalizationService,
               private applicationStatusClientService: ApplicationStatusClientService,
               private loginService: LoginService,
               private userService: UserService,
@@ -83,7 +87,8 @@ export class AdminInitComponent implements OnInit, OnDestroy {
   }
 
   private onRegistered(user: WsUser) {
-    this.notificationMessageService.addInfo('Admin account created');
+    this.localizationService.getTranslation(MessageKeys.ADMIN_ACCOUNT_CREATED_TITLE)
+      .subscribe(msg => this.notificationMessageService.addInfo(msg));
     this.loginPostRegistration(user).subscribe(
       () => {
       },
@@ -92,7 +97,8 @@ export class AdminInitComponent implements OnInit, OnDestroy {
   }
 
   private onRegistrationError(error: any) {
-    this.notificationMessageService.addError('Failed to create admin account', error);
+    this.localizationService.getTranslation(ErrorKeys.FAILED_TO_CREATE_ADMIN_ACCOUNT)
+      .subscribe(msg => this.notificationMessageService.addError(msg, error));
   }
 
   private onAdminLoggedIn() {

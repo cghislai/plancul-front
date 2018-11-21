@@ -24,6 +24,8 @@
     "@charlyghislain/astronomy-api": "file:../back/astronomy-api/target/npm",
     "@charlyghislain/authenticator-api": "^1.0.0",
     "@charlyghislain/plancul-api": "file:../back/plancul-api/target/npm",
+    "@ngx-translate/core": "^11.0.1",
+    "@ngx-translate/http-loader": "^4.0.0",
     "@types/vis": "^4.21.5",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",

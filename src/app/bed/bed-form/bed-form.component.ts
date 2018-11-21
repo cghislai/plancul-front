@@ -4,8 +4,11 @@ import {WsBed, WsRef} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';
-import {Subscription} from 'rxjs';
+import {forkJoin, Subscription} from 'rxjs';
 import {BedClientService} from '../../main/service/bed-client.service';
+import {LocalizationService} from '../../main/service/localization.service';
+import {MessageKeys} from '../../main/service/util/message-keys';
+import {ErrorKeys} from '../../main/service/util/error-keys';
 
 @Component({
   selector: 'pc-bed-form',
@@ -19,6 +22,7 @@ export class BedFormComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   constructor(private router: Router,
+              private localizationService: LocalizationService,
               private activatedRoute: ActivatedRoute,
               private tenantSelectionService: SelectedTenantService,
               private notificationService: NotificationMessageService,
@@ -49,22 +53,28 @@ export class BedFormComponent implements OnInit, OnDestroy {
   }
 
   private onCreationSuccess(ref: WsRef<WsBed>) {
-    this.notificationService.addInfo('Saved');
+    this.localizationService.getTranslation(MessageKeys.SAVED_TITLE)
+      .subscribe(msg => this.notificationService.addInfo(msg));
     this.navigateOut();
   }
 
   private onCreationError(error: any) {
     if (this.requestService.isBadRequestError(error)) {
-      this.notificationService.addError('Error', 'The form is invalid');
+      forkJoin(
+        this.localizationService.getTranslation(MessageKeys.ERROR_TITLE),
+        this.localizationService.getTranslation(ErrorKeys.INVALID_FORM),
+      ).subscribe(msgs => this.notificationService.addError(msgs[0], msgs[1]));
     } else {
-      this.notificationService.addError('Error', 'Unexpected error');
+      forkJoin(
+        this.localizationService.getTranslation(MessageKeys.ERROR_TITLE),
+        this.localizationService.getTranslation(ErrorKeys.UNEXPECTED_ERROR),
+      ).subscribe(msgs => this.notificationService.addError(msgs[0], msgs[1]));
     }
   }
 
   private onRouteData(data: Data) {
     this.bed = data.bed;
   }
-
 
   private navigateOut() {
     this.router.navigate(['/beds/_/list']);

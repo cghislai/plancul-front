@@ -15,10 +15,10 @@ import {IconsModule} from '../icons/icons.module';
 import {RegisterComponent} from './register/register.component';
 import {AdminInitComponent} from './admin-init/admin-init.component';
 import {FieldEqualityValidator} from './service/util/field-equality-validator';
-import { NewTenantComponent } from './new-tenant/new-tenant.component';
-import { ActivateAccountComponent } from './activate-account/activate-account.component';
-import { NewPasswordResetComponent } from './new-password-reset/new-password-reset.component';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
+import {ActivateAccountComponent} from './activate-account/activate-account.component';
+import {NewPasswordResetComponent} from './new-password-reset/new-password-reset.component';
+import {PasswordResetComponent} from './password-reset/password-reset.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -26,6 +26,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     FormsModule,
     RouterModule,
     HttpClientModule,
+    TranslateModule,
 
     BrowserModule,
     BrowserAnimationsModule,
@@ -44,7 +45,6 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
     MenuComponent,
     RegisterComponent,
     AdminInitComponent,
-    NewTenantComponent,
     ActivateAccountComponent,
     NewPasswordResetComponent,
     PasswordResetComponent,
@@ -55,6 +55,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
   exports: [
     ButtonModule,
     InputTextModule,
+    TranslateModule,
   ],
 })
 export class MainModule {

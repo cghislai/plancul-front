@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../service/user.service';
 import {NotificationMessageService} from '../service/notification-message.service';
 import {Router} from '@angular/router';
+import {forkJoin} from 'rxjs';
+import {MessageKeys} from '../service/util/message-keys';
+import {ErrorKeys} from '../service/util/error-keys';
+import {LocalizationService} from '../service/localization.service';
 
 @Component({
   selector: 'pc-new-password-reset',
@@ -13,6 +17,7 @@ export class NewPasswordResetComponent implements OnInit {
   email: string;
 
   constructor(private userService: UserService,
+              private localizationService: LocalizationService,
               private notificationMessageService: NotificationMessageService,
               private router: Router) {
   }
@@ -27,11 +32,15 @@ export class NewPasswordResetComponent implements OnInit {
   }
 
   private onSuccess() {
-    this.notificationMessageService.addInfo('An email has been sent', 'Check your inbox for a link to reset your password');
+    forkJoin(
+      this.localizationService.getTranslation(MessageKeys.EMAIL_SENT_TITLE),
+      this.localizationService.getTranslation(MessageKeys.CHECK_MAIL_FOR_PASSWORD_RESET_MESSAGE),
+    ).subscribe(msgs => this.notificationMessageService.addInfo(msgs[0], msgs[1]));
     this.router.navigate(['/login']);
   }
 
   private onError(error: any) {
-    this.notificationMessageService.addError('Could not send you the reset link by mail', error);
+    this.localizationService.getTranslation(MessageKeys.EMAIL_COULD_NOT_BE_SENT_TITLE)
+      .subscribe(msg => this.notificationMessageService.addError(msg, error));
   }
 }
