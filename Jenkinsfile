@@ -26,7 +26,7 @@ pipeline {
     stages {
         stage ('Install') {
             steps {
-                nodejs(nodeJSInstallationName: 'node 10', configId: 'npm-global-config') {
+                nodejs(nodeJSInstallationName: 'node 10', configId: 'npmrc-@charlyghislain') {
                     ansiColor('xterm') {
                     sh '''
                         rm -rfv dist*
@@ -39,7 +39,7 @@ pipeline {
         stage ('Build') {
             steps {
               withCredentials([usernameColonPassword(credentialsId: 'nexus-basic-auth', variable: 'NEXUS_BASIC_AUTH')]) {
-              nodejs(nodeJSInstallationName: 'node 10', configId: 'npm-global-config') {  catchError {
+              nodejs(nodeJSInstallationName: 'node 10', configId: 'npmrc-@charlyghislain') {  catchError {
                 ansiColor('xterm') {
                   sh '''
                    for LANG in $LANGUAGES ; do
@@ -57,7 +57,7 @@ pipeline {
             steps {
                 withCredentials([usernameColonPassword(credentialsId: 'nexus-basic-auth', variable: 'NEXUS_BASIC_AUTH')]) {
                   ansiColor('xterm') {
-                     nodejs(nodeJSInstallationName: 'node 10', configId: 'npm-global-config') {
+                     nodejs(nodeJSInstallationName: 'node 10', configId: 'npmrc-@charlyghislain') {
                          sh '''
                            for LANG in $LANGUAGES ; do
                               # Read version
