@@ -86,8 +86,8 @@ pipeline {
                                 curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
                                   ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
   
-                              elif [ "${BRANCH_NAME}" = "dev" ] ; then
-                                export ARCHIVE_LINK="dev.${LANG}.latest"
+                              elif [ "${BRANCH_NAME}" = "rc" ] ; then
+                                export ARCHIVE_LINK="rc.${LANG}.latest"
                                 echo "$ARCHIVE" > ./${ARCHIVE_LINK}
                                 curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
                                   ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
