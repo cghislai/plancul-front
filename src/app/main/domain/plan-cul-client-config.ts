@@ -3,4 +3,8 @@ export interface PlanCulClientConfig {
   authenticatorApiUrl: string;
   astronomyApiUrl: string;
   authenticatorApplicationName: string;
+  applicationUrlsByLanguages: {
+    [lang: string]: string
+  };
+
 }

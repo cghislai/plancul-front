@@ -4,6 +4,8 @@ import {PLAN_CUL_APP_INFO} from './main/service/util/app-info-token';
 import {WsLanguage} from '@charlyghislain/plancul-api';
 import {ApplicationLanguageService} from './main/service/application-language.service';
 import {Router} from '@angular/router';
+import {PLAN_CUL_CLIENT_CONFIG} from './main/service/util/client-config.token';
+import {PlanCulClientConfig} from './main/domain/plan-cul-client-config';
 
 @Component({
   selector: 'pc-root',
@@ -15,8 +17,8 @@ export class AppComponent {
   currentLanguage: WsLanguage;
   languages: WsLanguage[];
 
-  constructor(@Inject(PLAN_CUL_APP_INFO)
-              public appInfo: PlanCulApplicationInfo,
+  constructor(@Inject(PLAN_CUL_CLIENT_CONFIG)
+              public clientConfig: PlanCulClientConfig,
               private router: Router,
               private appLanguageService: ApplicationLanguageService,
   ) {
@@ -28,7 +30,7 @@ export class AppComponent {
     if (lang == null) {
       return;
     }
-    const url = this.appInfo.applicationUrlsByLanguages[lang.toLowerCase()];
+    const url = this.clientConfig.applicationUrlsByLanguages[lang.toLowerCase()];
     if (url == null) {
       return;
     }

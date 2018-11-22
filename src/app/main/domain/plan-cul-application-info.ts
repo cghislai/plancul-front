@@ -5,8 +5,5 @@ export interface PlanCulApplicationInfo {
   version: string;
   copyleft: string;
   projectUrl: string;
-  applicationUrlsByLanguages: {
-    [lang: string]: string
-  };
 
 }
