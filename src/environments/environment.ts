@@ -11,6 +11,10 @@ export const environment = {
     astronomyApiUrl: 'https://localhost:8183/astronomy-ws',
     authenticatorApiUrl: 'https://localhost:8443',
     authenticatorApplicationName: 'plancul',
+    applicationUrlsByLanguages: {
+      french: 'http://localhost:4200/fr',
+      english: 'http://localhost:4200/en',
+    },
   },
 };
 
