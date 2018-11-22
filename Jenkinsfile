@@ -10,7 +10,7 @@ pipeline {
           description: 'Will be appended with the language'
         )
         string(
-          name: 'LANGUAGES', defaultValue: 'en',
+          name: 'LANGUAGES', defaultValue: 'en fr',
           description: 'Space-separated list of locales to build'
         )
         booleanParam(name: 'SKIP_TESTS', defaultValue: true, description: 'Skip tests')
