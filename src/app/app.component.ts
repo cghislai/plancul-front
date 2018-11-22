@@ -19,6 +19,8 @@ export class AppComponent {
 
   constructor(@Inject(PLAN_CUL_CLIENT_CONFIG)
               public clientConfig: PlanCulClientConfig,
+              @Inject(PLAN_CUL_APP_INFO)
+              public appInfo: PlanCulApplicationInfo,
               private router: Router,
               private appLanguageService: ApplicationLanguageService,
   ) {
