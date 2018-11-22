@@ -81,13 +81,13 @@ pipeline {
   
                               # Create .latest 'links' (branch heads) if required
                               if [ "${BRANCH_NAME}" = "master" ] ; then
-                                export ARCHIVE_LINK="master.latest"
+                                export ARCHIVE_LINK="master.${LANG}.latest"
                                 echo "$ARCHIVE" > ./${ARCHIVE_LINK}
                                 curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
                                   ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
   
                               elif [ "${BRANCH_NAME}" = "dev" ] ; then
-                                export ARCHIVE_LINK="dev.latest"
+                                export ARCHIVE_LINK="dev.${LANG}.latest"
                                 echo "$ARCHIVE" > ./${ARCHIVE_LINK}
                                 curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
                                   ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
