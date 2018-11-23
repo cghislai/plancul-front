@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="0cb13dd3aa1570fbeb19aa423b27581dc434271a" datatype="html">
+        <source>
+      Patch:
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/bed/bed.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06d89d48cfdcd846399ef6f6b86d31d8d98aab0e" datatype="html">
+        <source>Type to search</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/crop-filter/crop-filter.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-filter/bed-filter.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="07d244322a46a265a01d54eb80fdae8adb2ae4b0" datatype="html">
+        <source>
+  Everywhere
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/crop-search-query-type/crop-search-query-type.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9d3849480f4281b3332347a65b5bd1f209c1a7ba" datatype="html">
+        <source>
+  Plant
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/crop-search-query-type/crop-search-query-type.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6b96612ea6d8770130686a24d1abd27dbfa290a2" datatype="html">
+        <source>
+  Cultivar
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/crop-search-query-type/crop-search-query-type.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3071dc53bcfb77802e359696474ac6f3b900615e" datatype="html">
+        <source>Crop</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="38818e478df29ca0697839455be131bac99ea892" datatype="html">
+        <source>Bed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="23d77d9654a45d898ed812cf5527d5ffdf2d93b7" datatype="html">
+        <source>Bed preparation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">213</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eae02405c5e21a49e271f4f367c604c9f0685084" datatype="html">
+        <source>Sowing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="81c0231951f65f2a1089eac78cc19174c8010668" datatype="html">
+        <source>Nursing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">172</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="770738fdc5b8904cc7c51e2dcfc528b8c9ae6a80" datatype="html">
+        <source>Transplantation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4d6cca9d917ec9b9998c50be50a8290a521223b8" datatype="html">
+        <source>Harvest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d5e0dbc9fd4651759df915cdc6ba26fe3f17475f" datatype="html">
+        <source>From</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/date-range-select/date-range-select.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/date-range/date-range.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">260</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="63c9c3aa536dbd11120ae8feab62186c47838028" datatype="html">
+        <source>To</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/date-range-select/date-range-select.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/date-range/date-range.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">264</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="03422244a20c8c5d3fcd7e313e4ffeb9ec375e75" datatype="html">
+        <source>Invalid range</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/date-range-select/date-range-select.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b69525a3135841190e34fd6ab39b79f06ed2140d" datatype="html">
+        <source>
+  Presowing
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/bed-preparation-type/bed-preparation-type.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3ef4fd06f421c22a42b9d6ea178ca58f14dfe66c" datatype="html">
+        <source>
+  Cover
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/bed-preparation-type/bed-preparation-type.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fc34f2683c4cb526ed7095c5b1cdd66d672ba932" datatype="html">
+        <source>days</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/bed-preparation/bed-preparation.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-nursing/culture-nursing.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-harvest/culture-harvest.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f8f51dbca86503147f210f042fa054fdde91f236" datatype="html">
+        <source>
+    <x id="START_TAG_NG-CONTAINER" ctype="x-ng-container" equiv-text="&lt;ng-container&gt;"/>
+      English
+    <x id="CLOSE_TAG_NG-CONTAINER" ctype="x-ng-container" equiv-text="&lt;/ng-container&gt;"/>
+    <x id="START_TAG_NG-CONTAINER_1" ctype="x-ng-container" equiv-text="&lt;ng-container&gt;"/>
+      French
+    <x id="CLOSE_TAG_NG-CONTAINER" ctype="x-ng-container" equiv-text="&lt;/ng-container&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/language/language.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ef3e1a3d9ee79faada27955eea730d4d1e3fed40" datatype="html">
+        <source>
+    Welcome !
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">login page title</note>
+      </trans-unit>
+      <trans-unit id="a4166b55b0fd8232055341b534ab4c30fef9f034" datatype="html">
+        <source>
+      Please log in to continue
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description">login page header</note>
+      </trans-unit>
+      <trans-unit id="login-field-title" datatype="html">
+        <source>Login or email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/new-password-reset/new-password-reset.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/new-password-reset/new-password-reset.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <note priority="1" from="description">login field title</note>
+      </trans-unit>
+      <trans-unit id="password-field-title" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">126</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="description">password field title</note>
+      </trans-unit>
+      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">login button label</note>
+      </trans-unit>
+      <trans-unit id="f3fa1b135cc41838d539fc6b34439a390f362e31" datatype="html">
+        <source>
+        Create a new account
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <note priority="1" from="description">login new-account-link label</note>
+      </trans-unit>
+      <trans-unit id="eed29fdf7f25f4191b91edd2b6ca9be446b993dd" datatype="html">
+        <source>Create new account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <note priority="1" from="description">login new-account-link title</note>
+      </trans-unit>
+      <trans-unit id="404d32d7f0ad99387f33d2df3e542c89e08165c5" datatype="html">
+        <source>
+        Forgot your password?
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <note priority="1" from="description">login password-reset label</note>
+      </trans-unit>
+      <trans-unit id="6a6a5a45d7df5b7f0169fd2096d78910bb5d0b7d" datatype="html">
+        <source>Forgot your password?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/login/login.component.html</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <note priority="1" from="description">login password-reset  title</note>
+      </trans-unit>
+      <trans-unit id="09e734b5684115637c3229772c52ddfb7c1a6bf7" datatype="html">
+        <source>
+      Please fill the form below to create an account
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description">register page header no-existing-account</note>
+      </trans-unit>
+      <trans-unit id="27fb2c41fec8bd405a6455e1aad640f258aec856" datatype="html">
+        <source>
+      Please complete the information to activate your account
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">register page header existing-account</note>
+      </trans-unit>
+      <trans-unit id="email-field-title" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">113</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description">email field title</note>
+      </trans-unit>
+      <trans-unit id="name-field-title" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+        <note priority="1" from="description">name field title</note>
+      </trans-unit>
+      <trans-unit id="password-check-field-title" datatype="html">
+        <source>Password check</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+        <note priority="1" from="description">password-check field title</note>
+      </trans-unit>
+      <trans-unit id="d207cc1965ec0c29e594e0e9917f39bfc276ed87" datatype="html">
+        <source>Create an account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <note priority="1" from="description">register button label</note>
+      </trans-unit>
+      <trans-unit id="409a4be679ad8ac19aa3a3162bbb689b93f69285" datatype="html">
+        <source>
+      You need to setup the admin account before continuing.
+      <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+      Check for the initialization token in your server log.
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description">admin-init page header</note>
+      </trans-unit>
+      <trans-unit id="adminToken-field-title" datatype="html">
+        <source>Admin initialization token</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+        <note priority="1" from="description">adminToken field title</note>
+      </trans-unit>
+      <trans-unit id="4c7bfd2e60def39a8121ee0a706a6f8b57a007fa" datatype="html">
+        <source>Use an existing account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="602a8e5e24a45fde460fa15670c0ac146748c47b" datatype="html">
+        <source>Create administrator account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
+          <context context-type="linenumber">158</context>
+        </context-group>
+        <note priority="1" from="description">admin-init button label</note>
+      </trans-unit>
+      <trans-unit id="527745343ce413d443921c5aae39e7dfb28406bc" datatype="html">
+        <source>
+    Account activation
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">activate-account page title</note>
+      </trans-unit>
+      <trans-unit id="7b0fa175c30ec49cac33ce2e8e1d63045e1a212d" datatype="html">
+        <source>
+      Your account is waiting for email verification.
+      <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+      Click on the link in the mail you received, or paste your activation token in the form below
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description">activate-account page header</note>
+      </trans-unit>
+      <trans-unit id="token-field-title" datatype="html">
+        <source>Activation token</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">token field title</note>
+      </trans-unit>
+      <trans-unit id="f5cc3ea18ee71d1e4d9bbad8eaa37434229441ae" datatype="html">
+        <source>Activate your account</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/activate-account/activate-account.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="description">activate button label</note>
+      </trans-unit>
+      <trans-unit id="1c08f9b7300c9da48aabbcdc47736ecd528ce163" datatype="html">
+        <source>
+    Password reset
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/new-password-reset/new-password-reset.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">password-reset page title</note>
+      </trans-unit>
+      <trans-unit id="e427ab669b900658cc64c087ea5250066391baa3" datatype="html">
+        <source>
+      Please enter your email below to reset your password.
+      <x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+      You will receive an email containing a link to enter your new password.
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/new-password-reset/new-password-reset.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description">password-reset page header</note>
+      </trans-unit>
+      <trans-unit id="efaff19a9a2c7f3af986ad67bf14a970340521d1" datatype="html">
+        <source>Reset your password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/new-password-reset/new-password-reset.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+        <note priority="1" from="description">password-reset button label</note>
+      </trans-unit>
+      <trans-unit id="3866c7869e6161cc5a8b930997bbc5ad1a6e897e" datatype="html">
+        <source>
+    Choose a new password
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">password-reset page title</note>
+      </trans-unit>
+      <trans-unit id="2d5428357412f4be2c951bae79a59ac7fe6eb4b7" datatype="html">
+        <source>
+      Fill in the form below to change your password
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/password-reset/password-reset.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <note priority="1" from="description">password-reset page header</note>
+      </trans-unit>
+      <trans-unit id="977994e5013bc3ec381e14da3039f0b5b95c1df3" datatype="html">
+        <source>Crops</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/menu/menu.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/crop-list/crop-list.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d296f878396c1f326bc3523535623eb4a90d3fc" datatype="html">
+        <source>Beds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/menu/menu.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-list/bed-list.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9fd0902ad05623ac5dd315aee095fde88f72fe1e" datatype="html">
+        <source>Cultures</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/menu/menu.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="41108d1fe0c5c9e7394d50117af61bd75c05a096" datatype="html">
+        <source>Timelines</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/menu/menu.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ee87b81941ce88c77656e7ab284bafa838a0ba5c" datatype="html">
+        <source>
+        Dashboard
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/admin/header-menu/header-menu.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description">dashboard menu link</note>
+      </trans-unit>
+      <trans-unit id="f65253954b66e929a8b4d5ecaf61f9129f8cec64" datatype="html">
+        <source>Dashboard</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/admin/header-menu/header-menu.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <note priority="1" from="description">dashboard menu link title</note>
+      </trans-unit>
+      <trans-unit id="a0890f99bdd10d34f927a037f8a433890385693e" datatype="html">
+        <source>
+        Tenants
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/admin/header-menu/header-menu.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="56fa55f567baf872eff5cd3c1b41c1c1036ac372" datatype="html">
+        <source>
+        Users
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/admin/header-menu/header-menu.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="263837fcf43c3b26bd93bc4643e4d3ee17940080" datatype="html">
+        <source>New bed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-list/bed-list.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5d43539fc358c3a548b9d487be821db73e2702ff" datatype="html">
+        <source>Sort</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-list/bed-list.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/crop-list/crop-list.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5ca707824ab93066c7d9b44e1b8bf216725c2c22" datatype="html">
+        <source>Filter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-list/bed-list.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/crop-list/crop-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1c978eb8e8369f2c85fdc1bfac1698db8509d4d6" datatype="html">
+        <source>Remove bed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-list/bed-list.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="31e82ab4c1cd7040e2c053bbbba0d8f4e327404f" datatype="html">
+        <source>Bed edition</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7d8ff441ac09b99d10893a07675aea31d2721331" datatype="html">
+        <source>Patch</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-filter/bed-filter.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">301</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">306</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d8eb82879ea5a3f60b53ab88fe318cdc51ec1335" datatype="html">
+        <source>New crop</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/crop-list/crop-list.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ad5f9d990cb907def0aa5298ab599139cfbc5241" datatype="html">
+        <source>Crop edition</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6f3aae5b3d3e62432b92e670b0370f87ad2e5fa1" datatype="html">
+        <source>FAO query</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="29ee9cda8e54cd01ef19e927328224388bd6b611" datatype="html">
+        <source>
+          Try to use one of the FAO results in order to be able to correlate the crop information with open databases.
+          Pay extra care with accents that must be correctly provided in the query.
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bc155f9fc3be3f32083f19b2c77d4ad3b696d9b9" datatype="html">
+        <source>Display name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e64b7c7f0ef9c0a6adc7fe4f6b304c108026b5ee" datatype="html">
+        <source>Family</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ec2b122ed8617f51ed128267a65711e40e56b5bc" datatype="html">
+        <source>Species</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cea6340f2b598e900ce1b49c9c419707a62bdfaf" datatype="html">
+        <source>Subspecies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="776759b84c70b0a9962e60960dcbc518d8a3d677" datatype="html">
+        <source>Cultivar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="99ee4faa69cd2ea8e3678c1f557c0ff1f05aae46" datatype="html">
+        <source>Clear</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/crop/agrovoc-plant-product-tuple-select/agrovoc-plant-product-tuple-select.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5b4ae32727ee5fcb5aadff6db67ddc80241b204b" datatype="html">
+        <source>Culture edition</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f2f598eedca3a340781f01e7502106ceb0480924" datatype="html">
+        <source>Sowing date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="25b8e31789c80c7295cf898bf36b8693921c378e" datatype="html">
+        <source>Germination</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b52b46f649bbfb5cc201cfa96663e8842139266f" datatype="html">
+        <source>Until </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b7ee9ff96997f86340d105c78b29b4d448b9a870" datatype="html">
+        <source>First harvest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="634c70dd660be0df340cdd05334a5563b44ad0cf" datatype="html">
+        <source>days after sowing</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="525e47cb3ca307fb2c1154e7a32c08c24aabb225" datatype="html">
+        <source>Last harvest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="75d24362cc9c79bf4c7d62916d32739b3c08911a" datatype="html">
+        <source>days after first harvest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a02ea1d4e7424ca989929da5e598f379940fdbf2" datatype="html">
+        <source>Duration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">178</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">233</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html">
+        <source>Type</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">218</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f1f34b2b98e28c61eb19746f6e855a52e411ed23" datatype="html">
+        <source>Bed occupancy</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">257</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fcde58253a4cfd52c228eebdae74e1be7a1ab714" datatype="html">
+        <source>Notes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">273</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="358b37c3a2b89436321c19e7c0d05d7621a62bb3" datatype="html">
+        <source>New culture</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="062a0576b70f10a7d462ab865ac2ef4129021f11" datatype="html">
+        <source>Remove culture</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1a10bf9867bbc1be975a665e136b5172d54234aa" datatype="html">
+        <source>Bed occupancies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/timeline/beds-timeline/beds-timeline.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
