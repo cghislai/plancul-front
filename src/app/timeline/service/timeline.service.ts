@@ -101,7 +101,7 @@ export class TimelineService {
   }
 
   checkItemMoving(movingItem: vis.DataItem, curItem: WsCulture, phaseType: WsCulturePhaseType) {
-    const curGroup = curItem.bedWsRef.id;
+    const curGroup = this.getBedGroupId(curItem.bedWsRef.id);
     const newGroup = movingItem.group;
 
     if (phaseType === WsCulturePhaseType.NURSING) {
@@ -223,7 +223,7 @@ export class TimelineService {
   }
 
   private createCulturePhaseItem$(phase: WsCulturePhase, bedRef: WsRef<WsBed>, cultureLabel: string): Observable<vis.DataItem> {
-    const groupId = phase.phaseType === WsCulturePhaseType.NURSING ? this.PLANT_NURSERY_GROUP_ID : bedRef.id;
+    const groupId = phase.phaseType === WsCulturePhaseType.NURSING ? this.PLANT_NURSERY_GROUP_ID : this.getBedGroupId(bedRef.id);
     const phaseTypeName = <string>phase.phaseType;
     const cultureRef = phase.cultureWsRef;
     const cultureTitle$ = this.getCultureTitle$(cultureLabel, phase);
@@ -531,7 +531,7 @@ export class TimelineService {
       const patchGroup = patchGroupsDict[patch];
       const nestedItems = patchBedIdsDict[patch];
       // wrong typeings
-      patchGroup.nestedGroups = nestedItems.map(bedid => `${this.BED_GROUP_PREFIX}-${bedid}`) as undefined as number[];
+      patchGroup.nestedGroups = nestedItems.map(bedid => this.getBedGroupId(bedid)) as undefined as number[];
       patchGroups.push(patchGroup);
     }
     return patchGroups;
@@ -558,19 +558,27 @@ export class TimelineService {
 
   private createBedGroup(bed: WsBed): vis.DataGroup {
     return {
-      id: `${this.BED_GROUP_PREFIX}-${bed.id}`,
+      id: this.getBedGroupId(bed.id),
       content: bed.name,
       title: bed.name,
       subgroupStack: true,
     };
   }
 
+  private getBedGroupId(bedId:  number) {
+    return `${this.BED_GROUP_PREFIX}-${bedId}`;
+  }
+
   private createPatchGroup(patch: string): vis.DataGroup {
     return {
-      id: `${this.PATCH_GROUP_PREFIX}-${patch}`,
+      id: this.getPatchGroupId(patch),
       content: patch,
       className: 'bed-patch-group',
     };
+  }
+
+  private getPatchGroupId(patch: string) {
+    return `${this.PATCH_GROUP_PREFIX}-${patch}`;
   }
 
   private createMoonPhaseGroup(): Observable<vis.DataGroup> {

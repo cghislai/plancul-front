@@ -21,7 +21,7 @@ export class AdminMenuComponent implements OnInit {
   }
 
   isInAdminArea() {
-    return this.router.isActive('/admin', false);
+    return this.router.url.indexOf('/admin/_') >= 0;
   }
 
 
