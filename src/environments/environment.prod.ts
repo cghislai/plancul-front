@@ -3,13 +3,13 @@ import {PlanCulClientConfig} from '../app/main/domain/plan-cul-client-config';
 export const environment = {
   production: true,
   defaultClientConfig: <PlanCulClientConfig>{
-    apiUrl: 'https://localhost:8183/plancul-ws',
-    astronomyApiUrl: 'https://localhost:8183/astronomy-ws',
-    authenticatorApiUrl: 'https://localhost:8443',
+    apiUrl: 'https://plancul.charlyghislain.com/ws',
+    astronomyApiUrl: 'https://plancul.charlyghislain.com/astronomy-ws',
+    authenticatorApiUrl: 'https://auth.charlyghislain.com/ws',
     authenticatorApplicationName: 'plancul',
     applicationUrlsByLanguages: {
-      french: 'http://localhost:4200/fr',
-      english: 'http://localhost:4200/en',
+      french: 'https://plancul.charlyghislain.com/fr/',
+      english: 'https://plancul.charlyghislain.com/en/',
     },
   },
 };

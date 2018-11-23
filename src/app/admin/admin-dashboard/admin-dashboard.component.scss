@@ -1,0 +1,10 @@
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+
+  >* {
+    flex: 1 1 auto;
+    margin: 1em;
+  }
+}

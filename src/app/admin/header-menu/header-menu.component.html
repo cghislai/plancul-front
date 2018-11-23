@@ -11,25 +11,21 @@
       </span>
     </a>
 
-    <a [routerLink]="['/admin/_/tenant/new']"
+    <a [routerLink]="['/admin/_/tenant/list']"
        routerLinkActive="active-link"
-       title="New tenant"
-       i18n-title="new tenant menu link title"
+       title="Tenants"
     >
-      <span i18n="new tenant menu link">
-        New tenant
+      <span i18n>
+        Tenants
       </span>
     </a>
 
-  </span>
-
-  <span class="right">
-      <a (click)="onLogoutClick()"
-         title="Logout"
-         i18n-title="admin logout link title"
-      >
-      <span i18n="account logout link ">
-        Logout
+    <a [routerLink]="['/admin/_/user/list']"
+       routerLinkActive="active-link"
+       title="Users"
+    >
+      <span i18n>
+        Users
       </span>
     </a>
 

@@ -26,12 +26,15 @@ import {LanguageSelectComponent} from './language-select/language-select.compone
 import {LanguageComponent} from './language/language.component';
 import {PatchInputComponent} from './patch-input/patch-input.component';
 import {AccountMenuComponent} from './account-menu/account-menu.component';
+import {AdminMenuComponent} from './admin-menu/admin-menu.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
     IconsModule,
     FormsModule,
+    RouterModule,
 
     SelectButtonModule,
     CheckboxModule,
@@ -65,6 +68,7 @@ import {AccountMenuComponent} from './account-menu/account-menu.component';
     PatchInputComponent,
 
     AccountMenuComponent,
+    AdminMenuComponent,
 
     TemplateVarDirective,
   ],
@@ -93,6 +97,7 @@ import {AccountMenuComponent} from './account-menu/account-menu.component';
     PatchInputComponent,
 
     AccountMenuComponent,
+    AdminMenuComponent,
 
     TemplateVarDirective,
   ],

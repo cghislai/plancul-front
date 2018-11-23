@@ -19,7 +19,8 @@ export class LocalizationService {
               @Inject(LOCALE_ID) private localeId: string,
   ) {
     translateService.setDefaultLang('en');
-    translateService.use(localeId);
+    const localeLangPart = localeId.replace(/-.*$/, '');
+    translateService.use(localeLangPart);
   }
 
   getTranslation(key: string, params?: any): Observable<string> {

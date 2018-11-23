@@ -1,3 +1,30 @@
-<div>
+<div class="dashboard">
+
+  <p-card header="Tenants">
+    <div class="big-counter">
+      {{ tenantCount$ | async }}
+    </div>
+  </p-card>
+
+  <p-card header="Users">
+    <div class="big-counter">
+      {{ userCount$ | async }}
+    </div>
+  </p-card>
+
+  <p-card header="Astronomy event cache">
+    <button pButton type="button"
+            label="Clear cache"
+            (click)="onClearCacheClick()"></button>
+    <button pButton type="button"
+            label="Preload years"
+            (click)="onPreloadYearsClicked()"></button>
+    <div class="loading-status" *ngIf="loadingEventcache">
+      <p-progressBar [value]="loadedProgress"
+      ></p-progressBar>
+      <span>Loading {{loadingYear}}...</span>
+    </div>
+  </p-card>
+
 
 </div>

@@ -53,6 +53,14 @@
               "i18nFormat": "xlf",
               "i18nLocale": "fr"
             },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
             "production-en": {
               "outputPath": "dist/plancul-front/en/",
               "baseHref": "/en/",
@@ -105,6 +113,9 @@
           "configurations": {
             "fr": {
               "browserTarget": "plancul-front:build:fr"
+            },
+            "prod": {
+              "browserTarget": "plancul-front:build:prod"
             },
             "production-en": {
               "browserTarget": "plancul-front:build:production-en"

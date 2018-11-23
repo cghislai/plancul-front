@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {WsRef, WsTenant} from '@charlyghislain/plancul-api';
+import {WsRef, WsSearchResult, WsTenant} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from '../../main/service/request.service';
 import {IdResourceCache} from './util/id-resource-cache';
 import {RequestCache} from './util/request-cache';
 import {tap} from 'rxjs/operators';
+import {Pagination} from '../domain/pagination';
 
 @Injectable({
   providedIn: 'root',
@@ -60,5 +61,10 @@ export class TenantClientService {
   clearCachedTenant(id: number) {
     this.cache.removeFromCache(id);
     this.requestCache.clear(id);
+  }
+
+  searchTenants(pagination: Pagination): Observable<WsSearchResult<WsTenant>> {
+    const url = this.requestService.buildPlanCulApiUrl(`/tenant/search`);
+    return this.requestService.post(url, {}, pagination);
   }
 }

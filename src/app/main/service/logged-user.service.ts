@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable, of, Subscription, timer} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
 import {RequestService} from './request.service';
-import {catchError, filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
+import {catchError, filter, map, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {WsApplicationGroups, WsTenantUserRole, WsUser} from '@charlyghislain/plancul-api';
 import {WsUser as WsAuthenticatorUser} from '@charlyghislain/authenticator-api';
 import {JosePayload} from '../domain/jose-payload';

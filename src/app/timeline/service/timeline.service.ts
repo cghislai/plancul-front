@@ -42,6 +42,8 @@ export class TimelineService {
   private readonly PLANT_NURSERY_GROUP_ID = '$$nursery';
   private readonly MOON_PHASE_GROUP_ID = '$$moon-phases';
   private readonly MOON_ZODIAC_GROUP_ID = '$$moon-zodiac';
+  private readonly BED_GROUP_PREFIX = '$bed';
+  private readonly PATCH_GROUP_PREFIX = '$patch';
 
   constructor(private cropClient: CropClientService,
               private localizationService: LocalizationService,
@@ -195,7 +197,9 @@ export class TimelineService {
   }
 
   private createAstronomyEventItems$(events: AstronomyEvent[], isShowingMoonZodiacs: boolean, range: WsDateRange): Observable<vis.DataItem[]> {
-
+    if (events.length === 0) {
+      return of([]);
+    }
     const moonPhases = events
       .filter(e => e.type === AstronomyEventType.MOON_PHASE_CHANGE)
       .map(e => <MoonPhaseChangeEvent>e);
@@ -526,7 +530,8 @@ export class TimelineService {
       }
       const patchGroup = patchGroupsDict[patch];
       const nestedItems = patchBedIdsDict[patch];
-      patchGroup.nestedGroups = nestedItems;
+      // wrong typeings
+      patchGroup.nestedGroups = nestedItems.map(bedid => `${this.BED_GROUP_PREFIX}-${bedid}`) as undefined as number[];
       patchGroups.push(patchGroup);
     }
     return patchGroups;
@@ -553,7 +558,7 @@ export class TimelineService {
 
   private createBedGroup(bed: WsBed): vis.DataGroup {
     return {
-      id: bed.id,
+      id: `${this.BED_GROUP_PREFIX}-${bed.id}`,
       content: bed.name,
       title: bed.name,
       subgroupStack: true,
@@ -562,7 +567,7 @@ export class TimelineService {
 
   private createPatchGroup(patch: string): vis.DataGroup {
     return {
-      id: patch,
+      id: `${this.PATCH_GROUP_PREFIX}-${patch}`,
       content: patch,
       className: 'bed-patch-group',
     };

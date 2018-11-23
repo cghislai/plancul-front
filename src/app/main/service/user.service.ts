@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {RequestService} from './request.service';
 import {Observable} from 'rxjs';
 import {CredentialProviderService} from './credential-provider.service';
-import {WsPasswordReset, WsUser, WsUserEmailVerification, WsUserRegistration} from '@charlyghislain/plancul-api';
+import {WsPasswordReset, WsSearchResult, WsUser, WsUserEmailVerification, WsUserRegistration} from '@charlyghislain/plancul-api';
+import {Pagination} from '../domain/pagination';
 
 @Injectable({
   providedIn: 'root',
@@ -38,4 +39,14 @@ export class UserService {
     return this.requestService.post(url, passwordReset);
   }
 
+
+  searchUsers(pagination: Pagination): Observable<WsSearchResult<WsUser>> {
+    const url = this.requestService.buildPlanCulApiUrl(`/user/search`);
+    return this.requestService.post(url, {}, pagination);
+  }
+
+  fetchUser(id: number): Observable<WsUser> {
+    const url = this.requestService.buildPlanCulApiUrl(`/user/${id}`);
+    return this.requestService.get(url);
+  }
 }

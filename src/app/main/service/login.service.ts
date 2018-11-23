@@ -50,8 +50,7 @@ export class LoginService {
     const userGroup = this.loggedUserService.getIsInGroupsObservable(AuthenticatorGroups.USER).pipe(
       filter(v => v !== undefined), take(1),
     );
-    return forkJoin(planculUser, authenticatorUser, tenants, userGroup)
-      .pipe(tap(r => console.log(r)));
+    return forkJoin(planculUser, authenticatorUser, tenants, userGroup);
   }
 
 }

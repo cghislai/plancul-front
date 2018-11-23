@@ -1,0 +1,12 @@
+<span class="admin-menu ui-widget" *ngIf="adminLoggedIn$ | async">
+
+    <a [routerLink]="['/admin']" [hidden]="isInAdminArea()">
+        <i class="fa fa-cog"></i>
+        <span>Admin area</span>
+    </a>
+    <a [routerLink]="['/welcome']" [hidden]="!isInAdminArea()">
+        <i class="fa fa-user"></i>
+        <span>User area</span>
+    </a>
+
+</span>

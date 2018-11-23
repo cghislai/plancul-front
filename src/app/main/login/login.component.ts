@@ -34,10 +34,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = new Subscription();
-    const userLoggedSubscription = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER)
+    const isAdmin = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.ADMIN);
+    const isRegisteredUser = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER);
+
+    const userLoggedSubscription = combineLatest(isAdmin, isRegisteredUser)
       .pipe(
-        filter(user => user),
-      ).subscribe(() => this.redirectOnLoginSuccess(false, false));
+        filter(results => results[1] /** is registered user **/),
+      ).subscribe(results => this.redirectOnLoginSuccess(false, results[0]));
 
     const routeParams = this.activatedRoute.params
       .pipe(publishReplay(1), refCount());

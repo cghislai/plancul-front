@@ -1,28 +1,7 @@
 .admin-area {
 
-
-}
-.admin-account-form {
-  width: 30em;
-
-  > * {
-    margin: .5em;
-  }
-
-  .form-row {
-    display: flex;
-    align-items: center;
-    >span {
-      flex: 0 0 10em;
-      overflow: hidden;
-    }
-    >input {
-      flex: 1 1 auto;
-    }
-  }
-
-  .actions {
+  .content {
     margin: 1em;
-    text-align: center;
   }
 }
+
