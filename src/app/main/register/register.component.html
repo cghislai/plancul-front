@@ -26,11 +26,18 @@
                title="Email"
                placeholder="Email"
                i18n-title="email field title@@email-field-title"
-               i18n-placeholder="email field title@@email-field-title"
+               i18n-placeholder="email field placeholder@@email-field-placeholder"
                required
                autofocus
+               [class.ng-invalid]="(validationErrorDict$ | async).email != null"
                type="email"
                name="email">
+      </div>
+      <div class="error" *ngFor="let e of (validationErrorDict$ | async).email">
+        {{ e  }}
+      </div>
+      <div class="hint" i18n>
+        Please enter a valid email address, a confirmation email will be sent to you
       </div>
 
       <div class="row">
@@ -39,11 +46,18 @@
                title="Login"
                placeholder="Login"
                i18n-title="name field title@@name-field-title"
-               i18n-placeholder="name  field title@@name-field-title"
+               i18n-placeholder="name  field placeholder@@name-field-placeholder"
+               [class.ng-invalid]="(validationErrorDict$ | async).name != null"
                required
                name="name"
                type="text"
         >
+      </div>
+      <div class="error" *ngFor="let e of (validationErrorDict$ | async).name">
+        {{ e }}
+      </div>
+      <div class="hint" i18n>
+        You will be able to login using both your email or this login.
       </div>
 
       <div class="row">
@@ -52,15 +66,21 @@
                title="Password"
                placeholder="Password"
                i18n-title="password field title@@password-field-title"
-               i18n-placeholder="password field title@@password-field-title"
+               i18n-placeholder="password field placeholder@@password-field-placeholder"
                required
                minlength="8"
+               [class.ng-invalid]="(validationErrorDict$ | async).password != null"
                [ngClass]="{'password-mismatch': registerForm.errors?.validateFieldEquality}"
                name="password"
                type="password"
         >
       </div>
-
+      <div class="error" *ngFor="let e of (validationErrorDict$ | async).password">
+        {{ e }}
+      </div>
+      <div class="hint" i18n>
+        Min 8 characters, including at least 1 letter or digit and 1 other character.
+      </div>
 
       <div class="row">
         <input pInputText
@@ -68,7 +88,7 @@
                title="Password check"
                placeholder="Password check"
                i18n-title="password-check field title@@password-check-field-title"
-               i18n-placeholder="password-check field title@@password-check-field-title"
+               i18n-placeholder="password-check field placeholder@@password-check-field-placeholder"
                required
                minlength="8"
                [class.ng-]="{'password-mismatch': registerForm.errors?.validateFieldEquality}"
@@ -76,7 +96,9 @@
                type="password"
         >
       </div>
-
+      <div class="hint" i18n>
+        Make sure you will remember it
+      </div>
     </section>
 
 
@@ -85,8 +107,8 @@
              [(ngModel)]="registration.user.firstName"
              title="First name"
              placeholder="First name"
-             i18n-title="firtname field title@@name-field-title"
-             i18n-placeholder="firtname field title@@name-field-title"
+             i18n-title="firstName field title@@firstName-field-title"
+             i18n-placeholder="firstName field placeholder@@firstName-field-placeholder"
              required
              name="firstName"
              type="text"
@@ -98,8 +120,8 @@
              [(ngModel)]="registration.user.lastName"
              title="Last name"
              placeholder="Last name"
-             i18n-title="lastname field title@@name-field-title"
-             i18n-placeholder="lastname field title@@name-field-title"
+             i18n-title="lastname field title@@lastname-field-title"
+             i18n-placeholder="lastname field placeholder@@lastname-field-placeholder"
              required
              name="lastName"
              type="text"

@@ -2,7 +2,7 @@ import {Component, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
 import {WsApplicationGroups, WsUser, WsUserRegistration} from '@charlyghislain/plancul-api';
 import {LanguageUtil} from '../service/util/language-util';
 import {LoginService} from '../service/login.service';
-import {Observable, Subscription} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
 import {mergeMap, take} from 'rxjs/operators';
 import {BasicCredential} from '../domain/basic-credential';
@@ -12,8 +12,8 @@ import {AuthenticatorGroups} from '../service/util/authenticator-groups';
 import {UserService} from '../service/user.service';
 import {WsUser as WsAuthenticatorUser} from '@charlyghislain/authenticator-api';
 import {LocalizationService} from '../service/localization.service';
-import {ErrorKeys} from '../service/util/error-keys';
 import {MessageKeys} from '../service/util/message-keys';
+import {RequestService} from '../service/request.service';
 
 @Component({
   selector: 'pc-register',
@@ -26,12 +26,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   newAccountPasswordCheck: string;
 
   hasExistingAccount: Observable<boolean>;
+  validationErrorDict$ = new BehaviorSubject<any>({});
 
   private redirectUrl: Observable<string | null>;
   private subscription: Subscription;
 
   constructor(@Inject(LOCALE_ID) private localeId: string,
               private userService: UserService,
+              private requestService: RequestService,
               private loginService: LoginService,
               private localizationService: LocalizationService,
               private loggedUserService: LoggedUserService,
@@ -114,7 +116,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private onRegistrationError(error: any) {
-    this.localizationService.getTranslation(MessageKeys.ACCOUNT_REGISTRATION_ERROR_TITLE)
+    const errorTitle$ = this.localizationService.getTranslation(MessageKeys.ACCOUNT_REGISTRATION_ERROR_TITLE);
+    const errorStatus = this.requestService.getHttpErrorStatus(error);
+    switch (errorStatus) {
+      case 406: {
+        this.requestService.parseValidationErrorsDictMaybe$(error)
+          .subscribe(dict => this.validationErrorDict$.next(dict));
+        break;
+      }
+    }
+    errorTitle$
       .subscribe(msg => this.notificationMessageService.addError(msg, error));
   }
 
@@ -134,4 +145,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
       return this.loginService.relogin();
     }
   }
+
 }

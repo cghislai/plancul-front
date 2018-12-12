@@ -79,4 +79,20 @@
     }
   }
 
+  .hint {
+    font-size: .8em;
+    opacity: .8;
+    margin: -.3em .3em .2em .3em;
+  }
+
+  .error {
+    font-size: .9em;
+    color: darkred;
+    background-color: rgba(200, 75, 66, 0.3);
+    border: 1px solid darkred;
+    border-radius: .1em;
+    margin: -.3em .3em .2em .3em;
+    padding: 0 .2em;
+  }
+
 }

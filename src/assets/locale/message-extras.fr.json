@@ -1,4 +1,56 @@
 {
+  "com": {
+    "charlyghislain": {
+      "authenticator": {
+        "domain": {
+          "domain": {
+            "validation": {
+              "ValidEmail": {
+                "message": "Adresse email incorrecte"
+              },
+              "ValidIdentifierName": {
+                "message": "Ne peut contenir que les simples lettres, chiffres, '-' et '_'"
+              },
+              "ValidPassword": {
+                "message": "Doit faire 8 caractères min. et contenir 1 lettre/chiffre et 1 caractère spécial"
+              }
+            }
+          }
+        }
+      },
+      "plancul": {
+        "validation": {
+          "ValidNursingDuration": {
+            "message": "La durée de mise en pépinière est incorrecte",
+            "daysUntilGermination": {
+              "message": "Doit être plus court que la durée de mise en pépinière"
+            },
+            "nursingDuration": {
+              "message": "Doit être plus long que la durée de mise en pépinière"
+            }
+          },
+          "ValidEmail": {
+            "message": "Addresse email incorrecte"
+          },
+          "ValidPassword": {
+            "message": "Mot de passe incorrect",
+            "length": {
+              "message": "Trop court: 8 character minimum"
+            }
+          },
+          "ValidHarvestDurations": {
+            "message": "Durée de récolte incorrecte",
+            "daysUntilFirstHarvest": {
+              "message": "Doit être plus long que la germination"
+            },
+            "daysUntilGermination": {
+              "message": "Doit être plus court que le nombre de jours avant la première récolte"
+            }
+          }
+        }
+      }
+    }
+  },
   "errors": {
     "INVALID_ID": "ID invalide",
     "INVALID_FORM": "Formulaire invalide",

@@ -1,12 +1,12 @@
 import {Credential} from '../domain/credential';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {EMPTY, forkJoin, Observable, throwError} from 'rxjs';
+import {EMPTY, forkJoin, Observable, of, throwError} from 'rxjs';
 import {Inject, Injectable} from '@angular/core';
 import {CredentialProviderService} from './credential-provider.service';
-import {catchError, map, mergeMap, take} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, take} from 'rxjs/operators';
 import {NotificationMessageService} from './notification-message.service';
 import {Pagination} from '../domain/pagination';
-import {WsError, WsSearchQueryParams} from '@charlyghislain/plancul-api';
+import {WsContraintViolation, WsError, WsSearchQueryParams} from '@charlyghislain/plancul-api';
 import {PaginationUtils} from './util/pagination-utils';
 import {PlanCulClientConfig} from '../domain/plan-cul-client-config';
 import {PLAN_CUL_CLIENT_CONFIG} from './util/client-config.token';
@@ -144,6 +144,15 @@ export class RequestService {
     return null;
   }
 
+  parseValidationErrorsDictMaybe$(error: any): Observable<any> {
+    const jsonBody = this.parseHttpErrorJsonBody(error);
+    return of(jsonBody).pipe(
+      filter(body => body != null),
+      map(body => body['errors']),
+      filter(errors => errors != null),
+      map(errors => this.createViolationErrorDict(errors)),
+    );
+  }
 
   renewToken() {
     this.credentialProvider.getJosePayloadObservable()
@@ -221,5 +230,22 @@ export class RequestService {
     ).subscribe(msgs => this.notificationMessageService.addError(msgs[0], msgs[1]));
     this.credentialProvider.setCredential(null);
     this.router.navigate(['/login']);
+  }
+
+
+  private createViolationErrorDict(list: WsContraintViolation[]): any {
+    const dict = {};
+    list.forEach(violation => {
+      let keyedList = dict[violation.propertyName];
+      if (keyedList == null) {
+        keyedList = [];
+        dict[violation.propertyName] = keyedList;
+      }
+      const messageKey = violation.message;
+      this.localizationService.getTranslation(messageKey)
+        .subscribe(message => keyedList.push(message));
+    });
+    // Should wait for all list to be filled..
+    return dict;
   }
 }

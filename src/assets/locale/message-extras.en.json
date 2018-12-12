@@ -1,4 +1,56 @@
 {
+  "com": {
+    "charlyghislain": {
+      "authenticator": {
+        "domain": {
+          "domain": {
+            "validation": {
+              "ValidEmail": {
+                "message": "Invalid email address"
+              },
+              "ValidIdentifierName": {
+                "message": "May only contains letters, digits, '-' and '_'"
+              },
+              "ValidPassword": {
+                "message": "Must be at least 8 character long and have one alphanumeric and one special character"
+              }
+            }
+          }
+        }
+      },
+      "plancul": {
+        "validation": {
+          "ValidNursingDuration": {
+            "message": "Nursing duration is invalid",
+            "daysUntilGermination": {
+              "message": "Will germinate after nursing is complete"
+            },
+            "nursingDuration": {
+              "message": "Must exceeds days until germination"
+            }
+          },
+          "ValidEmail": {
+            "message": "Addresse email incorrecte"
+          },
+          "ValidPassword": {
+            "message": "Password is incorrect",
+            "length": {
+              "message": "Too short: 8 character minimum"
+            }
+          },
+          "ValidHarvestDurations": {
+            "message": "Harvest duration is incorrect",
+            "daysUntilFirstHarvest": {
+              "message": "Must be more than days until germination"
+            },
+            "daysUntilGermination": {
+              "message": "Must be less than days until first harvest"
+            }
+          }
+        }
+      }
+    }
+  },
   "errors": {
     "INVALID_ID": "Invalid id",
     "INVALID_FORM": "Invalid form",
