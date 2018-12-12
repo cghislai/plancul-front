@@ -1,6 +1,6 @@
 <div class="validation-errors">
-  <div class="errors-container" *ngIf="errors?.length > 0 || error != null">
-    <div *ngFor="let e of errors" class="error">
+  <div class="errors-container" *ngIf="(errors|async)?.length > 0 || error != null">
+    <div *ngFor="let e of (errors|async)" class="error">
       {{ e }}
     </div>
     <div *ngIf="error != null" class="error">

@@ -20,7 +20,7 @@
                             required
                             #control="ngModel"
             ></pc-crop-select>
-            <pc-validation-errors [errors]="model.validationErrors"
+            <pc-validation-errors [errorsKeys]="model.validationErrors"
                                   *ngIf="control.touched"
             ></pc-validation-errors>
           </span>
@@ -36,7 +36,7 @@
                            required
                            #control="ngModel"
             ></pc-bed-select>
-            <pc-validation-errors [errors]="model.validationErrors"
+            <pc-validation-errors [errorsKeys]="model.validationErrors"
                                   *ngIf="control.touched"
             ></pc-validation-errors>
           </span>
@@ -57,7 +57,7 @@
                               required
                               #control="ngModel"
               ></pc-date-select>
-              <pc-validation-errors [errors]="model.validationErrors"
+              <pc-validation-errors [errorsKeys]="model.validationErrors"
                                     *ngIf="control.touched"
               ></pc-validation-errors>
             </span>
@@ -78,7 +78,7 @@
                   ></p-spinner>
                   <label i18n class="unit">days</label>
                 </div>
-                <pc-validation-errors [errors]="model.validationErrors"
+                <pc-validation-errors [errorsKeys]="model.validationErrors"
                                       *ngIf="control.touched"
                 ></pc-validation-errors>
               </div>
@@ -118,7 +118,7 @@
                   ></p-spinner>
                   <label i18n class="unit">days after sowing</label>
                 </div>
-                <pc-validation-errors [errors]="model.validationErrors"
+                <pc-validation-errors [errorsKeys]="model.validationErrors"
                                       *ngIf="control.touched"
                 ></pc-validation-errors>
               </div>
@@ -148,7 +148,7 @@
                   ></p-spinner>
                   <label i18n class="unit">days after first harvest</label>
                 </div>
-                <pc-validation-errors [errors]="model.validationErrors"
+                <pc-validation-errors [errorsKeys]="model.validationErrors"
                                       *ngIf="control.touched"
                 ></pc-validation-errors>
               </div>
@@ -188,7 +188,7 @@
                 ></p-spinner>
                 <label i18n class="unit">days</label>
               </div>
-              <pc-validation-errors [errors]="model.validationErrors"
+              <pc-validation-errors [errorsKeys]="model.validationErrors"
                                     *ngIf="control.touched"
               ></pc-validation-errors>
             </span>
@@ -223,7 +223,7 @@
                                               required
                                               #control="ngModel"
               ></pc-bed-preparation-type-select>
-              <pc-validation-errors [errors]="model.validationErrors"
+              <pc-validation-errors [errorsKeys]="model.validationErrors"
                                     *ngIf="control.touched"
               ></pc-validation-errors>
             </span>
@@ -243,7 +243,7 @@
                 ></p-spinner>
                 <label i18n class="unit">days</label>
               </div>
-              <pc-validation-errors [errors]="model.validationErrors"
+              <pc-validation-errors [errorsKeys]="model.validationErrors"
                                     *ngIf="control.touched"
               ></pc-validation-errors>
             </span>
@@ -278,7 +278,7 @@
                     [name]="model.property"
                     #control="ngModel"
           ></p-editor>
-          <pc-validation-errors [errors]="model.validationErrors"
+          <pc-validation-errors [errorsKeys]="model.validationErrors"
                                 *ngIf="control.touched"
           ></pc-validation-errors>
         </div>
@@ -287,9 +287,8 @@
     </div>
 
     <div class="validation-errors" *ngIf="hasValidationErrors  | async">
-      <p-messages [value]="unboundErrorMessages | async"
-                  [closable]="false"
-      ></p-messages>
+      <pc-validation-errors [errorsKeys]="unboundErrorMessages | async"
+      ></pc-validation-errors>
     </div>
 
     <div class="actions">

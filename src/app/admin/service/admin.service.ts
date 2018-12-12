@@ -3,10 +3,11 @@ import {RequestService} from '../../main/service/request.service';
 import {TenantClientService} from '../../main/service/tenant-client.service';
 import {Pagination} from '../../main/domain/pagination';
 import {UserService} from '../../main/service/user.service';
-import {catchError, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
-import {EMPTY, Observable, of} from 'rxjs';
-import {WsSearchResult, WsUser} from '@charlyghislain/plancul-api';
+import {EMPTY, forkJoin, Observable, of} from 'rxjs';
+import {WsRef, WsSearchResult, WsTenant, WsUser} from '@charlyghislain/plancul-api';
+import {TenantStats} from '../tenants-list/tenant-stats';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,17 @@ export class AdminService {
       catchError(e => {
         this.notificationService.addError(`Could not load tenants`, e);
         return of(this.createErroredSearchResult());
+      }),
+    );
+  }
+
+  searchTenantStat(ref: WsRef<WsTenant>): Observable<TenantStats> {
+    const tenant$ = this.tenantService.getTenant(ref.id);
+    const stats$ = this.tenantService.fetchTenantStat(ref.id);
+    return forkJoin(tenant$, stats$).pipe(
+      map(results => <TenantStats>{
+        tenant: results[0],
+        stats: results[1],
       }),
     );
   }
@@ -79,4 +91,6 @@ export class AdminService {
       list: [],
     };
   }
+
+
 }

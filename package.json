@@ -24,7 +24,7 @@
     "@angular/router": "^7.0.4",
     "@charlyghislain/astronomy-api": "^1.0.1",
     "@charlyghislain/authenticator-api": "^1.0.0",
-    "@charlyghislain/plancul-api": "^1.0.1",
+    "@charlyghislain/plancul-api": "1.0.5",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/vis": "^4.21.5",

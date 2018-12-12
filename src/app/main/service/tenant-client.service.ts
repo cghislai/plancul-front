@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {WsRef, WsSearchResult, WsTenant} from '@charlyghislain/plancul-api';
+import {WsRef, WsSearchResult, WsTenant, WsTenantStats} from '@charlyghislain/plancul-api';
 import {Observable, of} from 'rxjs';
 import {RequestService} from '../../main/service/request.service';
 import {IdResourceCache} from './util/id-resource-cache';
@@ -37,6 +37,11 @@ export class TenantClientService {
       return cachedRequest;
     }
     return this.fetchTenant(id);
+  }
+
+  fetchTenantStat(id: number): Observable<WsTenantStats> {
+    const url = this.requestService.buildPlanCulApiUrl(`/tenant/${id}/stats`);
+    return this.requestService.get<WsTenantStats>(url);
   }
 
   saveTenant(tenant: WsTenant): Observable<WsRef<WsTenant>> {

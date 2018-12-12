@@ -58,7 +58,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   bedOccupancyEndValue: Observable<DateAsString>;
 
   hasValidationErrors: Observable<boolean>;
-  unboundErrorMessages: Observable<Message[]>;
+  unboundErrorMessages: Observable<string[]>;
 
   private formHelper: FormValidationHelper<WsCulture>;
   private subscription: Subscription;
@@ -113,14 +113,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
 
     this.hasValidationErrors = this.formHelper.isInvalid();
 
-    this.unboundErrorMessages = this.formHelper.getUnboundErrors().pipe(
-      map(list => list.map(
-        (error: string) => <Message>{
-          summary: error,
-          severity: 'error',
-        }),
-      ),
-    );
+    this.unboundErrorMessages = this.formHelper.getUnboundErrors();
   }
 
   ngOnDestroy() {

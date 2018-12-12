@@ -1,7 +1,7 @@
 <div class="tenants-list ui-widget">
   <h1>Tenants</h1>
 
-  <p-table [value]="tenants$ | async"
+  <p-table [value]="tenantsStats$ | async"
            [first]="curPageOffset$ | async"
            [rows]="curPageLength$ | async"
            [totalRecords]="totalCount$ | async"
@@ -11,11 +11,13 @@
     <ng-template pTemplate="header">
       <tr>
         <th>Name</th>
+        <th># Cultures</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-tenant>
+    <ng-template pTemplate="body" let-stat>
       <tr>
-        <td>{{tenant?.name}}</td>
+        <td>{{stat?.tenant?.name}}</td>
+        <td>{{stat?.stats?.culturesCount}}</td>
       </tr>
     </ng-template>
 
