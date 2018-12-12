@@ -49,4 +49,9 @@ export class UserService {
     const url = this.requestService.buildPlanCulApiUrl(`/user/${id}`);
     return this.requestService.get(url);
   }
+
+  removeUser(id: number): Observable<any> {
+    const url = this.requestService.buildPlanCulApiUrl(`/user/${id}`);
+    return this.requestService.delete(url);
+  }
 }

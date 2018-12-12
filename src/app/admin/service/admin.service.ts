@@ -5,7 +5,7 @@ import {Pagination} from '../../main/domain/pagination';
 import {UserService} from '../../main/service/user.service';
 import {catchError, tap} from 'rxjs/operators';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
-import {EMPTY, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {WsSearchResult, WsUser} from '@charlyghislain/plancul-api';
 
 @Injectable({
@@ -35,6 +35,11 @@ export class AdminService {
         return of(this.createErroredSearchResult<WsUser>());
       }),
     );
+  }
+
+
+  removeUser(id: number): Observable<any> {
+    return this.userService.removeUser(id);
   }
 
   clearAstronomyEventCache(year?: number) {

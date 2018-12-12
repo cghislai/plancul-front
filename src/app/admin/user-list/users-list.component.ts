@@ -4,7 +4,7 @@ import {BehaviorSubject, forkJoin, Observable, ReplaySubject, Subject, Subscript
 import {WsUser} from '@charlyghislain/plancul-api';
 import {Pagination} from '../../main/domain/pagination';
 import {filter, map, publishReplay, refCount, switchMap} from 'rxjs/operators';
-import {LazyLoadEvent} from 'primeng/api';
+import {LazyLoadEvent, MessageService} from 'primeng/api';
 import {UserService} from '../../main/service/user.service';
 
 @Component({
@@ -23,6 +23,7 @@ export class UsersListComponent implements OnInit {
   totalCount$: Observable<number>;
 
   constructor(private adminService: AdminService,
+              private messageService: MessageService,
               private userService: UserService) {
   }
 
@@ -62,4 +63,27 @@ export class UsersListComponent implements OnInit {
     });
   }
 
+  onUserDeleteClicked(user: WsUser) {
+    this.adminService.removeUser(user.id).subscribe(
+      () => this.onUserDeleteSuccess(),
+      error => this.onUserDeleteError(error),
+    );
+  }
+
+  private onUserDeleteSuccess() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'User removed',
+    });
+    this.pagination$.next(this.pagination$.value);
+  }
+
+  private onUserDeleteError(error: any) {
+    const msg = error['message'] != null ? error['message'] : 'unknown error';
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Could not remove user',
+      detail: msg,
+    });
+  }
 }
