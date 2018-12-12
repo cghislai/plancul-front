@@ -282,11 +282,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">52</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">66</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
@@ -385,10 +381,6 @@
           <context context-type="linenumber">26</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">27</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
           <context context-type="linenumber">113</context>
         </context-group>
@@ -414,31 +406,28 @@
         </context-group>
         <note priority="1" from="description">email field title</note>
       </trans-unit>
-      <trans-unit id="name-field-title" datatype="html">
-        <source>Login</source>
+      <trans-unit id="email-field-placeholder" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <note priority="1" from="description">email field placeholder</note>
+      </trans-unit>
+      <trans-unit id="3392499da8356733847637b866138d9eaa4db22f" datatype="html">
+        <source>
+        Please enter a valid email address, a confirmation email will be sent to you
+      </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/register/register.component.html</context>
           <context context-type="linenumber">39</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="name-field-title" datatype="html">
+        <source>Login</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">40</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">86</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">87</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">99</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">46</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
@@ -466,15 +455,45 @@
         </context-group>
         <note priority="1" from="description">name field title</note>
       </trans-unit>
+      <trans-unit id="name-field-placeholder" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <note priority="1" from="description">name  field placeholder</note>
+      </trans-unit>
+      <trans-unit id="8880ed2787609c61318073cbc812c2fd2a1269b4" datatype="html">
+        <source>
+        You will be able to login using both your email or this login.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="password-field-placeholder" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <note priority="1" from="description">password field placeholder</note>
+      </trans-unit>
+      <trans-unit id="057a91c3e30ba67c48b968f36d07e918d6ef5593" datatype="html">
+        <source>
+        Min 8 characters, including at least 1 letter or digit and 1 other character.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="password-check-field-title" datatype="html">
         <source>Password check</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">68</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">88</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/admin-init/admin-init.component.html</context>
@@ -494,11 +513,60 @@
         </context-group>
         <note priority="1" from="description">password-check field title</note>
       </trans-unit>
+      <trans-unit id="password-check-field-placeholder" datatype="html">
+        <source>Password check</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+        <note priority="1" from="description">password-check field placeholder</note>
+      </trans-unit>
+      <trans-unit id="a585b62ba285b7994ec877ea230f77cae94aaaf2" datatype="html">
+        <source>
+        Make sure you will remember it
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="firstName-field-title" datatype="html">
+        <source>First name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+        <note priority="1" from="description">firstName field title</note>
+      </trans-unit>
+      <trans-unit id="firstName-field-placeholder" datatype="html">
+        <source>First name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+        <note priority="1" from="description">firstName field placeholder</note>
+      </trans-unit>
+      <trans-unit id="lastname-field-title" datatype="html">
+        <source>Last name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+        <note priority="1" from="description">lastname field title</note>
+      </trans-unit>
+      <trans-unit id="lastname-field-placeholder" datatype="html">
+        <source>Last name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/register/register.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+        <note priority="1" from="description">lastname field placeholder</note>
+      </trans-unit>
       <trans-unit id="d207cc1965ec0c29e594e0e9917f39bfc276ed87" datatype="html">
         <source>Create an account</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/register/register.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">134</context>
         </context-group>
         <note priority="1" from="description">register button label</note>
       </trans-unit>
@@ -802,7 +870,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">301</context>
+          <context context-type="linenumber">300</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
@@ -817,7 +885,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">306</context>
+          <context context-type="linenumber">305</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d8eb82879ea5a3f60b53ab88fe318cdc51ec1335" datatype="html">
