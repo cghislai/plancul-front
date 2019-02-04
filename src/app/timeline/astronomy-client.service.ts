@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {WsBed, WsSearchResult} from '@charlyghislain/plancul-api';
 import {Observable} from 'rxjs';
-import {RequestService} from '../../main/service/request.service';
+import {RequestService} from '../main/service/request.service';
 import {AstronomyEvent, AstronomyEventFilter} from '@charlyghislain/astronomy-api';
 
 @Injectable({

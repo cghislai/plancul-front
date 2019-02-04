@@ -10,12 +10,13 @@
   </div>
 
   <div class="timeline">
+
     <pc-timeline [data]="timelineData | async"
                  [groups]="timelineGroups | async"
                  [options]="timelineOptions | async"
-                 [initialRange]="dateRange | async"
-                 [loading]="loading | async"
-                 (rangeChanged)="onRangeChanged($event)"
+                 [initialRange]="displayedRange$ | async"
+                 [loading]="loadingCultures$ | async"
+                 (rangeChanged)="onDisplayRangeChanged($event)"
                  (itemMoving)="onItemMoving($event)"
                  (itemMoved)="onItemMoved($event)"
     ></pc-timeline>

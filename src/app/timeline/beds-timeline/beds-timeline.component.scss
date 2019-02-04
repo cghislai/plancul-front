@@ -6,13 +6,13 @@
 
     // Row labels
     .vis-label {
-      &.moon-phase-group {
+      &.moon-phases-group {
         background-color: $moon_bg;
         color: $moon_fg;
         border-bottom: none;
       }
 
-      &.moon-zodiac-group {
+      &.moon-zodiacs-group {
         background-color: $moon_bg;
         color: $moon_fg;
       }
@@ -20,13 +20,13 @@
 
     // Rows
     .vis-group {
-      &.moon-phase-group {
+      &.moon-phases-group {
         background-color: $moon_bg;
         color: $moon_fg;
         border-bottom: none;
       }
 
-      &.moon-zodiac-group {
+      &.moon-zodiacs-group {
         background-color: $moon_bg;
         color: $moon_fg;
       }

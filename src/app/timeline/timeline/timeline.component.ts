@@ -3,10 +3,13 @@ import * as vis from 'vis';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
-import {TimelineItemCallbackHandler} from './timeline-item-callback-handler';
 import {WsDateRange} from '@charlyghislain/plancul-api';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {TimelineService} from '../service/timeline.service';
+import {TimelineService} from '../beds-timeline/service/timeline.service';
+import {TimelineItemMoveEvent} from './domain/timeline-item-move-event';
+import {CulturePhaseDataItem} from './domain/culture-phase-data-item';
+import {BedDataGroup} from './domain/bed-data-group';
+import {NurseryDataGroup} from './domain/nursery-data-group';
 
 @Component({
   selector: 'pc-timeline',
@@ -57,9 +60,9 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output()
   private rangeChanged = new EventEmitter<WsDateRange>();
   @Output()
-  private itemMoving = new EventEmitter<TimelineItemCallbackHandler>();
+  private itemMoving = new EventEmitter<TimelineItemMoveEvent>();
   @Output()
-  private itemMoved = new EventEmitter<TimelineItemCallbackHandler>();
+  private itemMoved = new EventEmitter<TimelineItemMoveEvent>();
 
   @ViewChild('timelineContainer')
   private container: ElementRef;
@@ -92,14 +95,8 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     // zoomKey: 'ctrlKey',
     start: this.initialRange == null ? moment().add(-1, 'week') : this.initialRange.start,
     end: this.initialRange == null ? moment().add(2, 'week') : this.initialRange.end,
-    onMoving: (item, callback) => this.itemMoving.next({
-      item: item,
-      callback: callback,
-    }),
-    onMove: (item, callback) => this.itemMoved.next({
-      item: item,
-      callback: callback,
-    }),
+    onMoving: (item, callback) => this.itemMoving.next(this.createMovingEvent(item, callback)),
+    onMove: (item, callback) => this.itemMoved.next(this.createMovingEvent(item, callback)),
     snap: (date: Date, scale: string, step: number) => this.snapDate(date, scale, step),
     moment: (date) => this.createMoment(date),
   });
@@ -169,5 +166,30 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private createItemTemplate(item: vis.DataItem, element: any, data: any) {
     return this.timelineService.createItemHtmlTemplate(item);
+  }
+
+  private createMovingEvent(item: vis.DataItem, callback: (item: vis.DataItem) => any): TimelineItemMoveEvent {
+    let culture, phase, bed, nursery;
+    if (item instanceof CulturePhaseDataItem) {
+      culture = item.culture;
+      phase = item.phase;
+    }
+    const groups = this.groupsSource.getValue();
+    const itemGroup = groups.find(group => group.id === item.group);
+    if (itemGroup != null) {
+      if (itemGroup instanceof BedDataGroup) {
+        bed = itemGroup.bed;
+      } else if (itemGroup instanceof NurseryDataGroup) {
+        nursery = true;
+      }
+    }
+    return {
+      item: item,
+      callback: callback,
+      culture: culture,
+      culturePhase: phase,
+      bed: bed,
+      nursery: nursery,
+    };
   }
 }
