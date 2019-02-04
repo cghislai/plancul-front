@@ -1,8 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NotificationMessageService} from '../../main/service/notification-message.service';
-import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {RequestService} from '../../main/service/request.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {MenuItem} from 'primeng/api';
 import {
   DateAsString,
   WsBed,
@@ -13,27 +10,43 @@ import {
   WsCultureNursing,
   WsRef,
 } from '@charlyghislain/plancul-api';
-import {CultureClientService} from '../../main/service/culture-client.service';
-import {combineLatest, forkJoin, Observable, Subscription} from 'rxjs';
-import {map, take} from 'rxjs/operators';
-import {Message} from 'primeng/api';
-import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
 import {ValidatedFormProperty} from '../../main/domain/validated-form-property';
-import {DateUtils} from '../../main/service/util/date-utils';
-import {MessageKeys} from '../../main/service/util/message-keys';
+import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
+import {ActivatedRoute, Router} from '@angular/router';
 import {LocalizationService} from '../../main/service/localization.service';
-import {ErrorKeys} from '../../main/service/util/error-keys';
+import {SelectedTenantService} from '../../main/service/selected-tenant.service';
+import {NotificationMessageService} from '../../main/service/notification-message.service';
+import {RequestService} from '../../main/service/request.service';
+import {CultureClientService} from '../../main/service/culture-client.service';
+import {map, publishReplay, refCount, take} from 'rxjs/operators';
+import {DateUtils} from '../../main/service/util/date-utils';
+import {ValidatedFormModel} from '../../main/domain/validated-form-model';
 
 @Component({
-  selector: 'pc-culture-form',
-  templateUrl: './culture-form.component.html',
-  styleUrls: ['./culture-form.component.scss'],
+  selector: 'pc-culture-steps-form',
+  templateUrl: './culture-steps-form.component.html',
+  styleUrls: ['./culture-steps-form.component.scss'],
 })
-export class CultureFormComponent implements OnInit, OnDestroy {
+export class CultureStepsFormComponent implements OnInit {
 
-  // hasCulture: Observable<boolean>;
+  @Output()
+  validCultureChange = new EventEmitter<WsCulture>();
+
+  STEP_ID_CULTURE = 'culture';
+  STEP_ID_DATES = 'dates';
+  STEP_ID_PREPARATION = 'preparation';
+
+  steps: MenuItem[];
+  culture: WsCulture;
+
+  activeStepIndex$ = new BehaviorSubject<number>(0);
+  activeStepId$: Observable<string>;
+  activeStepValid$: Observable<boolean>;
+
   cropRef: Observable<ValidatedFormProperty<WsCulture, 'cropWsRef'>>;
   bedRef: Observable<ValidatedFormProperty<WsCulture, 'bedWsRef'>>;
+
   sowingDate: Observable<ValidatedFormProperty<WsCulture, 'sowingDate'>>;
   sowingDateValue: Observable<DateAsString>;
 
@@ -53,15 +66,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   bedPreparationType: Observable<ValidatedFormProperty<WsBedPreparation, 'type'>>;
   bedPreparationDuration: Observable<ValidatedFormProperty<WsBedPreparation, 'dayDuration'>>;
 
-  htmlNotes: Observable<ValidatedFormProperty<WsCulture, 'htmlNotes'>>;
-  bedOccupancyStartValue: Observable<DateAsString>;
-  bedOccupancyEndValue: Observable<DateAsString>;
-
-  hasValidationErrors: Observable<boolean>;
-  unboundErrorMessages: Observable<string[]>;
-
   private formHelper: FormValidationHelper<WsCulture>;
-  private subscription: Subscription;
 
   constructor(private router: Router,
               private localizationService: LocalizationService,
@@ -75,14 +80,9 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     );
   }
 
-
   ngOnInit() {
-    this.subscription = new Subscription();
-    const routeDataSubscription = this.activatedRoute.data
-      .pipe(
-        map(data => data.culture),
-      ).subscribe(value => this.formHelper.setValue(value));
-    this.subscription.add(routeDataSubscription);
+    this.steps = this.createSteps();
+    this.goToStep(this.STEP_ID_CULTURE);
 
     this.cropRef = this.formHelper.getPropertyModel('cropWsRef');
     this.bedRef = this.formHelper.getPropertyModel('bedWsRef');
@@ -107,18 +107,28 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.bedPreparationType = this.formHelper.getWrappedPropertyModel('bedPreparation', 'type');
     this.bedPreparationDuration = this.formHelper.getWrappedPropertyModel('bedPreparation', 'dayDuration');
 
-    this.htmlNotes = this.formHelper.getPropertyModel('htmlNotes');
-    this.bedOccupancyStartValue = this.formHelper.getPropertyValue('bedOccupancyStartDate');
-    this.bedOccupancyEndValue = this.formHelper.getPropertyValue('bedOccupancyEndDate');
+    this.activeStepId$ = this.activeStepIndex$.pipe(
+      map(index => this.steps[index].id),
+      publishReplay(1), refCount(),
+    );
+    this.activeStepValid$ = combineLatest(this.activeStepId$, this.formHelper.getModel()).pipe(
+      map(results => this.checkValidFormStep(results[0], results[1])),
+      publishReplay(1), refCount(),
+    );
 
-    this.hasValidationErrors = this.formHelper.isInvalid();
-
-    this.unboundErrorMessages = this.formHelper.getUnboundErrors();
+    this.tenantSelectionService.getSelectedTenantRef().pipe(
+      take(1),
+    ).subscribe(ref => this.formHelper.setValue(<WsCulture>{
+      id: null,
+      tenantWsRef: ref,
+    }));
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  onActiveStepChange(index: number) {
+    const step = this.steps[index];
+    this.goToStep(step.id);
   }
+
 
   onCropChange(value: WsRef<WsCrop>) {
     this.updateModel({
@@ -257,45 +267,64 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  onHtmlNotesChanged(value: string) {
-    this.updateModel({
-      htmlNotes: value,
-    });
-  }
-
-  onSubmit() {
-    const value = this.formHelper.getCurrentValue();
-    this.cultureClient.saveCulture(value)
-      .subscribe(ref => this.onCreationSuccess(ref),
-        error => this.onCreationError(error));
-  }
-
-  onCancel() {
-    this.navigateOut();
-  }
-
-  private onCreationSuccess(ref: WsRef<WsCulture>) {
-    this.localizationService.getTranslation(MessageKeys.SAVED_TITLE)
-      .subscribe(msg => this.notificationService.addInfo(msg));
-    this.navigateOut();
-  }
-
-  private onCreationError(error: any) {
-    if (this.requestService.isBadRequestError(error)) {
-      forkJoin(
-        this.localizationService.getTranslation(MessageKeys.ERROR_TITLE),
-        this.localizationService.getTranslation(ErrorKeys.INVALID_FORM),
-      ).subscribe(msgs => this.notificationService.addError(msgs[0], msgs[1]));
-    } else {
-      forkJoin(
-        this.localizationService.getTranslation(MessageKeys.ERROR_TITLE),
-        this.localizationService.getTranslation(ErrorKeys.UNEXPECTED_ERROR),
-      ).subscribe(msgs => this.notificationService.addError(msgs[0], msgs[1]));
+  validateStep() {
+    const curIndex = this.activeStepIndex$.getValue();
+    const curId = this.steps[curIndex].id;
+    switch (curId) {
+      case this.STEP_ID_CULTURE:
+        this.goToStep(this.STEP_ID_DATES);
+        return;
+      case this.STEP_ID_DATES:
+        this.goToStep(this.STEP_ID_PREPARATION);
+        return;
+      case this.STEP_ID_PREPARATION:
+        const value = this.formHelper.getCurrentValue();
+        this.validCultureChange.next(value);
+        return;
     }
   }
 
-  private navigateOut() {
-    this.router.navigate(['/cultures/_/list']);
+  goToPrevStep() {
+    const curIndex = this.activeStepIndex$.getValue();
+    const curId = this.steps[curIndex].id;
+    switch (curId) {
+      case this.STEP_ID_CULTURE:
+        return;
+      case this.STEP_ID_DATES:
+        this.goToStep(this.STEP_ID_CULTURE);
+        return;
+      case this.STEP_ID_PREPARATION:
+        this.goToStep(this.STEP_ID_DATES);
+        return;
+    }
+  }
+
+  private createSteps(): MenuItem[] {
+    return [
+      {
+        label: 'Culture',
+        id: this.STEP_ID_CULTURE,
+        disabled: true,
+      },
+      {
+        label: 'Dates',
+        id: this.STEP_ID_DATES,
+        disabled: true,
+      },
+      {
+        label: 'Preparation',
+        id: this.STEP_ID_PREPARATION,
+        disabled: true,
+      },
+    ];
+  }
+
+  private goToStep(stepId: string) {
+    const stepIndex = this.steps.findIndex(step => step.id === stepId);
+    if (stepIndex >= 0) {
+      this.steps[stepIndex].disabled = false;
+      this.activeStepIndex$.next(stepIndex);
+    }
   }
 
   private updateModel(update: Partial<WsCulture>) {
@@ -310,7 +339,41 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.formHelper.updateChildValue('bedPreparation', update);
   }
 
-  onTest(culture: WsCulture) {
-    console.log(culture);
+  private checkValidFormStep(stepId: string, form: ValidatedFormModel<WsCulture>) {
+    switch (stepId) {
+      case this.STEP_ID_CULTURE: {
+        return this.isCultureStepValid(form);
+      }
+      case this.STEP_ID_DATES: {
+        return this.isCultureStepValid(form)
+          && this.isDatesStepValid(form);
+      }
+      case this.STEP_ID_PREPARATION: {
+        return this.isCultureStepValid(form)
+          && this.isDatesStepValid(form)
+          && form.valid;
+      }
+    }
+  }
+
+  private isDatesStepValid(form: ValidatedFormModel<WsCulture>) {
+    return this.isFormPartValid(form, 'sowingDate', 'germinationDate', 'firstHarvestDate', 'lastHarvestDate',
+      'daysUntilFirstHarvest', 'daysUntilGermination', 'harvestDaysDuration');
+  }
+
+  private isCultureStepValid(form: ValidatedFormModel<WsCulture>) {
+    return this.isFormPartValid(form, 'cropWsRef', 'bedWsRef');
+  }
+
+  private isFormPartValid(form: ValidatedFormModel<WsCulture>, ...properties: (keyof WsCulture)[]): boolean {
+    if (form == null) {
+      return false;
+    }
+    for (const propKey of properties) {
+      if (form.properties[propKey].validationErrors.length > 0) {
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -44,10 +44,10 @@ export class FormValidationHelper<E extends WsDomainEntity> {
       publishReplay(1), refCount(),
     );
 
-    this.modelWithValidation = merge(updatedModelWithValue, validatedModel)
-      .pipe(
-        publishReplay(1), refCount(),
-      );
+    this.modelWithValidation = merge(updatedModelWithValue, validatedModel).pipe(
+      filter(m => m != null),
+      publishReplay(1), refCount(),
+    );
   }
 
   setValue(value: E) {
@@ -105,14 +105,14 @@ export class FormValidationHelper<E extends WsDomainEntity> {
     );
   }
 
-  getPropertyModel<K extends keyof E= keyof E>(key: K): Observable<ValidatedFormProperty<E, K>> {
+  getPropertyModel<K extends keyof E = keyof E>(key: K): Observable<ValidatedFormProperty<E, K>> {
     return this.modelWithValidation.pipe(
       map(model => this.findPropertyModel(model, key)),
       publishReplay(1), refCount(),
     );
   }
 
-  getPropertyErrors<K extends keyof E= keyof E>(key: K): Observable<string[]> {
+  getPropertyErrors<K extends keyof E = keyof E>(key: K): Observable<string[]> {
     return this.modelWithValidation.pipe(
       map(model => this.findPropertyModel(model, key)),
       map(propModel => propModel.validationErrors),
@@ -120,7 +120,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
     );
   }
 
-  getPropertyValue<K extends keyof E= keyof E>(key: K): Observable<E[K]> {
+  getPropertyValue<K extends keyof E = keyof E>(key: K): Observable<E[K]> {
     return this.modelWithValidation.pipe(
       map(model => this.findPropertyModel(model, key)),
       map(propModel => propModel.propertyValue),
@@ -146,7 +146,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
     );
   }
 
-  wrapPropertyValue<K extends keyof E= keyof E>(key: K): Observable<ValidatedFormModel<E[K]>> {
+  wrapPropertyValue<K extends keyof E = keyof E>(key: K): Observable<ValidatedFormModel<E[K]>> {
     return this.getPropertyModel(key).pipe(
       filter(m => m.propertyValue != null),
       filter(m => typeof m.propertyValue === 'object'),
@@ -156,7 +156,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
   }
 
   // TODO typings
-  getWrappedPropertyModel<K extends keyof E= keyof E, H extends keyof E[K] = keyof E[K]>
+  getWrappedPropertyModel<K extends keyof E = keyof E, H extends keyof E[K] = keyof E[K]>
   (key1: K, key2: H): Observable<ValidatedFormProperty<E[K], any>> {
     return this.wrapPropertyValue(key1).pipe(
       map(model => model.properties[key2]),
@@ -164,7 +164,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
     );
   }
 
-  getWrappedPropertyValue<K extends keyof E= keyof E, H extends keyof E[K] = keyof E[K]>
+  getWrappedPropertyValue<K extends keyof E = keyof E, H extends keyof E[K] = keyof E[K]>
   (key1: K, key2: H): Observable<any> {
     return this.wrapPropertyValue(key1).pipe(
       map(model => model.properties[key2]),
@@ -176,7 +176,11 @@ export class FormValidationHelper<E extends WsDomainEntity> {
 
   private updateModelOnNewValue(cur: ValidatedFormModel<E>, next: E): ValidatedFormModel<E> {
     if (cur == null) {
-      return this.createValidationModel(next);
+      if (next != null) {
+        return this.createValidationModel(next);
+      } else {
+        return null;
+      }
     } else {
       const newProperties = this.updatePropertiesValues(cur.properties, next);
       const newModel = Object.assign({}, cur, <Partial<ValidatedFormModel<E>>>{
@@ -191,7 +195,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
   private updatePropertiesValues(properties: { [K in keyof E]: ValidatedFormProperty<E, K> },
                                  next: E,
                                  resetErrors?: boolean): { [K in keyof E]: ValidatedFormProperty<E, K> } {
-    const newProperties = <{ [K in keyof E]: ValidatedFormProperty<E, K> }>  {};
+    const newProperties = <{ [K in keyof E]: ValidatedFormProperty<E, K> }>{};
     Object.getOwnPropertyNames(properties)
       .forEach(key => this.updatePropertyValue(<keyof E>key, properties, newProperties, next, resetErrors));
     return newProperties;
@@ -268,7 +272,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
     }
     const errorBody = this.requestService.parseHttpErrorJsonBody<WsValidationError>(error);
 
-    const updatedValue: E = <E> errorBody.entity;
+    const updatedValue: E = <E>errorBody.entity;
     const updatedProperties = this.updatePropertiesErrors(model.properties, errorBody.errors, updatedValue);
     const unboundErrors = this.getUnboundErrorMessages(errorBody.errors);
 
@@ -286,7 +290,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
   private updatePropertiesErrors<F = E>(properties: { [K in keyof F]: ValidatedFormProperty<F, K> },
                                         errors: WsContraintViolation[],
                                         entity: F): { [K in keyof F]: ValidatedFormProperty<F, K> } {
-    const newProperties = <{ [K in keyof F]: ValidatedFormProperty<F, K> }>  Object.assign({}, properties);
+    const newProperties = <{ [K in keyof F]: ValidatedFormProperty<F, K> }>Object.assign({}, properties);
 
     const missingProperties = this.getUnmatchedProperties<F>(errors, newProperties);
     missingProperties.map(prop => this.createPropertyModel<F>(entity, <keyof F>prop))
@@ -307,7 +311,7 @@ export class FormValidationHelper<E extends WsDomainEntity> {
     const newValue = entity[key];
     const errorMessages = this.getPropertyErrorMessages<F>(errors, key);
     const childErrors = this.getChildrenPropertyErrors<F>(errors, key);
-    const modelUpdate = <Partial<ValidatedFormProperty<F, H>>> {
+    const modelUpdate = <Partial<ValidatedFormProperty<F, H>>>{
       propertyValue: newValue,
       validationErrors: errorMessages,
       childrenViolations: childErrors,
