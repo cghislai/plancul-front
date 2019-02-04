@@ -14,86 +14,107 @@ pipeline {
           description: 'Space-separated list of locales to build'
         )
         booleanParam(name: 'SKIP_TESTS', defaultValue: true, description: 'Skip tests')
-        string(
-          name: 'PUBLISH_URL', defaultValue: 'https://nexus.valuya.be/nexus/repository',
-          description: 'Deployment repository url'
-        )
-        string(
-          name: 'PUBLISH_REPO', defaultValue: 'web-snapshots',
-          description: 'Deployment repository'
-        )
+        booleanParam(name: 'FORCE_DEPLOY', defaultValue: false, description: 'Force deploy on feature branches')
    }
     stages {
-        stage ('Install') {
-            steps {
-                nodejs(nodeJSInstallationName: 'node 10', configId: 'npmrc-@charlyghislain') {
-                    ansiColor('xterm') {
-                    sh '''
-                        rm -rfv dist*
-                        npm install  --no-shrinkwrap #FIXME: Ignore package lock for time being: API may have been overwritten in the repo
-                       '''
-                    }
-                }
-            }
-        }
         stage ('Build') {
             steps {
-              withCredentials([usernameColonPassword(credentialsId: 'nexus-basic-auth', variable: 'NEXUS_BASIC_AUTH')]) {
               nodejs(nodeJSInstallationName: 'node 10', configId: 'npmrc-@charlyghislain') {  catchError {
                 ansiColor('xterm') {
                   sh '''
+                    rm -rf dist*
+                    npm install
                    for LANG in $LANGUAGES ; do
                       CONF_NAME="${CONF_PREFIX}${LANG}"
 
-                      ./node_modules/.bin/ng build \
-                         -c "$CONF_NAME"
+                      node --max_old_space_size=8000 ./node_modules/.bin/ng build \
+                         -c "$CONF_NAME" \
+                         --progress false
                    done
                   '''
                 }
-              }}}
+              }}
             }
         }
         stage ('Publish') {
+
+            when { allOf {
+              anyOf {
+                 environment name: 'BRANCH_NAME', value: 'master'
+                 environment name: 'BRANCH_NAME', value: 'rc'
+                 expression { return params.FORCE_DEPLOY == true }
+              }
+              expression { return currentBuild.result != 'FAILURE' }
+             }}
             steps {
-                withCredentials([usernameColonPassword(credentialsId: 'nexus-basic-auth', variable: 'NEXUS_BASIC_AUTH')]) {
+                withCredentials([string(credentialsId: 'github-cghislai-token', variable: 'SECRET')]) {
                   ansiColor('xterm') {
                      nodejs(nodeJSInstallationName: 'node 10', configId: 'npmrc-@charlyghislain') {
                          sh '''
-                           for LANG in $LANGUAGES ; do
-                              # Read version
-                              export VERSION="$(./node_modules/.bin/json -f package.json version)"
-                              export COMMIT="$(git rev-parse --short HEAD)"
-                              echo "$VERSION" | grep "alpha|beta" && export VERSION="${VERSION}-${COMMIT}"
-  
-                              export ARCHIVE="plancul-front-${LANG}-${VERSION}.tgz"
-  
-                              ## FIXME: Workaround https://github.com/angular/angular-cli/issues/8515
-                              sed -i 's#/ngsw-worker.js#./ngsw-worker.js#' dist/plancul-front/${LANG}/main.*.js
-  
-                              # Compress
-                              cd dist/plancul-front/${LANG}/
-                              tar  -cvzf ../${ARCHIVE} ./
-                              cd ../../..
-  
-                              # Upload archives
-                              curl -v --user $NEXUS_BASIC_AUTH --upload-file dist/plancul-front/${ARCHIVE} \
-                              ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE}
-  
-                              # Create .latest 'links' (branch heads) if required
-                              if [ "${BRANCH_NAME}" = "master" ] ; then
-                                export ARCHIVE_LINK="master.${LANG}.latest"
-                                echo "$ARCHIVE" > ./${ARCHIVE_LINK}
-                                curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
-                                  ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
-  
-                              elif [ "${BRANCH_NAME}" = "rc" ] ; then
-                                export ARCHIVE_LINK="rc.${LANG}.latest"
-                                echo "$ARCHIVE" > ./${ARCHIVE_LINK}
-                                curl -v --user $NEXUS_BASIC_AUTH --upload-file ./${ARCHIVE_LINK} \
-                                  ${PUBLISH_URL}/${PUBLISH_REPO}/com/charlyghislain/plancul-front/${ARCHIVE_LINK}
-                              fi
-                           done
-                        '''
+
+                          VERSION="$(./node_modules/.bin/json -f package.json version)"
+                          COMMIT="$(git rev-parse --short HEAD)"
+                          FULLVERSION=$VERSION
+                          PRERELEASE=false
+                          echo "$VERSION" | grep "alpha|beta" && export PRERELEASE=true
+                          if [ "$PRERELEASE" = "true" ] ; then
+                            FULLVERSION="${VERSION}-${COMMIT}"
+                          fi
+
+                          RELEASE_EXISTS=true
+                          RELEASE_ASSETS_URL="$(curl -v -q \
+                            -u cghislai:$SECRET \
+                            https://api.github.com/repos/cghislai/plancul-front/releases/tags/v$VERSION \
+                            | jq -r .upload_url || export RELEASE_EXISTS=FALSE)"
+                          if [ "$RELEASE_ASSETS_URL" = "null"  ] ; then export  RELEASE_EXISTS=FALSE ; fi
+                          if [ -z "$RELEASE_ASSETS_URL" ] ; then export  RELEASE_EXISTS=FALSE ; fi
+                          if [ "$RELEASE_EXISTS" != "true" ] ; then
+
+                            RELEASE_EXISTS=true
+                            cat << EOF >./release.json
+{\"tag_name\": \"v$VERSION\",
+\"target_commitish\": \"$BRANCH_NAME\",
+\"name\": \"$VERSION\",
+\"body\": \"Release $VERSION\",
+\"draft\": false,
+\"prerelease\": $PRERELEASE}
+EOF
+                            # create release if needed
+                            RELEASE_ASSETS_URL=$(curl -v -H 'Content-Type: application/json' \
+                              -u cghislai:$SECRET \
+                              -d "$(cat ./release.json)" \
+                              https://api.github.com/repos/cghislai/plancul-front/releases \
+                              | jq -r .upload_url || export RELEASE_EXISTS=FALSE)
+                            if [ "$RELEASE_ASSETS_URL" = "null"  ] ; then export  RELEASE_EXISTS=FALSE ; fi
+                            if [ -z "$RELEASE_ASSETS_URL" ] ; then export  RELEASE_EXISTS=FALSE ; fi
+                            if [ "$RELEASE_EXISTS" != "true" ] ; then exit 1 ; fi
+                          fi
+
+
+                          for LANG in $LANGUAGES ; do
+                            ARCHIVE="plancul-front-${LANG}-${FULLVERSION}.tgz"
+
+                            ## FIXME: Workaround https://github.com/angular/angular-cli/issues/8515
+                            sed -i 's#/ngsw-worker.js#./ngsw-worker.js#' dist/plancul-front/${LANG}/main.*.js
+
+                            # Compress
+                            cd dist/plancul-front/${LANG}/
+                            tar  -cvzf ../${ARCHIVE} ./
+                            cd ../../..
+
+                            UPLOAD_URL=$(echo "$RELEASE_ASSETS_URL" | sed 's/{?name,label}//')
+                            # Upload archive as github release asset
+                            ARCHIVE_URL=$(curl -v -X POST \
+                                -H 'Content-Type: application/x-gzip' \
+                                -u cghislai:$SECRET \
+                                --data-binary @dist/plancul-front/${ARCHIVE} \
+                                "${UPLOAD_URL}?name=${ARCHIVE}&label=$BRANCH_NAME%20release%20$LANG" \
+                                | jq -r .browser_download_url)
+                            if [ "$ARCHIVE_URL" = "null"  ] ; then exit 1 ; fi
+                            if [ -z "$ARCHIVE_URL" ] ; then exit 1 ; fi
+
+                          done
+                         '''
                      }
                   }
                 }
