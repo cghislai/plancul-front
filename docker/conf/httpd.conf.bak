@@ -31,7 +31,7 @@ ServerName localhost
 </Directory>
 
 DocumentRoot "/var/www"
-<Directory "/var/www">
+<DirectoryMatch "^/var/www/(?<lang>[^/]+)/">
     Options -Indexes +FollowSymLinks
     AllowOverride None
     Require all granted
@@ -43,9 +43,9 @@ DocumentRoot "/var/www"
     RewriteRule ^ - [L]
 
     # If the requested resource doesn't exist, use index.html
-    RewriteRule ^ index.html
+    RewriteRule ^ %{env:MATCH_LANG}/index.html
 
-</Directory>
+</DirectoryMatch>
 
 <Files ".ht*">
     Require all denied
