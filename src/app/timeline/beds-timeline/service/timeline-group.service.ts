@@ -29,6 +29,7 @@ export class TimelineGroupService {
   }
 
 
+
   private createBedGroup$(bed: WsBed): BedDataGroup {
     return new BedDataGroup(bed);
   }

@@ -113,7 +113,7 @@ export class TimelineService {
   }
 
   createItemHtmlTemplate(item: vis.DataItem): string {
-    if (MoonPhaseEventDataItem.isMoonPhaseItem(item)) {
+    if (MoonPhaseEventDataItem.isMoonPhaseItem(item.id as string)) {
       const phaseItem = item as MoonPhaseEventDataItem;
       const phase: MoonPhase = phaseItem.phase;
       const urlParam = `url('assets/icons/moon/moon.svg')`;

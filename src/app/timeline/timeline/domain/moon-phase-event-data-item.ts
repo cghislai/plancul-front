@@ -44,8 +44,8 @@ export class MoonPhaseEventDataItem implements vis.DataItem {
     return `astronomy-event moon-phase-event ${phase} ${event.dateTime}`;
   }
 
-  static isMoonPhaseItem(item: vis.DataItem) {
-    return (item.id as string).startsWith('astronomy-event moon-phase-event ');
+  static isMoonPhaseItem(id: string) {
+    return id.startsWith('astronomy-event moon-phase-event ');
   }
 
 }

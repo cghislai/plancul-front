@@ -19,6 +19,21 @@
                  (rangeChanged)="onDisplayRangeChanged($event)"
                  (itemMoving)="onItemMoving($event)"
                  (itemMoved)="onItemMoved($event)"
+                 (backgroundClick)="onBackgroundClick($event)"
     ></pc-timeline>
   </div>
 </div>
+
+<p-dialog [visible]="editingCulture != null"
+          header="Nouvelle culture"
+          styleClass="new-culture-dialog"
+          [closable]="true"
+          [closeOnEscape]="true"
+          (visibleChange)="onEditingCultureVisibilityChange($event)"
+          (close)="onEditingCultureClose()"
+>
+  <pc-culture-steps-form *ngIf="editingCulture != null"
+                         [culture]="editingCulture"
+                         (validCultureChange)="onEditingCultureSave($event)"
+  ></pc-culture-steps-form>
+</p-dialog>

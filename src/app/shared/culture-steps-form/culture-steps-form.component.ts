@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MenuItem} from 'primeng/api';
 import {
   DateAsString,
@@ -30,6 +30,11 @@ import {ValidatedFormModel} from '../../main/domain/validated-form-model';
 })
 export class CultureStepsFormComponent implements OnInit {
 
+  @Input()
+  set culture(value: WsCulture) {
+    this.formHelper.setValue(value);
+  }
+
   @Output()
   validCultureChange = new EventEmitter<WsCulture>();
 
@@ -38,7 +43,6 @@ export class CultureStepsFormComponent implements OnInit {
   STEP_ID_PREPARATION = 'preparation';
 
   steps: MenuItem[];
-  culture: WsCulture;
 
   activeStepIndex$ = new BehaviorSubject<number>(0);
   activeStepId$: Observable<string>;
@@ -116,12 +120,6 @@ export class CultureStepsFormComponent implements OnInit {
       publishReplay(1), refCount(),
     );
 
-    this.tenantSelectionService.getSelectedTenantRef().pipe(
-      take(1),
-    ).subscribe(ref => this.formHelper.setValue(<WsCulture>{
-      id: null,
-      tenantWsRef: ref,
-    }));
   }
 
   onActiveStepChange(index: number) {

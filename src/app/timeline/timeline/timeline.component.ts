@@ -10,6 +10,9 @@ import {TimelineItemMoveEvent} from './domain/timeline-item-move-event';
 import {CulturePhaseDataItem} from './domain/culture-phase-data-item';
 import {BedDataGroup} from './domain/bed-data-group';
 import {NurseryDataGroup} from './domain/nursery-data-group';
+import {MoonPhaseEventDataItem} from './domain/moon-phase-event-data-item';
+import {MoonZodiacEventDataItem} from './domain/moon-zodiac-event-data-item';
+import {TimelineBackgroundClickEvent} from './domain/timeline-background-click-event';
 
 @Component({
   selector: 'pc-timeline',
@@ -63,6 +66,8 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   private itemMoving = new EventEmitter<TimelineItemMoveEvent>();
   @Output()
   private itemMoved = new EventEmitter<TimelineItemMoveEvent>();
+  @Output()
+  private backgroundClick = new EventEmitter<TimelineBackgroundClickEvent>();
 
   @ViewChild('timelineContainer')
   private container: ElementRef;
@@ -112,6 +117,8 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.timeline.on('rangechanged', e => this.onRangeChanged(e));
+    this.timeline.on('doubleClick', e => this.onDoubleClick(e));
+    this.timeline.on('select', e => this.onItemSelect(e));
 
     this.subscription = this.itemsSource.pipe(
       distinctUntilChanged(),
@@ -139,6 +146,25 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.rangeChanged.emit(dateRange);
+  }
+
+  private onDoubleClick(event: any) {
+    const what = event.what;
+
+    switch (what) {
+      case 'background': {
+        this.backgroundClick.emit(this.createBackgroundClickEvent(event));
+        break;
+      }
+    }
+  }
+
+  private onItemSelect(event: any) {
+    const itemIds: string[] = event.items;
+    console.log(itemIds);
+    const filtered = itemIds.filter(id => this.isItemIdSelectable(id));
+
+    this.timeline.setSelection(filtered);
   }
 
   private snapDate(date: Date, scale: string, step: number): Date {
@@ -179,14 +205,14 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     if (groups != null) {
       const itemGroupId = groups.getIds().find(id => id === item.group);
       if (itemGroupId != null) {
-        const itemGroup = groups.get(itemGroupId);
-
-        if (BedDataGroup.isBedGroup(itemGroup)) {
+        if (BedDataGroup.isBedGroup(itemGroupId as string)) {
+          const itemGroup = groups.get(itemGroupId);
           const bedGroup = itemGroup as BedDataGroup;
           bed = bedGroup.bed;
         } else if (itemGroupId === NurseryDataGroup.getGroupId()) {
           nursery = true;
         }
+
       }
     }
 
@@ -198,5 +224,25 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
       bed: bed,
       nursery: nursery,
     };
+  }
+
+  private createBackgroundClickEvent(event: any): TimelineBackgroundClickEvent {
+    const time = event.snappedTime;
+    const timeMoment = moment(time);
+    const groupId = event.group;
+    return {
+      groupId: groupId,
+      time: timeMoment,
+    };
+  }
+
+  private isItemIdSelectable(id: string) {
+    if (MoonPhaseEventDataItem.isMoonPhaseItem(id)) {
+      return false;
+    }
+    if (MoonZodiacEventDataItem.isMoonZodiacEvent(id)) {
+      return false;
+    }
+    return true;
   }
 }

@@ -77,16 +77,16 @@
                 <pc-validation-errors [errorsKeys]="model.validationErrors"
                 ></pc-validation-errors>
               </div>
-              <div class="end-date">
-                  <span i18n>Until </span>
-                  <span>
-                    <pc-date-select [ngModel]="germinationDateValue | async"
-                                    (ngModelChange)="onGerminationDateChange($event)"
-                                    name="germination-date"
-                                    [min]="sowingDateValue | async"
-                    ></pc-date-select>
-                  </span>
-              </div>
+              <!--<div class="end-date">-->
+                  <!--<span i18n>Until </span>-->
+                  <!--<span>-->
+                    <!--<pc-date-select [ngModel]="germinationDateValue | async"-->
+                                    <!--(ngModelChange)="onGerminationDateChange($event)"-->
+                                    <!--name="germination-date"-->
+                                    <!--[min]="sowingDateValue | async"-->
+                    <!--&gt;</pc-date-select>-->
+                  <!--</span>-->
+              <!--</div>-->
             </span>
         </div>
 
@@ -108,13 +108,13 @@
                 <pc-validation-errors [errorsKeys]="model.validationErrors"
                 ></pc-validation-errors>
               </div>
-              <div class="end-date">
-                  <pc-date-select [ngModel]="firstHarvestDateValue | async"
-                                  (ngModelChange)="onFirstHarvestDateChange($event)"
-                                  name="first-harvest-date"
-                                  [min]="germinationDateValue | async"
-                  ></pc-date-select>
-              </div>
+              <!--<div class="end-date">-->
+                  <!--<pc-date-select [ngModel]="firstHarvestDateValue | async"-->
+                                  <!--(ngModelChange)="onFirstHarvestDateChange($event)"-->
+                                  <!--name="first-harvest-date"-->
+                                  <!--[min]="germinationDateValue | async"-->
+                  <!--&gt;</pc-date-select>-->
+              <!--</div>-->
             </span>
         </div>
 
@@ -136,13 +136,13 @@
                 <pc-validation-errors [errorsKeys]="model.validationErrors"
                 ></pc-validation-errors>
               </div>
-              <div class="end-date">
-                  <pc-date-select [ngModel]="lastHarvestDateValue | async"
-                                  (ngModelChange)="onLastHarvestDateChange($event)"
-                                  name="last-harvest-date"
-                                  [min]="firstHarvestDateValue | async"
-                  ></pc-date-select>
-              </div>
+              <!--<div class="end-date">-->
+                  <!--<pc-date-select [ngModel]="lastHarvestDateValue | async"-->
+                                  <!--(ngModelChange)="onLastHarvestDateChange($event)"-->
+                                  <!--name="last-harvest-date"-->
+                                  <!--[min]="firstHarvestDateValue | async"-->
+                  <!--&gt;</pc-date-select>-->
+              <!--</div>-->
             </span>
         </div>
 

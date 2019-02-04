@@ -46,6 +46,10 @@ export class MoonZodiacEventDataItem implements vis.DataItem {
     return `astronomy-event moon-zodiac-event unrendered`;
   }
 
+  static isMoonZodiacEvent(id: string) {
+    return id.startsWith('astronomy-event moon-zodiac-event ');
+  }
+
   private static getContentChar(zodiac: Zodiac) {
     switch (zodiac) {
       case Zodiac.ARIES:

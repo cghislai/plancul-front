@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, pipe, ReplaySubject} from 'rxjs';
 import * as vis from 'vis';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
 import {BedClientService} from '../../main/service/bed-client.service';
 import {
   DateAsString,
+  WsBed,
   WsBedFilter,
   WsBedSortField,
   WsCulture,
@@ -31,6 +32,9 @@ import {AstronomyEvent, AstronomyEventFilter, AstronomyEventType, ChronoUnit} fr
 import {AstronomyClientService} from '../astronomy-client.service';
 import {TimelineItemMoveEvent} from '../timeline/domain/timeline-item-move-event';
 import {CulturePhaseDataItem} from '../timeline/domain/culture-phase-data-item';
+import {TimelineBackgroundClickEvent} from '../timeline/domain/timeline-background-click-event';
+import {NurseryDataGroup} from '../timeline/domain/nursery-data-group';
+import {BedDataGroup} from '../timeline/domain/bed-data-group';
 
 @Component({
   selector: 'pc-beds-timeline',
@@ -49,6 +53,8 @@ export class BedsTimelineComponent implements OnInit {
   loadingBeds$ = new BehaviorSubject<boolean>(false);
   loadingCultures$ = new BehaviorSubject<boolean>(false);
   loadingEvents$ = new BehaviorSubject<boolean>(false);
+
+  editingCulture: WsCulture = null;
 
   private cultureItems$: Observable<CulturePhaseDataItem[]>;
   private cultureDataItemsUpdates$ = new ReplaySubject<CulturePhaseDataItem[]>(1);
@@ -97,7 +103,6 @@ export class BedsTimelineComponent implements OnInit {
       switchMap(results => this.searchAstronomyEvents$(results[0])),
     );
     const eventItems$ = combineLatest(events$, this.dateRangeService.getDisplayedRange$()).pipe(
-      tap(a => console.log(a)),
       switchMap(results => this.createAstronomyEventItems$(results[0], results[1])),
     );
     this.timelineData = combineLatest(this.cultureItems$, eventItems$).pipe(
@@ -173,6 +178,37 @@ export class BedsTimelineComponent implements OnInit {
     });
   }
 
+
+  onBackgroundClick(event: TimelineBackgroundClickEvent) {
+    const time = event.time;
+    const bedRefOptional$ = this.getGroupBedRef$(event.groupId);
+    const nursery = event.groupId === NurseryDataGroup.getGroupId();
+    const tenantRef$ = this.selectedTenantService.getSelectedTenantRef();
+    combineLatest(bedRefOptional$, tenantRef$).pipe(
+      take(1),
+      map(results => this.createNewCulture(results[1], results[0], time, nursery)),
+    ).subscribe(culture => this.editingCulture = culture);
+
+  }
+
+
+  onEditingCultureSave(culture: WsCulture) {
+    this.editingCulture = null;
+    this.cultureClient.saveCulture(culture).subscribe(
+      ref => this.onNewCultureSaveSuccess(ref),
+      error => this.onNewCultureSaveError(error),
+    );
+  }
+
+  onEditingCultureClose() {
+    this.editingCulture = null;
+  }
+
+  onEditingCultureVisibilityChange(visible: boolean) {
+    if (!visible) {
+      this.editingCulture = null;
+    }
+  }
 
   private createInitialDateRange(): WsDateRange {
     const now = moment();
@@ -292,4 +328,43 @@ export class BedsTimelineComponent implements OnInit {
     );
   }
 
+  private getGroupBedRef$(groupId: string): Observable<WsRef<WsBed> | WsBed> {
+    if (BedDataGroup.isBedGroup(groupId)) {
+      return this.timelineGroups.pipe(
+        take(1),
+        map(groups => groups.get(groupId)),
+        map(group => group as BedDataGroup),
+        map(group => group.bed),
+      );
+    } else {
+      return of(null);
+    }
+  }
+
+  private createNewCulture(tenantRef: WsRef<WsTenant>, bedRef: WsBed | WsRef<WsBed> | null, time: moment.MomentInput, nursery: boolean) {
+    const culture: WsCulture = <WsCulture>{
+      tenantWsRef: tenantRef,
+      bedWsRef: bedRef == null ? null : {id: bedRef.id},
+      sowingDate: DateUtils.toIsoDateString(time),
+    };
+    if (nursery) {
+      culture.cultureNursing = {
+        dayDuration: 14,
+        startDate: DateUtils.toIsoDateString(time),
+        endDate: DateUtils.toIsoDateString(moment(time).add(14, 'day')),
+      };
+    }
+    return culture;
+  }
+
+  private onNewCultureSaveSuccess(ref: WsRef<WsCulture>) {
+    const newItems$ = this.timelineService.createCultureRefPhasesItems$(ref);
+    combineLatest(newItems$, this.cultureItems$).pipe(
+      map(itemLists => this.timelineService.updateCultureSubgroupItems(itemLists[0], itemLists[1], ref)),
+    ).subscribe(newData => this.cultureDataItemsUpdates$.next(newData));
+  }
+
+  private onNewCultureSaveError(error: any) {
+    this.notificationMessageService.addError(`Could not save new culture`, error);
+  }
 }
