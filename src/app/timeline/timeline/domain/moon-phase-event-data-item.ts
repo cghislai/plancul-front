@@ -37,10 +37,15 @@ export class MoonPhaseEventDataItem implements vis.DataItem {
     this.end = end;
     this.className = `moon-phase ${phaseName.toLowerCase()}`;
     this.group = MoonPhasesDataGroup.getGroupId();
+    this.editable = false;
   }
 
   static getEventId(event: MoonPhaseChangeEvent, phase: MoonPhase): string {
     return `astronomy-event moon-phase-event ${phase} ${event.dateTime}`;
+  }
+
+  static isMoonPhaseItem(item: vis.DataItem) {
+    return (item.id as string).startsWith('astronomy-event moon-phase-event ');
   }
 
 }

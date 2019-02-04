@@ -8,7 +8,7 @@ import {WsDateRange} from '@charlyghislain/plancul-api';
 @Injectable()
 export class TimelineDateRangeService {
 
-  private cachedRangeMaxDayLength = 180;
+  private cachedRangeMaxDayLength = 720;
 
   private displayedRange$ = new BehaviorSubject<WsDateRange | null>(null);
   private searchFilterRange$: Observable<WsDateRange>;
@@ -31,7 +31,7 @@ export class TimelineDateRangeService {
   }
 
   getDisplayedRange$() {
-    return this.searchFilterRange$;
+    return this.displayedRange$;
   }
 
   private checkNewDisplayedRange$(cur: WsDateRange | null, next: WsDateRange): WsDateRange {
@@ -47,12 +47,12 @@ export class TimelineDateRangeService {
     }
     // within actual range
     const curLength = curTo.diff(curFrom, 'day');
-    if (curLength > this.cachedRangeMaxDayLength) {
+    const nextMinLength = nextTo.add(4, 'month').diff(nextFrom, 'day');
+    if (curLength > nextMinLength && curLength > this.cachedRangeMaxDayLength) {
       // we want to shrink range, keeping it centered on the next one
       // keeping 2 months buffering on each side, see adjustFromDisplayedRange
-      const nextLength = nextTo.diff(nextFrom, 'day') + 4;
-      const minLength = Math.min(this.cachedRangeMaxDayLength, nextLength);
-      const extraDays = minLength - nextLength;
+      const minLength = Math.max(this.cachedRangeMaxDayLength, nextMinLength);
+      const extraDays = minLength - nextMinLength;
 
       const newStart = nextFrom.clone().add(-extraDays / 2, 'day');
       const newEnd = nextTo.clone().add(extraDays / 2, 'day');

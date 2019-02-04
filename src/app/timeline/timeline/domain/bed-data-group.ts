@@ -30,7 +30,12 @@ export class BedDataGroup implements vis.DataGroup {
     return `bed ${bed.id}`;
   }
 
+  static isBedGroup(group: vis.DataGroup) {
+    return (group.id as string).startsWith('bed ');
+  }
+
   private getId() {
     return BedDataGroup.getBedGroupId(this.bed);
   }
+
 }

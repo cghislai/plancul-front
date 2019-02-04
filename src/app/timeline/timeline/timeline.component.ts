@@ -28,7 +28,7 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  set groups(items: vis.DataGroup[]) {
+  set groups(items: vis.DataSet<vis.DataGroup>) {
     if (items == null) {
       return;
     }
@@ -72,7 +72,7 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Used as buffers until timeline created
   private itemsSource = new BehaviorSubject<vis.DataItem[]>([]);
-  private groupsSource = new BehaviorSubject<vis.DataGroup[]>([]);
+  private groupsSource = new BehaviorSubject<vis.DataSet<vis.DataGroup>>(null);
   private optionsSource = new BehaviorSubject<any>({
     stack: false,
     stackSubgroups: true,
@@ -170,19 +170,26 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private createMovingEvent(item: vis.DataItem, callback: (item: vis.DataItem) => any): TimelineItemMoveEvent {
     let culture, phase, bed, nursery;
-    if (item instanceof CulturePhaseDataItem) {
-      culture = item.culture;
-      phase = item.phase;
+    if (CulturePhaseDataItem.isCulturePhaseItem(item)) {
+      const phaseItem = item as CulturePhaseDataItem;
+      culture = phaseItem.culture;
+      phase = phaseItem.phase;
     }
     const groups = this.groupsSource.getValue();
-    const itemGroup = groups.find(group => group.id === item.group);
-    if (itemGroup != null) {
-      if (itemGroup instanceof BedDataGroup) {
-        bed = itemGroup.bed;
-      } else if (itemGroup instanceof NurseryDataGroup) {
-        nursery = true;
+    if (groups != null) {
+      const itemGroupId = groups.getIds().find(id => id === item.group);
+      if (itemGroupId != null) {
+        const itemGroup = groups.get(itemGroupId);
+
+        if (BedDataGroup.isBedGroup(itemGroup)) {
+          const bedGroup = itemGroup as BedDataGroup;
+          bed = bedGroup.bed;
+        } else if (itemGroupId === NurseryDataGroup.getGroupId()) {
+          nursery = true;
+        }
       }
     }
+
     return {
       item: item,
       callback: callback,

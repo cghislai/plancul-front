@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, combineLatest, forkJoin, Observable, of} from 'rxjs';
+import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, ReplaySubject} from 'rxjs';
 import * as vis from 'vis';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
@@ -27,9 +27,10 @@ import {MessageKeys} from '../../main/service/util/message-keys';
 import {TimelineGroupService} from './service/timeline-group.service';
 import {TimelineItemService} from './service/timeline-item.service';
 import {TimelineDateRangeService} from './service/timeline-date-range.service';
-import {AstronomyEventFilter, AstronomyEventType, ChronoUnit} from '@charlyghislain/astronomy-api';
+import {AstronomyEvent, AstronomyEventFilter, AstronomyEventType, ChronoUnit} from '@charlyghislain/astronomy-api';
 import {AstronomyClientService} from '../astronomy-client.service';
 import {TimelineItemMoveEvent} from '../timeline/domain/timeline-item-move-event';
+import {CulturePhaseDataItem} from '../timeline/domain/culture-phase-data-item';
 
 @Component({
   selector: 'pc-beds-timeline',
@@ -49,6 +50,8 @@ export class BedsTimelineComponent implements OnInit {
   loadingCultures$ = new BehaviorSubject<boolean>(false);
   loadingEvents$ = new BehaviorSubject<boolean>(false);
 
+  private cultureItems$: Observable<CulturePhaseDataItem[]>;
+  private cultureDataItemsUpdates$ = new ReplaySubject<CulturePhaseDataItem[]>(1);
   private reloadTrigger = new BehaviorSubject<any>(true);
   private maxRangeDayDurationForZodiacRendering = 300;
 
@@ -79,26 +82,30 @@ export class BedsTimelineComponent implements OnInit {
       publishReplay(1), refCount(),
     );
 
-    const cultureBedsItems$ = combineLatest(
+    const fetchedCultureItems$ = combineLatest(
       tenantRef, this.dateRangeService.getSearchFilterRange$(), this.reloadTrigger,
     ).pipe(
-      tap(a => console.log(a)),
       map(results => this.createCultureFilter(results[0], results[1])),
       switchMap(searchFilter => this.searchCultureItems$(searchFilter)),
     );
-    const eventItems$ = combineLatest(
+    this.cultureItems$ = merge(fetchedCultureItems$, this.cultureDataItemsUpdates$).pipe(
+      publishReplay(1), refCount(),
+    );
+    const events$ = combineLatest(
       this.dateRangeService.getSearchFilterRange$(), this.reloadTrigger,
     ).pipe(
-      map(results => results[0]),
-      switchMap(range => this.searchAstronomyEvents$(range)),
+      switchMap(results => this.searchAstronomyEvents$(results[0])),
     );
-    this.timelineData = combineLatest(cultureBedsItems$, eventItems$).pipe(
+    const eventItems$ = combineLatest(events$, this.dateRangeService.getDisplayedRange$()).pipe(
+      tap(a => console.log(a)),
+      switchMap(results => this.createAstronomyEventItems$(results[0], results[1])),
+    );
+    this.timelineData = combineLatest(this.cultureItems$, eventItems$).pipe(
       map(items => [...items[0], ...items[1]]),
       publishReplay(1), refCount(),
     );
 
     this.timelineOptions = of({});
-
     this.dateRangeService.setDisplayRange(this.createInitialDateRange());
   }
 
@@ -124,6 +131,7 @@ export class BedsTimelineComponent implements OnInit {
       return;
     }
     const culture = event.culture;
+    const cultureRef = {id: culture.id};
 
     const startMoment = moment(item.start);
     const endMoment = moment(item.end);
@@ -151,12 +159,12 @@ export class BedsTimelineComponent implements OnInit {
 
     // Accept event directly
     callback(item);
-    this.timelineData.pipe(
+    this.cultureItems$.pipe(
       take(1),
-      tap(data => this.timelineService.setCultureSubgroupLoading(data, culture, true)),
+      tap(data => this.setCultureSubgroupLoading(data, cultureRef)),
       mergeMap(() => cultureUpdates$),
-      mergeMap(() => this.timelineService.createCultureRefPhasesItems$({id: culture.id})),
-      mergeMap(newItems => this.setTimelineNewItems$(newItems, culture)),
+      mergeMap(() => this.timelineService.createCultureRefPhasesItems$(cultureRef)),
+      mergeMap(newItems => this.setTimelineNewItems$(newItems, cultureRef)),
     ).subscribe(() => {
     }, error => {
       this.localizationService.getTranslation(MessageKeys.ERROR_UPDATING_CULTURE_TITLE)
@@ -164,6 +172,7 @@ export class BedsTimelineComponent implements OnInit {
       this.reloadTrigger.next(true);
     });
   }
+
 
   private createInitialDateRange(): WsDateRange {
     const now = moment();
@@ -224,7 +233,7 @@ export class BedsTimelineComponent implements OnInit {
     };
   }
 
-  private searchCultureItems$(searchFilter: WsCultureFilter): Observable<vis.DataItem[]> {
+  private searchCultureItems$(searchFilter: WsCultureFilter): Observable<CulturePhaseDataItem[]> {
     const pagination: Pagination = {
       offset: 0,
       length: 100,
@@ -241,19 +250,16 @@ export class BedsTimelineComponent implements OnInit {
     );
   }
 
-  private searchAstronomyEvents$(range: WsDateRange): Observable<vis.DataItem[]> {
-    const dayDuration = moment(range.end).diff(moment(range.start), 'days');
+  private searchAstronomyEvents$(searchRange: WsDateRange): Observable<AstronomyEvent[]> {
+    const dayDuration = moment(searchRange.end).diff(moment(searchRange.start), 'days');
 
     const eventTypes = [
       AstronomyEventType.MOON_PHASE_CHANGE,
+      AstronomyEventType.MOON_ZODIAK_CHANGE,
     ];
-    const isShowingMoonZodiacs = dayDuration < this.maxRangeDayDurationForZodiacRendering;
-    if (isShowingMoonZodiacs) {
-      eventTypes.push(AstronomyEventType.MOON_ZODIAK_CHANGE);
-    }
     const searchFilter: AstronomyEventFilter = {
       timePagination: {
-        pageStartTime: DateUtils.toIsoLocalDateTimeString(range.start),
+        pageStartTime: DateUtils.toIsoLocalDateTimeString(searchRange.start),
         pageDuration: dayDuration,
         pageDurationUnit: ChronoUnit.DAYS,
       },
@@ -262,14 +268,28 @@ export class BedsTimelineComponent implements OnInit {
 
     this.loadingEvents$.next(true);
     return this.astronomyClient.searchEvents(searchFilter).pipe(
-      mergeMap(events => this.timelineService.createAstronomyEventItems$(events, isShowingMoonZodiacs, range)),
       tap(() => this.loadingEvents$.next(false)),
     );
   }
 
-  private setTimelineNewItems$(newItems: vis.DataItem[], culture: WsCulture) {
-    return this.timelineData.pipe(
-      map(data => this.timelineService.updateCultureSubggroupItems(data, newItems, culture)),
+  private createAstronomyEventItems$(events: AstronomyEvent[], displayRange: WsDateRange) {
+    const dayDuration = moment(displayRange.end).diff(moment(displayRange.start), 'days');
+    const isShowingMoonZodiacs = dayDuration < this.maxRangeDayDurationForZodiacRendering;
+    return this.timelineService.createAstronomyEventItems$(events, isShowingMoonZodiacs, displayRange);
+
+  }
+
+  private setCultureSubgroupLoading(data, cultureRef) {
+    const newData = this.timelineService.setCultureSubgroupLoading(data, cultureRef);
+    this.cultureDataItemsUpdates$.next(newData);
+  }
+
+  private setTimelineNewItems$(newItems: CulturePhaseDataItem[], cultureRef: WsRef<WsCulture>) {
+    return this.cultureItems$.pipe(
+      take(1),
+      map(data => this.timelineService.updateCultureSubgroupItems(data, newItems, cultureRef)),
+      tap(newData => this.cultureDataItemsUpdates$.next(newData)),
     );
   }
+
 }

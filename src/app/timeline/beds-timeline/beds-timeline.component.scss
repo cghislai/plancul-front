@@ -201,6 +201,17 @@
       &.vis-selected {
         outline: 2px solid red;
         outline-radius: 2px;
+
+        &.vis-readonly {
+          outline: 2px solid transparent;
+        }
+      }
+      &.loading {
+        opacity: .3;
+      }
+
+      .vis-delete {
+        display: none;
       }
     }
   }

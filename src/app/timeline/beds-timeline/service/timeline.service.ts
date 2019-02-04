@@ -14,8 +14,8 @@ import {BedGroupType} from '../../timeline/domain/bed-group-type';
 import {TimelineItemService} from './timeline-item.service';
 import {BedDataGroup} from '../../timeline/domain/bed-data-group';
 import {MoonPhaseEventDataItem} from '../../timeline/domain/moon-phase-event-data-item';
-import {MoonZodiacEventDataItem} from '../../timeline/domain/moon-zodiac-event-data-item';
 import {NurseryDataGroup} from '../../timeline/domain/nursery-data-group';
+import {CulturePhaseDataItem} from '../../timeline/domain/culture-phase-data-item';
 
 @Injectable()
 export class TimelineService {
@@ -40,7 +40,7 @@ export class TimelineService {
     );
   }
 
-  createCulturePhaseItems$(cultureRefs: WsRef<WsCulture>[]): Observable<vis.DataItem[]> {
+  createCulturePhaseItems$(cultureRefs: WsRef<WsCulture>[]): Observable<CulturePhaseDataItem[]> {
     const phaseItems$List = cultureRefs.map(ref => this.createCultureRefPhasesItems$(ref));
     const phaseItems$ = phaseItems$List.length === 0 ? of([]) : forkJoin(phaseItems$List);
     return phaseItems$.pipe(
@@ -49,7 +49,7 @@ export class TimelineService {
   }
 
 
-  createCultureRefPhasesItems$(ref: WsRef<WsCulture>): Observable<vis.DataItem[]> {
+  createCultureRefPhasesItems$(ref: WsRef<WsCulture>): Observable<CulturePhaseDataItem[]> {
     return this.cultureClient.getCulture(ref.id).pipe(
       mergeMap(culture => this.itemService.createCulturePhaseItems$(culture)),
     );
@@ -93,18 +93,29 @@ export class TimelineService {
     }
   }
 
-  setCultureSubgroupLoading(data: vis.DataItem[], culture: WsCulture, loading: boolean) {
-
+  setCultureSubgroupLoading(data: CulturePhaseDataItem[], cultureRef: WsRef<WsCulture>): CulturePhaseDataItem[] {
+    const subgroupId = CulturePhaseDataItem.getCultureSubGroupId(cultureRef);
+    data.filter(item => CulturePhaseDataItem.isCulturePhaseItem(item))
+      .map(item => item as CulturePhaseDataItem)
+      .filter(item => item.subgroup === subgroupId)
+      .forEach(item => CulturePhaseDataItem.setLoading(item, true));
+    return [...data];
   }
 
+  updateCultureSubgroupItems(curData: CulturePhaseDataItem[], newData: CulturePhaseDataItem[], cultureRef: WsRef<WsCulture>): CulturePhaseDataItem[] {
+    const subgroupId = CulturePhaseDataItem.getCultureSubGroupId(cultureRef);
+    // Remove subgroup elements from data array
+    const remainingOldItems = curData
+      .filter(item => item.subgroup !== subgroupId);
+    newData.forEach(item => CulturePhaseDataItem.setLoading(item, false));
 
-  updateCultureSubggroupItems(curData: vis.DataItem[], newData: vis.DataItem[], culture: WsCulture) {
-
+    return [...remainingOldItems, ...newData];
   }
 
   createItemHtmlTemplate(item: vis.DataItem): string {
-    if (item instanceof MoonPhaseEventDataItem) {
-      const phase: MoonPhase = item.phase;
+    if (MoonPhaseEventDataItem.isMoonPhaseItem(item)) {
+      const phaseItem = item as MoonPhaseEventDataItem;
+      const phase: MoonPhase = phaseItem.phase;
       const urlParam = `url('assets/icons/moon/moon.svg')`;
       const styleParams = `-webkit-mask-image: ${urlParam}; mask-image: ${urlParam}`;
       if (phase === MoonPhase.FULL_MOON) {
@@ -114,15 +125,6 @@ export class TimelineService {
       } else {
         return '';
       }
-
-    } else if (item instanceof MoonZodiacEventDataItem) {
-      const zodiac = item.event.zodiac;
-      if (zodiac != null) {
-        const zodiacName = (<string>zodiac).toLowerCase();
-        const urlParam = `url('assets/icons/zodiac/${zodiacName}.svg')`;
-        const styleParams = `-webkit-mask-image: ${urlParam}; mask-image: ${urlParam}`;
-        return `<span class="zodiac ${zodiacName}" style="${styleParams}"></span>`;
-      } // Else fallback
     }
     return `<span>${item.content}</span>`;
   }
