@@ -6,13 +6,13 @@
 
     // Row labels
     .vis-label {
-      &.moon-phase-group {
+      &.moon-phases-group {
         background-color: $moon_bg;
         color: $moon_fg;
         border-bottom: none;
       }
 
-      &.moon-zodiac-group {
+      &.moon-zodiacs-group {
         background-color: $moon_bg;
         color: $moon_fg;
       }
@@ -20,13 +20,13 @@
 
     // Rows
     .vis-group {
-      &.moon-phase-group {
+      &.moon-phases-group {
         background-color: $moon_bg;
         color: $moon_fg;
         border-bottom: none;
       }
 
-      &.moon-zodiac-group {
+      &.moon-zodiacs-group {
         background-color: $moon_bg;
         color: $moon_fg;
       }
@@ -86,8 +86,9 @@
             rgba(255, 242, 216, 0.1) 90%,
             rgba(255, 242, 216, 0.0) 100%
           );
+
           span.moon-phase {
-              background-color: $moon_fg;
+            background-color: $moon_fg;
           }
         }
 
@@ -99,6 +100,7 @@
             rgba(20, 17, 14, 0.2) 90%,
             rgba(20, 17, 14, 0.0) 100%
           );
+
           span.moon-phase {
             background-color: black;
           }
@@ -149,6 +151,7 @@
 
         &.fire {
           @include element_gradient_bg(255, 214, 37);
+
           span.zodiac {
             background-color: #ffd625;
           }
@@ -156,6 +159,7 @@
 
         &.water {
           @include element_gradient_bg(8, 151, 255);
+
           span.zodiac {
             background-color: #0897ff;
           }
@@ -163,6 +167,7 @@
 
         &.earth {
           @include element_gradient_bg(179, 78, 40);
+
           span.zodiac {
             background-color: #b34e28;
           }
@@ -170,6 +175,7 @@
 
         &.air {
           @include element_gradient_bg(174, 255, 255);
+
           span.zodiac {
             background-color: #aeffff;
           }
@@ -201,7 +207,38 @@
       &.vis-selected {
         outline: 2px solid red;
         outline-radius: 2px;
+
+        &.vis-readonly {
+          outline: 2px solid transparent;
+        }
+      }
+
+      &.loading {
+        opacity: .3;
+      }
+
+      .vis-delete {
+        display: none;
       }
     }
   }
+}
+
+::ng-deep .new-culture-dialog {
+  height: 30em;
+  min-width: 40em;
+
+  .ui-dialog-content {
+    overflow: auto;
+    height: 100%;
+    position: relative;
+
+    .culture-steps-form {
+      position: relative;
+      height: 100%;
+    }
+
+
+  }
+
 }

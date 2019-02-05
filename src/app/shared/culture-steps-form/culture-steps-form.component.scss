@@ -1,0 +1,34 @@
+.culture-steps-form {
+  min-width: 30em;
+  min-height: 20em;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  > p-steps {
+    flex: 0 0 auto;
+  }
+
+  form {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    > .pc-form {
+      flex: 1 1 auto;
+      display: block;
+    }
+
+    > .actions {
+      flex: 0 0 auto;
+      text-align: center;
+
+      > button {
+        margin: 1em;
+      }
+    }
+  }
+}

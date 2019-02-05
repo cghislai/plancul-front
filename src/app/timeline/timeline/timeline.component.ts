@@ -3,10 +3,16 @@ import * as vis from 'vis';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
-import {TimelineItemCallbackHandler} from './timeline-item-callback-handler';
 import {WsDateRange} from '@charlyghislain/plancul-api';
 import {distinctUntilChanged} from 'rxjs/operators';
-import {TimelineService} from '../service/timeline.service';
+import {TimelineService} from '../beds-timeline/service/timeline.service';
+import {TimelineItemMoveEvent} from './domain/timeline-item-move-event';
+import {CulturePhaseDataItem} from './domain/culture-phase-data-item';
+import {BedDataGroup} from './domain/bed-data-group';
+import {NurseryDataGroup} from './domain/nursery-data-group';
+import {MoonPhaseEventDataItem} from './domain/moon-phase-event-data-item';
+import {MoonZodiacEventDataItem} from './domain/moon-zodiac-event-data-item';
+import {TimelineBackgroundClickEvent} from './domain/timeline-background-click-event';
 
 @Component({
   selector: 'pc-timeline',
@@ -25,7 +31,7 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @Input()
-  set groups(items: vis.DataGroup[]) {
+  set groups(items: vis.DataSet<vis.DataGroup>) {
     if (items == null) {
       return;
     }
@@ -57,9 +63,11 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output()
   private rangeChanged = new EventEmitter<WsDateRange>();
   @Output()
-  private itemMoving = new EventEmitter<TimelineItemCallbackHandler>();
+  private itemMoving = new EventEmitter<TimelineItemMoveEvent>();
   @Output()
-  private itemMoved = new EventEmitter<TimelineItemCallbackHandler>();
+  private itemMoved = new EventEmitter<TimelineItemMoveEvent>();
+  @Output()
+  private backgroundClick = new EventEmitter<TimelineBackgroundClickEvent>();
 
   @ViewChild('timelineContainer')
   private container: ElementRef;
@@ -69,7 +77,7 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Used as buffers until timeline created
   private itemsSource = new BehaviorSubject<vis.DataItem[]>([]);
-  private groupsSource = new BehaviorSubject<vis.DataGroup[]>([]);
+  private groupsSource = new BehaviorSubject<vis.DataSet<vis.DataGroup>>(null);
   private optionsSource = new BehaviorSubject<any>({
     stack: false,
     stackSubgroups: true,
@@ -92,14 +100,8 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     // zoomKey: 'ctrlKey',
     start: this.initialRange == null ? moment().add(-1, 'week') : this.initialRange.start,
     end: this.initialRange == null ? moment().add(2, 'week') : this.initialRange.end,
-    onMoving: (item, callback) => this.itemMoving.next({
-      item: item,
-      callback: callback,
-    }),
-    onMove: (item, callback) => this.itemMoved.next({
-      item: item,
-      callback: callback,
-    }),
+    onMoving: (item, callback) => this.itemMoving.next(this.createMovingEvent(item, callback)),
+    onMove: (item, callback) => this.itemMoved.next(this.createMovingEvent(item, callback)),
     snap: (date: Date, scale: string, step: number) => this.snapDate(date, scale, step),
     moment: (date) => this.createMoment(date),
   });
@@ -115,6 +117,8 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.timeline.on('rangechanged', e => this.onRangeChanged(e));
+    this.timeline.on('doubleClick', e => this.onDoubleClick(e));
+    this.timeline.on('select', e => this.onItemSelect(e));
 
     this.subscription = this.itemsSource.pipe(
       distinctUntilChanged(),
@@ -144,6 +148,24 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     this.rangeChanged.emit(dateRange);
   }
 
+  private onDoubleClick(event: any) {
+    const what = event.what;
+
+    switch (what) {
+      case 'background': {
+        this.backgroundClick.emit(this.createBackgroundClickEvent(event));
+        break;
+      }
+    }
+  }
+
+  private onItemSelect(event: any) {
+    const itemIds: string[] = event.items;
+    const filtered = itemIds.filter(id => this.isItemIdSelectable(id));
+
+    this.timeline.setSelection(filtered);
+  }
+
   private snapDate(date: Date, scale: string, step: number): Date {
     const updatedDate = moment.utc(date)
       .startOf('day')
@@ -169,5 +191,57 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private createItemTemplate(item: vis.DataItem, element: any, data: any) {
     return this.timelineService.createItemHtmlTemplate(item);
+  }
+
+  private createMovingEvent(item: vis.DataItem, callback: (item: vis.DataItem) => any): TimelineItemMoveEvent {
+    let culture, phase, bed, nursery;
+    if (CulturePhaseDataItem.isCulturePhaseItem(item)) {
+      const phaseItem = item as CulturePhaseDataItem;
+      culture = phaseItem.culture;
+      phase = phaseItem.phase;
+    }
+    const groups = this.groupsSource.getValue();
+    if (groups != null) {
+      const itemGroupId = groups.getIds().find(id => id === item.group);
+      if (itemGroupId != null) {
+        if (BedDataGroup.isBedGroup(itemGroupId as string)) {
+          const itemGroup = groups.get(itemGroupId);
+          const bedGroup = itemGroup as BedDataGroup;
+          bed = bedGroup.bed;
+        } else if (itemGroupId === NurseryDataGroup.getGroupId()) {
+          nursery = true;
+        }
+
+      }
+    }
+
+    return {
+      item: item,
+      callback: callback,
+      culture: culture,
+      culturePhase: phase,
+      bed: bed,
+      nursery: nursery,
+    };
+  }
+
+  private createBackgroundClickEvent(event: any): TimelineBackgroundClickEvent {
+    const time = event.snappedTime;
+    const timeMoment = moment(time);
+    const groupId = event.group;
+    return {
+      groupId: groupId,
+      time: timeMoment,
+    };
+  }
+
+  private isItemIdSelectable(id: string) {
+    if (MoonPhaseEventDataItem.isMoonPhaseItem(id)) {
+      return false;
+    }
+    if (MoonZodiacEventDataItem.isMoonZodiacEvent(id)) {
+      return false;
+    }
+    return true;
   }
 }

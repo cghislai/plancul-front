@@ -13,6 +13,9 @@
               },
               "ValidPassword": {
                 "message": "Must be at least 8 character long and have one alphanumeric and one special character"
+              },
+              "ValidDateRange": {
+                "message": "Must be a valid date interval"
               }
             }
           }
