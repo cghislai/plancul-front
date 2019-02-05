@@ -310,7 +310,4 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.formHelper.updateChildValue('bedPreparation', update);
   }
 
-  onTest(culture: WsCulture) {
-    console.log(culture);
-  }
 }

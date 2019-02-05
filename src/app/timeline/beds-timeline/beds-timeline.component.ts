@@ -366,5 +366,6 @@ export class BedsTimelineComponent implements OnInit {
 
   private onNewCultureSaveError(error: any) {
     this.notificationMessageService.addError(`Could not save new culture`, error);
+    this.reloadTrigger.next(true);
   }
 }

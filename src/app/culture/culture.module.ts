@@ -12,7 +12,6 @@ import {SharedModule} from '../shared/shared.module';
 import {DataViewModule} from 'primeng/dataview';
 import {FormsModule} from '@angular/forms';
 import {IconsModule} from '../icons/icons.module';
-import {CultureStepsFormModule} from '../shared/culture-steps-form/culture-steps-form.module';
 
 @NgModule({
   imports: [
@@ -23,7 +22,6 @@ import {CultureStepsFormModule} from '../shared/culture-steps-form/culture-steps
 
     SharedModule,
     IconsModule,
-    CultureStepsFormModule,
 
     InputTextModule,
     DataViewModule,

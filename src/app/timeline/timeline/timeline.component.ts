@@ -161,7 +161,6 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private onItemSelect(event: any) {
     const itemIds: string[] = event.items;
-    console.log(itemIds);
     const filtered = itemIds.filter(id => this.isItemIdSelectable(id));
 
     this.timeline.setSelection(filtered);
