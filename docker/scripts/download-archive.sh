@@ -22,4 +22,4 @@ done
 [[ -z "$DOWNLOAD_URL" ]] && echo "No download url found" && exit 1
 
 echo "Downloading archive from $DOWNLOAD_URL"
-curl -L -o /opt/plancul-front.downloaded.tgz ${DOWNLOAD_URL}
+curl -L -o /opt/deployment/plancul-front.downloaded.tgz ${DOWNLOAD_URL}

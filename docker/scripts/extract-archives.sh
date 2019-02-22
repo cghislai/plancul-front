@@ -10,7 +10,7 @@ mkdir /var/www/${BASE_DIR}
 pushd /var/www/${BASE_DIR}
 
 if [[ -f "/opt/deployment/plancul-front.downloaded.tgz" ]] ; then
-    tar -xzf /opt/deployment/plancul-front.tgz
+    tar -xzf /opt/deployment/plancul-front.downloaded.tgz
 
     cp -rfv /var/www/template/* ./
 
