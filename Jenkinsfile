@@ -56,7 +56,7 @@ pipeline {
                           COMMIT="$(git rev-parse --short HEAD)"
                           FULLVERSION=$VERSION
                           PRERELEASE=false
-                          echo "$VERSION" | grep "alpha|beta" && export PRERELEASE=true
+                          echo "$VERSION" | grep 'alpha\\|beta' && export PRERELEASE=true
                           if [ "$PRERELEASE" = "true" ] ; then
                             FULLVERSION="${VERSION}-${COMMIT}"
                           fi
@@ -103,12 +103,13 @@ EOF
                             cd ../../..
 
                             UPLOAD_URL=$(echo "$RELEASE_ASSETS_URL" | sed 's/{?name,label}//')
+                            LABEL="${ARCHIVE}%20$BRANCH_NAME%20release%20$LANG"
                             # Upload archive as github release asset
                             ARCHIVE_URL=$(curl -v -X POST \
                                 -H 'Content-Type: application/x-gzip' \
                                 -u cghislai:$SECRET \
                                 --data-binary @dist/plancul-front/${ARCHIVE} \
-                                "${UPLOAD_URL}?name=${ARCHIVE}&label=$BRANCH_NAME%20release%20$LANG" \
+                                "${UPLOAD_URL}?name=${ARCHIVE}&label=$LABEL" \
                                 | jq -r .browser_download_url)
                             if [ "$ARCHIVE_URL" = "null"  ] ; then exit 1 ; fi
                             if [ -z "$ARCHIVE_URL" ] ; then exit 1 ; fi
