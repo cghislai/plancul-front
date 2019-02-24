@@ -368,7 +368,8 @@ export class CultureStepsFormComponent implements OnInit {
       return false;
     }
     for (const propKey of properties) {
-      if (form.properties[propKey].validationErrors.length > 0) {
+      const propertyModel = form.properties[propKey];
+      if (propertyModel != null && propertyModel.validationErrors.length > 0) {
         return false;
       }
     }

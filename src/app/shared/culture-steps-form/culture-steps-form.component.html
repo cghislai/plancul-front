@@ -2,7 +2,7 @@
   <p-steps [model]="steps"
            [readonly]="false"
            [activeIndex]="activeStepIndex$ | async"
-           (activeIndexChange)="onActiveStepChange($event.index)"
+           (activeIndexChange)="onActiveStepChange($event)"
   ></p-steps>
 
   <form #cultureForm="ngForm">
@@ -21,7 +21,6 @@
                             #control="ngModel"
             ></pc-crop-select>
             <pc-validation-errors [errorsKeys]="model.validationErrors"
-                                  
             ></pc-validation-errors>
           </span>
         </div>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {WsBedPreparationType} from '@charlyghislain/plancul-api';
+import {SelectItem} from 'primeng/api';
 
 @Component({
   selector: 'pc-bed-preparation-type-select',
@@ -15,7 +16,11 @@ import {WsBedPreparationType} from '@charlyghislain/plancul-api';
 export class BedPreparationTypeSelectComponent implements OnInit, ControlValueAccessor {
 
   value: WsBedPreparationType;
-  options = [WsBedPreparationType.COVER, WsBedPreparationType.PRESOWING];
+  options: SelectItem[] = [{
+    value: WsBedPreparationType.COVER,
+  }, {
+    value: WsBedPreparationType.PRESOWING,
+  }];
 
   private changeFunction: Function;
   private touchedFunction: Function;
