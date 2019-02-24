@@ -59,43 +59,37 @@
           <context context-type="sourcefile">app/shared/crop-search-query-type/crop-search-query-type.component.html</context>
           <context context-type="linenumber">7</context>
         </context-group>
+      </trans-unit><trans-unit id="a4759399c88a36c6d1af4848aca9c13219f5cc4c" datatype="html">
+        <source>No result</source><target state="final">Aucun résultat</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/crop-select/crop-select.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit><trans-unit id="11ef097171e45e0bb3d986b8fd53a8e1ff0e59bd" datatype="html">
+        <source>Click here to create a new crop</source><target state="final">Cliquez ici pour créer une variété</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/crop-select/crop-select.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="3071dc53bcfb77802e359696474ac6f3b900615e" datatype="html" approved="yes">
         <source>Crop</source>
         <target state="signed-off" phase-name="approval-1">Variétés</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">6</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-      </trans-unit>
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/culture/culture.component.html</context><context context-type="linenumber">6</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">15</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">15</context></context-group></trans-unit>
       <trans-unit id="38818e478df29ca0697839455be131bac99ea892" datatype="html" approved="yes">
         <source>Bed</source>
         <target state="signed-off" phase-name="approval-1">Planche</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">14</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/culture/culture.component.html</context><context context-type="linenumber">14</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">31</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">30</context></context-group></trans-unit>
       <trans-unit id="23d77d9654a45d898ed812cf5527d5ffdf2d93b7" datatype="html" approved="yes">
         <source>Bed preparation</source>
         <target state="signed-off" phase-name="approval-1">Préparation de la planche</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">22</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">213</context>
-        </context-group>
-      </trans-unit>
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/culture/culture.component.html</context><context context-type="linenumber">22</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">213</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">197</context></context-group></trans-unit>
       <trans-unit id="eae02405c5e21a49e271f4f367c604c9f0685084" datatype="html" approved="yes">
         <source>Sowing</source>
         <target state="signed-off" phase-name="approval-1">Semis</target>
@@ -107,27 +101,15 @@
       <trans-unit id="81c0231951f65f2a1089eac78cc19174c8010668" datatype="html" approved="yes">
         <source>Nursing</source>
         <target state="signed-off" phase-name="approval-1">Pépinière</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">36</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">172</context>
-        </context-group>
-      </trans-unit>
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/culture/culture.component.html</context><context context-type="linenumber">36</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">172</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">158</context></context-group></trans-unit>
       <trans-unit id="770738fdc5b8904cc7c51e2dcfc528b8c9ae6a80" datatype="html" approved="yes">
         <source>Transplantation</source>
         <target state="signed-off" phase-name="approval-1">Repiquage</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">42</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">198</context>
-        </context-group>
-      </trans-unit>
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/culture/culture.component.html</context><context context-type="linenumber">42</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">198</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">183</context></context-group></trans-unit>
       <trans-unit id="4d6cca9d917ec9b9998c50be50a8290a521223b8" datatype="html" approved="yes">
         <source>Harvest</source>
         <target state="signed-off" phase-name="approval-1">Récolte</target>
@@ -199,31 +181,13 @@
       <trans-unit id="fc34f2683c4cb526ed7095c5b1cdd66d672ba932" datatype="html" approved="yes">
         <source>days</source>
         <target state="signed-off" phase-name="approval-1">jours</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/bed-preparation/bed-preparation.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture-nursing/culture-nursing.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/shared/culture-harvest/culture-harvest.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">79</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">189</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">244</context>
-        </context-group>
-      </trans-unit>
+        
+        
+        
+        
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/bed-preparation/bed-preparation.component.html</context><context context-type="linenumber">11</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-nursing/culture-nursing.component.html</context><context context-type="linenumber">7</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-harvest/culture-harvest.component.html</context><context context-type="linenumber">7</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">79</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">189</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">244</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">74</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">175</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">227</context></context-group></trans-unit>
       <trans-unit id="f8f51dbca86503147f210f042fa054fdde91f236" datatype="html" approved="yes">
         <source>
     <x id="START_TAG_NG-CONTAINER" ctype="x-ng-container" equiv-text="&lt;ng-container>"/>
@@ -873,14 +837,14 @@ Vous recevrez un email contenant un lien à suivre pour entrer votre nouveau mot
         
         
         
-      <context-group purpose="location"><context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context><context context-type="linenumber">32</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">82</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">300</context></context-group></trans-unit>
+      <context-group purpose="location"><context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context><context context-type="linenumber">32</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">87</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">300</context></context-group></trans-unit>
       <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html" approved="yes">
         <source>Cancel</source>
         <target state="signed-off" phase-name="approval-1">Annuler</target>
         
         
         
-      <context-group purpose="location"><context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context><context context-type="linenumber">37</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">87</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">305</context></context-group></trans-unit>
+      <context-group purpose="location"><context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context><context context-type="linenumber">37</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">92</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">305</context></context-group></trans-unit>
       <trans-unit id="d8eb82879ea5a3f60b53ab88fe318cdc51ec1335" datatype="html" approved="yes">
         <source>New crop</source>
         <target state="signed-off" phase-name="approval-1">Nouvelle variété</target>
@@ -892,19 +856,13 @@ Vous recevrez un email contenant un lien à suivre pour entrer votre nouveau mot
       <trans-unit id="ad5f9d990cb907def0aa5298ab599139cfbc5241" datatype="html" approved="yes">
         <source>Crop edition</source>
         <target state="signed-off" phase-name="approval-1">Édition de la variété</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/crop/new-crop-route/new-crop-route.component.html</context><context context-type="linenumber">3</context></context-group></trans-unit>
       <trans-unit id="6f3aae5b3d3e62432b92e670b0370f87ad2e5fa1" datatype="html" approved="yes">
         <source>FAO query</source>
         <target state="signed-off" phase-name="approval-1">Requête FAO</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">7</context></context-group></trans-unit>
       <trans-unit id="29ee9cda8e54cd01ef19e927328224388bd6b611" datatype="html" approved="yes">
         <source>
           Try to use one of the FAO results in order to be able to correlate the crop information with open databases.
@@ -912,59 +870,38 @@ Vous recevrez un email contenant un lien à suivre pour entrer votre nouveau mot
         </source>
         <target state="signed-off" phase-name="approval-1">Essayez d'utiliser les résultats de la FAO pour pouvoir correller les informations liées à cette variétés avec d'autres bases de données ouvertes.
 Attention aux accents qui doivent être correctement utilisés pour les recherches</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">17</context></context-group></trans-unit>
       <trans-unit id="bc155f9fc3be3f32083f19b2c77d4ad3b696d9b9" datatype="html" approved="yes">
         <source>Display name</source>
         <target state="signed-off" phase-name="approval-1">Nom affiché</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">26</context></context-group></trans-unit>
       <trans-unit id="e64b7c7f0ef9c0a6adc7fe4f6b304c108026b5ee" datatype="html" approved="yes">
         <source>Family</source>
         <target state="signed-off" phase-name="approval-1">Famille</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">37</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">37</context></context-group></trans-unit>
       <trans-unit id="ec2b122ed8617f51ed128267a65711e40e56b5bc" datatype="html" approved="yes">
         <source>Species</source>
         <target state="signed-off" phase-name="approval-1">Espèce</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">49</context></context-group></trans-unit>
       <trans-unit id="cea6340f2b598e900ce1b49c9c419707a62bdfaf" datatype="html" approved="yes">
         <source>Subspecies</source>
         <target state="signed-off" phase-name="approval-1">Sous-espèce</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">59</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">61</context></context-group></trans-unit>
       <trans-unit id="776759b84c70b0a9962e60960dcbc518d8a3d677" datatype="html" approved="yes">
         <source>Cultivar</source>
         <target state="signed-off" phase-name="approval-1">Cultivar</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/new-crop-form/new-crop-form.component.html</context>
-          <context context-type="linenumber">68</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context><context context-type="linenumber">71</context></context-group></trans-unit>
       <trans-unit id="99ee4faa69cd2ea8e3678c1f557c0ff1f05aae46" datatype="html" approved="yes">
         <source>Clear</source>
         <target state="signed-off" phase-name="approval-1">Effacer</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/crop/agrovoc-plant-product-tuple-select/agrovoc-plant-product-tuple-select.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/shared/agrovoc-plant-product-tuple-select/agrovoc-plant-product-tuple-select.component.html</context><context context-type="linenumber">30</context></context-group></trans-unit>
       <trans-unit id="5b4ae32727ee5fcb5aadff6db67ddc80241b204b" datatype="html" approved="yes">
         <source>Culture edition</source>
         <target state="signed-off" phase-name="approval-1">Édition de la culture</target>
@@ -976,19 +913,13 @@ Attention aux accents qui doivent être correctement utilisés pour les recherch
       <trans-unit id="f2f598eedca3a340781f01e7502106ceb0480924" datatype="html" approved="yes">
         <source>Sowing date</source>
         <target state="signed-off" phase-name="approval-1">Date de smis</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">52</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">52</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">48</context></context-group></trans-unit>
       <trans-unit id="25b8e31789c80c7295cf898bf36b8693921c378e" datatype="html" approved="yes">
         <source>Germination</source>
         <target state="signed-off" phase-name="approval-1">Germination</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">67</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">67</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">62</context></context-group></trans-unit>
       <trans-unit id="b52b46f649bbfb5cc201cfa96663e8842139266f" datatype="html" approved="yes">
         <source>Until </source>
         <target state="signed-off" phase-name="approval-1">Jusque</target>
@@ -1000,55 +931,34 @@ Attention aux accents qui doivent être correctement utilisés pour les recherch
       <trans-unit id="b7ee9ff96997f86340d105c78b29b4d448b9a870" datatype="html" approved="yes">
         <source>First harvest</source>
         <target state="signed-off" phase-name="approval-1">Première récolte</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">107</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">107</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">93</context></context-group></trans-unit>
       <trans-unit id="634c70dd660be0df340cdd05334a5563b44ad0cf" datatype="html" approved="yes">
         <source>days after sowing</source>
         <target state="signed-off" phase-name="approval-1">jours après semis</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">119</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">119</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">105</context></context-group></trans-unit>
       <trans-unit id="525e47cb3ca307fb2c1154e7a32c08c24aabb225" datatype="html" approved="yes">
         <source>Last harvest</source>
         <target state="signed-off" phase-name="approval-1">Dernière récolte</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">137</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">137</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">121</context></context-group></trans-unit>
       <trans-unit id="75d24362cc9c79bf4c7d62916d32739b3c08911a" datatype="html" approved="yes">
         <source>days after first harvest</source>
         <target state="signed-off" phase-name="approval-1">jours après la première récolte</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">149</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">149</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">133</context></context-group></trans-unit>
       <trans-unit id="a02ea1d4e7424ca989929da5e598f379940fdbf2" datatype="html" approved="yes">
         <source>Duration</source>
         <target state="signed-off" phase-name="approval-1">Durée</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">178</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">233</context>
-        </context-group>
-      </trans-unit>
+        
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">178</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">233</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">164</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">216</context></context-group></trans-unit>
       <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html" approved="yes">
         <source>Type</source>
         <target state="signed-off" phase-name="approval-1">Type</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">218</context>
-        </context-group>
-      </trans-unit>
+        
+      <context-group purpose="location"><context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context><context context-type="linenumber">218</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context><context context-type="linenumber">202</context></context-group></trans-unit>
       <trans-unit id="f1f34b2b98e28c61eb19746f6e855a52e411ed23" datatype="html" approved="yes">
         <source>Bed occupancy</source>
         <target state="signed-off" phase-name="approval-1">Utilisation de la plance</target>

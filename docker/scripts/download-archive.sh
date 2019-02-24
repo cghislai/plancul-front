@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 [ "$DEBUG" = "1" ] && set -x
 
 SKIP_DOWNLOAD_ARCHIVE=${SKIP_DOWNLOAD_ARCHIVE:-false}

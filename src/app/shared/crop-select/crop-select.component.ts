@@ -123,7 +123,6 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
       const newCropItem: CropSelectItem = {
         createNewCropItem: true,
         createNewCropQuery: query,
-        label: `No result. Click here to create a new crop`,
         value: null,
       };
       return [newCropItem];
