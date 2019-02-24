@@ -1,0 +1,10 @@
+<div class="crop-form ui-widget">
+  <header>
+    <h1 i18n>Crop edition</h1>
+  </header>
+
+  <pc-new-crop-form [(ngModel)]="crop"
+                    (submit)="onSubmit($event)"
+                    (cancel)="onCancel()"
+  ></pc-new-crop-form>
+</div>

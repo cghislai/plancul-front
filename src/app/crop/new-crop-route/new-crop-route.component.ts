@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {WsAgrovocPlantProduct, WsCrop, WsCropCreationRequest, WsRef, WsTenant} from '@charlyghislain/plancul-api';
+import {WsCrop, WsCropCreationRequest, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';
@@ -13,11 +13,11 @@ import {forkJoin} from 'rxjs';
 import {ErrorKeys} from '../../main/service/util/error-keys';
 
 @Component({
-  selector: 'pc-new-crop-form',
-  templateUrl: './new-crop-form.component.html',
-  styleUrls: ['./new-crop-form.component.scss'],
+  selector: 'pc-new-crop-route',
+  templateUrl: './new-crop-route.component.html',
+  styleUrls: ['./new-crop-route.component.scss'],
 })
-export class NewCropFormComponent implements OnInit {
+export class NewCropRouteComponent implements OnInit {
 
   crop: WsCropCreationRequest;
 
@@ -37,26 +37,8 @@ export class NewCropFormComponent implements OnInit {
       .subscribe(ref => this.crop = this.createCropRequest(ref));
   }
 
-  onPlanProductTupleChange(tuple: WsAgrovocPlantProduct) {
-    if (tuple == null) {
-      this.crop.agrovocPlantURI = null;
-      this.crop.agrovocProductURI = null;
-      return;
-    }
-    this.agrovocClient.searchPlantData(tuple.plantURI)
-      .subscribe(plantData => {
-        this.crop.displayName = tuple.matchedTerm;
-        this.crop.agrovocPlantURI = tuple.plantURI;
-        this.crop.agrovocProductURI = tuple.productURI;
-        this.crop.family = plantData.familyName;
-        this.crop.species = plantData.speciesName;
-        this.crop.subSpecies = plantData.subSpeciesName;
-      });
-  }
-
-
-  onSubmit() {
-    this.cropClient.createCrop(this.crop)
+  onSubmit(crop: WsCropCreationRequest) {
+    this.cropClient.createCrop(crop)
       .subscribe(ref => this.onCreationSuccess(ref),
         error => this.onCreationError(error));
   }
