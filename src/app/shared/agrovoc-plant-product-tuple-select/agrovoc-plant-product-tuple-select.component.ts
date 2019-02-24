@@ -24,7 +24,6 @@ export class AgrovocPlantProductTupleSelectComponent implements OnInit, ControlV
 
   @Input()
   set query(value: string) {
-    console.log(value);
     if (value != null) {
       this.setAutoCompleteQuery(value);
     }
