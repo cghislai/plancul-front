@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
 import {WsCrop, WsCropFilter, WsCropSortField, WsRef, WsSortOrder} from '@charlyghislain/plancul-api';
 import {SelectItem} from 'primeng/api';
 import {map, publishReplay, refCount, switchMap} from 'rxjs/operators';
 import {CropClientService} from '../../main/service/crop-client.service';
-import {AgrovocPlantClientService} from '../../main/service/agrovoc-plant-client.service';
 import {Pagination} from '../../main/domain/pagination';
+import {Router} from '@angular/router';
+import {CropSelectItem} from './crop-select-item';
 
 @Component({
   selector: 'pc-crop-select',
@@ -20,8 +21,11 @@ import {Pagination} from '../../main/domain/pagination';
 })
 export class CropSelectComponent implements OnInit, ControlValueAccessor {
 
-  value: Observable<SelectItem>;
-  suggestions: SelectItem[];
+  @Input()
+  private showCreateNewCropItem = true;
+
+  value: Observable<CropSelectItem>;
+  suggestions: CropSelectItem[];
 
   private changeFunction: Function;
   private touchedFunction: Function;
@@ -29,7 +33,7 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
 
 
   constructor(private cropClient: CropClientService,
-              private agroPlantClient: AgrovocPlantClientService) {
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -51,13 +55,26 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
     this.touchedFunction = fn;
   }
 
-  onChange(item: SelectItem) {
-    this.changeFunction(item.value);
+  onChange(item: CropSelectItem) {
+    if (item == null) {
+      return;
+    }
+    if (item.createNewCropItem) {
+      const curUrl = this.router.url;
+      const nextUrl = `/crops/_/new`;
+      this.router.navigate([nextUrl, {
+        redirect: curUrl,
+        agrovocQuery: item.createNewCropQuery,
+      }]);
+    } else {
+      this.changeFunction(item.value);
+    }
   }
 
   search(event) {
+    const searchQuery = event.query;
     const filter: WsCropFilter = {
-      namesQuery: event.query,
+      namesQuery: searchQuery,
     };
     const pagination: Pagination = {
       offset: 0,
@@ -70,7 +87,7 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
     this.cropClient.searchCrops(filter, pagination)
       .pipe(
         map(results => results.list),
-        switchMap(list => this.createItemList(list)),
+        switchMap(list => this.createItemList(list, searchQuery)),
       ).subscribe(list => this.suggestions = list);
   }
 
@@ -78,7 +95,7 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
     this.touchedFunction();
   }
 
-  private createSelectItem(ref: WsRef<WsCrop>): Observable<SelectItem> {
+  private createSelectItem(ref: WsRef<WsCrop>): Observable<CropSelectItem> {
     if (ref == null) {
       return of(null);
     }
@@ -88,7 +105,7 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
       );
   }
 
-  private createSelectItemWithCrop(crop: WsCrop): SelectItem {
+  private createSelectItemWithCrop(crop: WsCrop): CropSelectItem {
     const label = `${crop.displayName}`;
     return {
       label: label,
@@ -96,8 +113,21 @@ export class CropSelectComponent implements OnInit, ControlValueAccessor {
     };
   }
 
-  private createItemList(list: WsRef<WsCrop>[]): Observable<SelectItem[]> {
+  private createItemList(list: WsRef<WsCrop>[], searchQuery: string): Observable<CropSelectItem[]> {
     const taskList = list.map(ref => this.createSelectItem(ref));
-    return taskList.length === 0 ? of([]) : forkJoin(taskList);
+    return taskList.length === 0 ? of(this.createEmptyResultItemList(searchQuery)) : forkJoin(taskList);
+  }
+
+  private createEmptyResultItemList(query: string): CropSelectItem[] {
+    if (this.showCreateNewCropItem) {
+      const newCropItem: CropSelectItem = {
+        createNewCropItem: true,
+        createNewCropQuery: query,
+        value: null,
+      };
+      return [newCropItem];
+    } else {
+      return [];
+    }
   }
 }

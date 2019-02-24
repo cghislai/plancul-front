@@ -51,7 +51,7 @@ export class BedSelectComponent implements OnInit, ControlValueAccessor {
 
   onChange(item: SelectItem) {
     this.touchedFunction();
-    this.changeFunction(item.value);
+    this.changeFunction(item == null ? null : item.value);
   }
 
   search(event) {

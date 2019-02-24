@@ -1,27 +1,33 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {WsAgrovocPlantProduct, WsCrop, WsCropCreationRequest, WsRef, WsTenant} from '@charlyghislain/plancul-api';
+import {ActivatedRoute, Router} from '@angular/router';
+import {WsCrop, WsCropCreationRequest, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';
 import {CropClientService} from '../../main/service/crop-client.service';
 import {AgrovocPlantClientService} from '../../main/service/agrovoc-plant-client.service';
-import {filter, take} from 'rxjs/operators';
+import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
 import {LocalizationService} from '../../main/service/localization.service';
 import {MessageKeys} from '../../main/service/util/message-keys';
-import {forkJoin} from 'rxjs';
+import {forkJoin, Observable} from 'rxjs';
 import {ErrorKeys} from '../../main/service/util/error-keys';
 
 @Component({
-  selector: 'pc-new-crop-form',
-  templateUrl: './new-crop-form.component.html',
-  styleUrls: ['./new-crop-form.component.scss'],
+  selector: 'pc-new-crop-route',
+  templateUrl: './new-crop-route.component.html',
+  styleUrls: ['./new-crop-route.component.scss'],
 })
-export class NewCropFormComponent implements OnInit {
+export class NewCropRouteComponent implements OnInit {
 
   crop: WsCropCreationRequest;
+  agrovocQuery$: Observable<string>;
+
+  private ROUTE_REDIRECT_PARAM = 'redirect';
+  private ROUTE_AGROVOC_QUERY_PARAM = 'agrovocQuery';
+  private routeRedirectParamValue$: Observable<string>;
 
   constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
               private localizationService: LocalizationService,
               private tenantSelectionService: SelectedTenantService,
               private notificationService: NotificationMessageService,
@@ -32,31 +38,22 @@ export class NewCropFormComponent implements OnInit {
 
 
   ngOnInit() {
+    const routeParams$ = this.activatedRoute.params.pipe(publishReplay(1), refCount());
+    this.routeRedirectParamValue$ = routeParams$.pipe(
+      map(params => params[this.ROUTE_REDIRECT_PARAM]),
+      publishReplay(1), refCount(),
+    );
+    this.agrovocQuery$ = routeParams$.pipe(
+      map(params => params[this.ROUTE_AGROVOC_QUERY_PARAM]),
+      publishReplay(1), refCount(),
+    );
     this.tenantSelectionService.getSelectedTenantRef()
       .pipe(filter(t => t != null), take(1))
       .subscribe(ref => this.crop = this.createCropRequest(ref));
   }
 
-  onPlanProductTupleChange(tuple: WsAgrovocPlantProduct) {
-    if (tuple == null) {
-      this.crop.agrovocPlantURI = null;
-      this.crop.agrovocProductURI = null;
-      return;
-    }
-    this.agrovocClient.searchPlantData(tuple.plantURI)
-      .subscribe(plantData => {
-        this.crop.displayName = tuple.matchedTerm;
-        this.crop.agrovocPlantURI = tuple.plantURI;
-        this.crop.agrovocProductURI = tuple.productURI;
-        this.crop.family = plantData.familyName;
-        this.crop.species = plantData.speciesName;
-        this.crop.subSpecies = plantData.subSpeciesName;
-      });
-  }
-
-
-  onSubmit() {
-    this.cropClient.createCrop(this.crop)
+  onSubmit(crop: WsCropCreationRequest) {
+    this.cropClient.createCrop(crop)
       .subscribe(ref => this.onCreationSuccess(ref),
         error => this.onCreationError(error));
   }
@@ -100,6 +97,12 @@ export class NewCropFormComponent implements OnInit {
   }
 
   private navigateOut() {
-    this.router.navigate(['/crops/_/list']);
+    this.routeRedirectParamValue$.subscribe(redirectParam => {
+      if (redirectParam == null) {
+        this.router.navigate(['/crops/_/list']);
+      } else {
+        this.router.navigateByUrl(redirectParam);
+      }
+    });
   }
 }

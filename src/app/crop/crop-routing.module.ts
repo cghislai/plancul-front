@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CropListComponent} from './crop-list/crop-list.component';
-import {NewCropFormComponent} from './new-crop-form/new-crop-form.component';
+import {NewCropRouteComponent} from './new-crop-route/new-crop-route.component';
 
 const routes: Routes = [
   {
@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'new',
-        component: NewCropFormComponent,
+        component: NewCropRouteComponent,
       },
     ],
   },

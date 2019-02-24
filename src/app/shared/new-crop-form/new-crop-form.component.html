@@ -1,18 +1,16 @@
 <div class="crop-form ui-widget">
-  <header>
-    <h1 i18n>Crop edition</h1>
-  </header>
-
   <form #cropForm="ngForm" (submit)="onSubmit()" class="pc-form"
-        *ngIf="crop != null">
+        *ngIf="newCrop != null">
 
     <section class="agrovoc-search">
       <div class="row">
         <label i18n>FAO query</label>
         <pc-agrovoc-plant-product-tuple-select ngModel
                                                (ngModelChange)="onPlanProductTupleChange($event)"
+                                               [disabled]="disabled"
+                                               [autofocus]="true"
+                                               [query]="agrovocQuery"
                                                name="crop-agrovoc-search"
-                                               pcAutofocus
         ></pc-agrovoc-plant-product-tuple-select>
       </div>
       <div class="hint">
@@ -27,7 +25,9 @@
     <div class="row">
       <label i18n>Display name</label>
       <input pInputText
-             [(ngModel)]="crop.displayName"
+             [(ngModel)]="newCrop.displayName"
+             (ngModelChange)="onChange()"
+             [disabled]="disabled"
              name="crop-displayname"
              required>
     </div>
@@ -36,8 +36,9 @@
     <div class="row">
       <label i18n>Family</label>
       <input pInputText
-             [(ngModel)]="crop.family"
-             [disabled]="crop.agrovocPlantURI != null"
+             [(ngModel)]="newCrop.family"
+             (ngModelChange)="onChange()"
+             [disabled]="disabled || newCrop.agrovocPlantURI != null"
              required
              name="crop-family"
       >
@@ -47,8 +48,9 @@
     <div class="row">
       <label i18n>Species</label>
       <input pInputText
-             [(ngModel)]="crop.species"
-             [disabled]="crop.agrovocPlantURI != null"
+             [(ngModel)]="newCrop.species"
+             (ngModelChange)="onChange()"
+             [disabled]="disabled || newCrop.agrovocPlantURI != null"
              required
              name="crop-species"
       >
@@ -58,8 +60,9 @@
     <div class="row">
       <label i18n>Subspecies</label>
       <input pInputText
-             [(ngModel)]="crop.subSpecies"
-             [disabled]="crop.agrovocPlantURI != null"
+             [(ngModel)]="newCrop.subSpecies"
+             (ngModelChange)="onChange()"
+             [disabled]="disabled || newCrop.agrovocPlantURI != null"
              name="crop-subSpecies"
       >
     </div>
@@ -67,7 +70,9 @@
     <div class="row">
       <label i18n>Cultivar</label>
       <input pInputText
-             [(ngModel)]="crop.cultivar"
+             [(ngModel)]="newCrop.cultivar"
+             (ngModelChange)="onChange()"
+             [disabled]="disabled"
              name="crop-cultivar"
       >
     </div>
@@ -77,7 +82,7 @@
       <!--<button type="submit" hidden></button>-->
 
       <button pButton type="button"
-              [disabled]="!cropForm.valid"
+              [disabled]="disabled || !cropForm.valid"
               (click)="onSubmit()"
               label="Save" i18n-label></button>
 

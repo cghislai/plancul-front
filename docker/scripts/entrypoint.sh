@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 [ "$DEBUG" = "1" ] && set -x
 
 /opt/enable-ssl.sh || exit 1

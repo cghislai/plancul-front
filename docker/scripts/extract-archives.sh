@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 [ "$DEBUG" = "1" ] && set -x
 
 BASE_DIR=${BASE_DIR:-en}

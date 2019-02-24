@@ -3,7 +3,7 @@
                 (ngModelChange)="onChange($event)"
 >
   <ng-template let-item>
-    <pc-bed-preparation-type [type]="item"
+    <pc-bed-preparation-type [type]="item.value"
                              class="type-item"
     ></pc-bed-preparation-type>
   </ng-template>

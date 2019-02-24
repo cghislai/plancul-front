@@ -7,10 +7,10 @@ import {CropListComponent} from './crop-list/crop-list.component';
 import {FormsModule} from '@angular/forms';
 import {AutoCompleteModule, ButtonModule, CheckboxModule, DropdownModule, InputTextModule} from 'primeng/primeng';
 import {DataViewModule} from 'primeng/dataview';
-import {AgrovocPlantProductTupleSelectComponent} from './agrovoc-plant-product-tuple-select/agrovoc-plant-product-tuple-select.component';
-import {NewCropFormComponent} from './new-crop-form/new-crop-form.component';
 import {SharedModule} from '../shared/shared.module';
 import {CropSortSelectComponent} from './crop-sort-select/crop-sort-select.component';
+import {NewCropFormModule} from '../shared/new-crop-form/new-crop-form.module';
+import {NewCropRouteComponent} from './new-crop-route/new-crop-route.component';
 
 @NgModule({
   imports: [
@@ -20,6 +20,7 @@ import {CropSortSelectComponent} from './crop-sort-select/crop-sort-select.compo
     TranslateModule.forChild(),
 
     SharedModule,
+    NewCropFormModule,
 
     InputTextModule,
     DataViewModule,
@@ -30,9 +31,9 @@ import {CropSortSelectComponent} from './crop-sort-select/crop-sort-select.compo
   ],
   declarations: [
     CropListComponent,
-    NewCropFormComponent,
-    AgrovocPlantProductTupleSelectComponent,
-    CropSortSelectComponent],
+    NewCropRouteComponent,
+    CropSortSelectComponent,
+  ],
 })
 export class CropModule {
 }

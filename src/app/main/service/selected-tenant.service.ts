@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, forkJoin, Observable, of} from 'rxjs';
 import {WsPlot, WsPlotFilter, WsRef, WsTenant, WsTenantRole, WsTenantUserRole} from '@charlyghislain/plancul-api';
 import {LoggedUserService} from './logged-user.service';
-import {map, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
+import {filter, map, publishReplay, refCount, switchMap, tap} from 'rxjs/operators';
 import {TenantClientService} from './tenant-client.service';
 import {WsRefUtils} from './util/ws-ref-utils';
 import {Pagination} from '../domain/pagination';
@@ -14,7 +14,9 @@ import {PlotClientService} from './plot-client.service';
 export class SelectedTenantService {
 
   private availableTenants: Observable<WsTenant[]>;
-  private selectedTenantRef = new BehaviorSubject<WsRef<WsTenant>>(null);
+  // undefined: waiting to be set according to available results
+  // null: no selection/selction not availableany more
+  private selectedTenantRef = new BehaviorSubject<WsRef<WsTenant>>(undefined);
   private selectedTenantRole = new BehaviorSubject<WsTenantRole>(null);
 
   private availablePlotRefs: Observable<WsRef<WsPlot>[]>;
@@ -42,7 +44,9 @@ export class SelectedTenantService {
   }
 
   getSelectedTenantRef(): Observable<WsRef<WsTenant> | null> {
-    return this.selectedTenantRef;
+    return this.selectedTenantRef.pipe(
+      filter(ref => ref !== undefined),
+    );
   }
 
   getSelectedTenantRole(): Observable<WsTenantRole | null> {
