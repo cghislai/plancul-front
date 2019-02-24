@@ -4,6 +4,7 @@
   </header>
 
   <pc-new-crop-form [(ngModel)]="crop"
+                    [agrovocQuery]="agrovocQuery$ | async"
                     (submit)="onSubmit($event)"
                     (cancel)="onCancel()"
   ></pc-new-crop-form>

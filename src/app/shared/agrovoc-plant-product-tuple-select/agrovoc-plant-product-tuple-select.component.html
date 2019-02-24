@@ -2,6 +2,7 @@
 
   <p-autoComplete [ngModel]="selection"
                   (ngModelChange)="onSelectionChange($event)"
+                  [autofocus]="autofocus"
                   [suggestions]="suggestions"
                   [forceSelection]="true"
                   [minLength]="3"
@@ -11,6 +12,7 @@
                   dataKey="id"
                   name="plant-label"
                   class="plant-product-select"
+                  #autoComplete
   >
     <ng-template let-tuple pTemplate="item">
       <div class="ui-helper-clearfix tuple-item">

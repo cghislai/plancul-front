@@ -18,12 +18,15 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 })
 export class NewCropFormComponent implements OnInit, ControlValueAccessor {
 
+  @Input()
+  disabled: boolean;
+  @Input()
+  agrovocQuery: string;
+
   @Output()
   cancel = new EventEmitter<any>();
   @Output()
   submit = new EventEmitter<any>();
-  @Input()
-  disabled: boolean;
 
   private changeFunction: Function;
   private touchedFunction: Function;

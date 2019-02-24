@@ -13,10 +13,16 @@
                 [inputStyleClass]="control.invalid && control.touched ? 'ng-dirty ng-invalid' : ''"
 >
   <ng-template let-item pTemplate="item">
-    <div class="ui-helper-clearfix crop-item">
+    <div class="ui-helper-clearfix crop-item"
+         *ngIf="!item.createNewCropItem">
       <pc-crop [showIcon]="false"
                [id]="item.value.id"
       ></pc-crop>
+    </div>
+    <div class="ui-helper-clearfix new-crop-item"
+         *ngIf="item.createNewCropItem"
+    >
+      {{ item.label }}
     </div>
   </ng-template>
 </p-autoComplete>

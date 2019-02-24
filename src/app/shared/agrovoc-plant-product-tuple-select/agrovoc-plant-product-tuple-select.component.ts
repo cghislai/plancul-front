@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {AgrovocPlantClientService} from '../../main/service/agrovoc-plant-client.service';
 import {Pagination} from '../../main/domain/pagination';
 import {WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/plancul-api';
+import {AutoComplete} from 'primeng/primeng';
 
 @Component({
   selector: 'pc-agrovoc-plant-product-tuple-select',
@@ -15,14 +16,28 @@ import {WsAgrovocPlantProduct, WsPlantProductTupleFilter} from '@charlyghislain/
   }],
 })
 export class AgrovocPlantProductTupleSelectComponent implements OnInit, ControlValueAccessor {
+
   @Input()
   showClearButton = true;
+  @Input()
+  autofocus: boolean;
+
+  @Input()
+  set query(value: string) {
+    console.log(value);
+    if (value != null) {
+      this.setAutoCompleteQuery(value);
+    }
+  }
 
   changeFunction: Function;
   touchedFunction: Function;
 
   selection: WsAgrovocPlantProduct;
   suggestions: (WsAgrovocPlantProduct & { id: number })[] = [];
+
+  @ViewChild('autoComplete')
+  private autoCompleteComponent: AutoComplete;
 
   constructor(private plantClient: AgrovocPlantClientService) {
   }
@@ -96,5 +111,15 @@ export class AgrovocPlantProductTupleSelectComponent implements OnInit, ControlV
 
   private onSearchError(error: any) {
     this.suggestions = [];
+  }
+
+  private setAutoCompleteQuery(value: string) {
+    if (this.autoCompleteComponent) {
+      setTimeout(() => {
+        this.autoCompleteComponent.inputFieldValue = value;
+        this.autoCompleteComponent.ngDoCheck();
+        this.autoCompleteComponent.search(null, value);
+      }, 100);
+    }
   }
 }

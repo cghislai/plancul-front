@@ -36,6 +36,7 @@ export class LoggedAdminGuard implements CanActivate {
       return false;
     }
     const nextUrl = next.url;
+    console.log('a');
     this.router.navigate(['/login', {
       redirect: nextUrl,
     }]);

@@ -8,8 +8,9 @@
         <pc-agrovoc-plant-product-tuple-select ngModel
                                                (ngModelChange)="onPlanProductTupleChange($event)"
                                                [disabled]="disabled"
+                                               [autofocus]="true"
+                                               [query]="agrovocQuery"
                                                name="crop-agrovoc-search"
-                                               pcAutofocus
         ></pc-agrovoc-plant-product-tuple-select>
       </div>
       <div class="hint">
