@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Message, MessageService} from 'primeng/api';
+import {LocalizationService} from './localization.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +8,8 @@ import {Message, MessageService} from 'primeng/api';
 export class NotificationMessageService {
 
 
-  constructor(private messageService: MessageService) {
+  constructor(private messageService: MessageService,
+              private localizationService: LocalizationService) {
   }
 
   addInfo(title: string, details?: string) {
@@ -42,28 +44,43 @@ export class NotificationMessageService {
     this.messageService.add(message);
   }
 
-  private getErrorMessage(error: any) {
+  getErrorMessage(error: any) {
     const errorMessageNullable = this.getErrorMessageNullable(error);
     return errorMessageNullable == null ? 'Unknown error' : errorMessageNullable;
   }
 
-  private getErrorMessageNullable(error: any): string | null {
+  private getErrorMessageNullable(error: any, httpStatus?: number): string | null {
     if (typeof error === 'string') {
       return error;
 
     } else if (typeof error === 'object') {
 
+      const status = httpStatus == null ? error['status'] : httpStatus;
       const subError = error['error'];
+      const subErrors = error['errors'];
+
       if (subError != null) {
-        const subErrorMessage = this.getErrorMessageNullable(subError);
+        const subErrorMessage = this.getErrorMessageNullable(subError, status);
         if (subErrorMessage != null) {
           return subErrorMessage;
         }
       }
 
+      if (subErrors != null && subErrors.length > 0) {
+        const errorMessages = subErrors.map(
+          se => this.getErrorMessageNullable(se, httpStatus),
+        ).reduce((cur, next) => cur == null ? next : `${cur}\n${next}`, null);
+        return errorMessages;
+      }
+
       const messageValue = error['message'];
       if (messageValue != null) {
-        return messageValue;
+        const msgTranslation = this.localizationService.getTranslationNow(messageValue);
+        if (msgTranslation != null) {
+          return msgTranslation;
+        } else {
+          return messageValue;
+        }
       }
     }
     return null;

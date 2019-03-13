@@ -27,6 +27,10 @@ export class LocalizationService {
     return this.translateService.get(key, params);
   }
 
+  getTranslationNow(key: string, params?: any): string {
+    return this.translateService.instant(key, params);
+  }
+
   getSelectItemTranslations(items: UntranslatedSelectItem[]): Observable<SelectItem[]> {
     return of(...items).pipe(
       concatMap(item => {

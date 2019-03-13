@@ -10,6 +10,7 @@ import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
 import {LocalizationService} from '../service/localization.service';
 import {MessageKeys} from '../service/util/message-keys';
+import {Message} from 'primeng/api';
 
 @Component({
   selector: 'pc-password-reset',
@@ -79,6 +80,15 @@ export class PasswordResetComponent implements OnInit, OnDestroy {
 
   private onResetError(error) {
     this.localizationService.getTranslation(MessageKeys.PASSWORD_RESET_ERROR_TITLE)
-      .subscribe(msg => this.notificationMessageService.addError(msg, error));
+      .subscribe(msg => {
+        const message = <Message>{
+          summary: msg,
+          detail: this.notificationMessageService.getErrorMessage(error),
+          severity: 'error',
+          sticky: true,
+          closable: true,
+        };
+        this.notificationMessageService.addMessage(message);
+      });
   }
 }
