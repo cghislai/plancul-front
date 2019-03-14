@@ -13,6 +13,7 @@ import {NurseryDataGroup} from './domain/nursery-data-group';
 import {MoonPhaseEventDataItem} from './domain/moon-phase-event-data-item';
 import {MoonZodiacEventDataItem} from './domain/moon-zodiac-event-data-item';
 import {TimelineBackgroundClickEvent} from './domain/timeline-background-click-event';
+import {TimelineItemClickEvent} from './domain/timeline-item-click-event';
 
 @Component({
   selector: 'pc-timeline',
@@ -66,6 +67,8 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   private itemMoving = new EventEmitter<TimelineItemMoveEvent>();
   @Output()
   private itemMoved = new EventEmitter<TimelineItemMoveEvent>();
+  @Output()
+  private itemDoubleClick = new EventEmitter<TimelineItemClickEvent>();
   @Output()
   private backgroundClick = new EventEmitter<TimelineBackgroundClickEvent>();
 
@@ -149,12 +152,19 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private onDoubleClick(event: any) {
-    const what = event.what;
+    const itemId = event.item;
+    if (itemId != null) {
+      this.itemDoubleClick.emit(this.createItemClickEvent(itemId));
+      return;
+    }
 
-    switch (what) {
-      case 'background': {
-        this.backgroundClick.emit(this.createBackgroundClickEvent(event));
-        break;
+    const what = event.what;
+    if (what != null) {
+      switch (what) {
+        case 'background': {
+          this.backgroundClick.emit(this.createBackgroundClickEvent(event));
+          break;
+        }
       }
     }
   }
@@ -232,6 +242,12 @@ export class TimelineComponent implements OnInit, AfterViewInit, OnDestroy {
     return {
       groupId: groupId,
       time: timeMoment,
+    };
+  }
+
+  private createItemClickEvent(itemId: string): TimelineItemClickEvent {
+    return {
+      itemId: itemId,
     };
   }
 

@@ -47,7 +47,24 @@ export class CulturePhaseDataItem implements vis.DataItem {
   }
 
   static isCulturePhaseItem(item: vis.DataItem) {
-    return (item.id as string).startsWith('culture-phase ');
+    return this.isCulturePhaseItemId(item.id as string);
+  }
+
+  static isCulturePhaseItemId(itemId: string) {
+    return itemId.startsWith('culture-phase ');
+  }
+
+  static getCultureIdFromItemId(itemId: string) {
+    if (this.isCulturePhaseItemId(itemId)) {
+      const stringId = itemId.split(' ')[1];
+      const id = parseInt(stringId, 10);
+      if (isNaN(id)) {
+        return null;
+      } else {
+        return id;
+      }
+    }
+    return null;
   }
 
   static createCssClass(item: CulturePhaseDataItem) {

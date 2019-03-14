@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, pipe, ReplaySubject, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, Subject} from 'rxjs';
 import * as vis from 'vis';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
@@ -18,7 +18,7 @@ import {
   WsTenant,
 } from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {delay, filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
+import {filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
 import {TimelineService} from './service/timeline.service';
 import {Pagination} from '../../main/domain/pagination';
 import {CultureClientService} from '../../main/service/culture-client.service';
@@ -35,6 +35,7 @@ import {CulturePhaseDataItem} from '../timeline/domain/culture-phase-data-item';
 import {TimelineBackgroundClickEvent} from '../timeline/domain/timeline-background-click-event';
 import {NurseryDataGroup} from '../timeline/domain/nursery-data-group';
 import {BedDataGroup} from '../timeline/domain/bed-data-group';
+import {TimelineItemClickEvent} from '../timeline/domain/timeline-item-click-event';
 
 @Component({
   selector: 'pc-beds-timeline',
@@ -191,6 +192,14 @@ export class BedsTimelineComponent implements OnInit {
 
   }
 
+  onItemDoubleClick(event: TimelineItemClickEvent) {
+    const cultureRef$ = this.getCultureItemRef$(event.itemId);
+
+    cultureRef$.pipe(
+      switchMap(ref => this.cultureClient.getCulture(ref.id)),
+    ).subscribe(culture => this.editingCulture = culture);
+  }
+
 
   onEditingCultureSave(culture: WsCulture) {
     this.editingCulture = null;
@@ -339,6 +348,16 @@ export class BedsTimelineComponent implements OnInit {
     } else {
       return of(null);
     }
+  }
+
+  private getCultureItemRef$(itemId: string): Observable<WsRef<WsCulture> | null> {
+    if (CulturePhaseDataItem.isCulturePhaseItemId(itemId)) {
+      const cultureId = CulturePhaseDataItem.getCultureIdFromItemId(itemId);
+      if (cultureId != null) {
+        return of({id: cultureId});
+      }
+    }
+    return of(null);
   }
 
   private createNewCulture(tenantRef: WsRef<WsTenant>, bedRef: WsBed | WsRef<WsBed> | null, time: moment.MomentInput, nursery: boolean) {
