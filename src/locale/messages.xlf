@@ -2,13 +2,24 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="0cb13dd3aa1570fbeb19aa423b27581dc434271a" datatype="html">
-        <source>
-      Patch:
-    </source>
+      <trans-unit id="edb512c6920de95e2bb5f1fc35dd753153aa0c81" datatype="html">
+        <source>m²</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/bed/bed.component.html</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8d65ce0249bd7057fe06d02f1d630b20b8bcce96" datatype="html">
+        <source>
+        Patch:
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/bed/bed.component.html</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="06d89d48cfdcd846399ef6f6b86d31d8d98aab0e" datatype="html">
@@ -97,59 +108,63 @@
         <source>Bed preparation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">213</context>
+          <context context-type="linenumber">256</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">254</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eae02405c5e21a49e271f4f367c604c9f0685084" datatype="html">
         <source>Sowing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="81c0231951f65f2a1089eac78cc19174c8010668" datatype="html">
         <source>Nursing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">37</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">215</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">158</context>
+          <context context-type="linenumber">215</context>
         </context-group>
       </trans-unit>
       <trans-unit id="770738fdc5b8904cc7c51e2dcfc528b8c9ae6a80" datatype="html">
         <source>Transplantation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">43</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">198</context>
+          <context context-type="linenumber">241</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">240</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4d6cca9d917ec9b9998c50be50a8290a521223b8" datatype="html">
         <source>Harvest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture/culture.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5e0dbc9fd4651759df915cdc6ba26fe3f17475f" datatype="html">
@@ -164,7 +179,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">260</context>
+          <context context-type="linenumber">303</context>
         </context-group>
       </trans-unit>
       <trans-unit id="63c9c3aa536dbd11120ae8feab62186c47838028" datatype="html">
@@ -179,7 +194,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">264</context>
+          <context context-type="linenumber">307</context>
         </context-group>
       </trans-unit>
       <trans-unit id="03422244a20c8c5d3fcd7e313e4ffeb9ec375e75" datatype="html">
@@ -223,15 +238,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">100</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">189</context>
+          <context context-type="linenumber">232</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">244</context>
+          <context context-type="linenumber">287</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -239,11 +254,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">232</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">227</context>
+          <context context-type="linenumber">284</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f8f51dbca86503147f210f042fa054fdde91f236" datatype="html">
@@ -788,6 +803,10 @@
           <context context-type="linenumber">21</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">app/calendar/culture-calendar/culture-calendar.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
           <context context-type="linenumber">4</context>
         </context-group>
@@ -797,6 +816,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">app/main/menu/menu.component.html</context>
           <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="33629999fd41361c48d5a60a5783dfdbd09276b7" datatype="html">
+        <source>Calendar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/main/menu/menu.component.html</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ee87b81941ce88c77656e7ab284bafa838a0ba5c" datatype="html">
@@ -893,11 +919,18 @@
           <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="a426cd748adc9a28d1d6150509744dc4ad1646e5" datatype="html">
+        <source>Surface</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7d8ff441ac09b99d10893a07675aea31d2721331" datatype="html">
         <source>Patch</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
-          <context context-type="linenumber">20</context>
+          <context context-type="linenumber">33</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/bed/bed-filter/bed-filter.component.html</context>
@@ -908,7 +941,7 @@
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context>
@@ -916,14 +949,14 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">300</context>
+          <context context-type="linenumber">358</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
         <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/bed/bed-form/bed-form.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">50</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/new-crop-form/new-crop-form.component.html</context>
@@ -931,7 +964,21 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">305</context>
+          <context context-type="linenumber">363</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8658ad3b268c50fe2c1106dfb7bccdaa2e4290b2" datatype="html">
+        <source>Grouping</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/calendar/culture-calendar/culture-calendar.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8434d4a28744d7df82cd39ef8da4266fcbc40064" datatype="html">
+        <source>Start</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/calendar/culture-calendar/culture-calendar.component.html</context>
+          <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d8eb82879ea5a3f60b53ab88fe318cdc51ec1335" datatype="html">
@@ -1014,11 +1061,41 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="ca30c1aa79fb5ab487fbd2caa4ca01f2f6691d70" datatype="html">
+        <source>Quantity</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ca65404e799338b461b5e801154566d8df5e5b62" datatype="html">
+        <source>per m²</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">199</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
+          <context context-type="linenumber">190</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="f2f598eedca3a340781f01e7502106ceb0480924" datatype="html">
         <source>Sowing date</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">73</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -1029,7 +1106,7 @@
         <source>Germination</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">88</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -1040,14 +1117,14 @@
         <source>Until </source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b7ee9ff96997f86340d105c78b29b4d448b9a870" datatype="html">
         <source>First harvest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">107</context>
+          <context context-type="linenumber">128</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -1058,7 +1135,7 @@
         <source>days after sowing</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">119</context>
+          <context context-type="linenumber">140</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -1069,7 +1146,7 @@
         <source>Last harvest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">158</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -1080,7 +1157,7 @@
         <source>days after first harvest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">149</context>
+          <context context-type="linenumber">170</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
@@ -1091,44 +1168,65 @@
         <source>Duration</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">178</context>
+          <context context-type="linenumber">221</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">233</context>
+          <context context-type="linenumber">276</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">164</context>
+          <context context-type="linenumber">221</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">216</context>
+          <context context-type="linenumber">273</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html">
         <source>Type</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">218</context>
+          <context context-type="linenumber">261</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
-          <context context-type="linenumber">202</context>
+          <context context-type="linenumber">259</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f1f34b2b98e28c61eb19746f6e855a52e411ed23" datatype="html">
         <source>Bed occupancy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">257</context>
+          <context context-type="linenumber">300</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0eba8932f887b8092322cf72a396260356ea93d9" datatype="html">
+        <source>Quantities</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">317</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="945ad46e15cca87aba77b1ef2a6e6e441b6fac92" datatype="html">
+        <source>Seeds: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">320</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="15eaf1bff88ea18c17ae04949234e38e82bbb831" datatype="html">
+        <source>Harvest: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
+          <context context-type="linenumber">324</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fcde58253a4cfd52c228eebdae74e1be7a1ab714" datatype="html">
         <source>Notes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-form/culture-form.component.html</context>
-          <context context-type="linenumber">273</context>
+          <context context-type="linenumber">331</context>
         </context-group>
       </trans-unit>
       <trans-unit id="358b37c3a2b89436321c19e7c0d05d7621a62bb3" datatype="html">
@@ -1137,12 +1235,34 @@
           <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
           <context context-type="linenumber">7</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/timeline/beds-timeline/beds-timeline.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="062a0576b70f10a7d462ab865ac2ef4129021f11" datatype="html">
         <source>Remove culture</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/culture/culture-list/culture-list.component.html</context>
           <context context-type="linenumber">50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4353d7b4f8ab0ae27d0e76eccfaf683afa012060" datatype="html">
+        <source>Seeds</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
+          <context context-type="linenumber">151</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d04d5b5d13ac9acf9750f1807f0227eeee98b247" datatype="html">
+        <source>Total</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/shared/culture-steps-form/culture-steps-form.component.html</context>
+          <context context-type="linenumber">196</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1a10bf9867bbc1be975a665e136b5172d54234aa" datatype="html">
