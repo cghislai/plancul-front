@@ -1,23 +1,26 @@
 import {Injectable} from '@angular/core';
 import {WsBedPreparation, WsCulture, WsCultureFilter, WsSearchResult} from '@charlyghislain/plancul-api';
-import {forkJoin, Observable} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import * as moment from 'moment';
 import {GroupingType} from './domain/grouping-type';
 import {CalendarDurationGroup} from './domain/calendar-duration-group';
 import {DateUtils} from '../main/service/util/date-utils';
 import {CultureClientService} from '../main/service/culture-client.service';
 import {Pagination} from '../main/domain/pagination';
-import {map, switchMap} from 'rxjs/operators';
+import {map, publishReplay, refCount, switchMap} from 'rxjs/operators';
 import {CalendarEvents} from './domain/calendar-events';
 import {CalendarEvent} from './domain/calendar-event';
 import {CalendarEventType} from './domain/calendar-event-type';
+import {SelectItem} from 'primeng/api';
+import {LocalizationService} from '../main/service/localization.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CultureCalendarService {
 
-  constructor(private cultureClient: CultureClientService) {
+  constructor(private cultureClient: CultureClientService,
+              private localizationService: LocalizationService) {
   }
 
   searchCultureEvents$(filter: WsCultureFilter, startTime: moment.Moment, groupingType: GroupingType): Observable<CalendarDurationGroup[]> {
@@ -36,7 +39,7 @@ export class CultureCalendarService {
       sorts: [],
     };
     return this.cultureClient.searchCultures(filter, pagination).pipe(
-      switchMap(results => this.fetchCulturePhases$(results, pageStart, pageEnd, groupingType)),
+      switchMap(results => this.fetchCultureEvents$(results, pageStart, pageEnd, groupingType)),
     );
   }
 
@@ -50,6 +53,23 @@ export class CultureCalendarService {
         return moment(startTime).startOf('month');
     }
     return moment(startTime);
+  }
+
+  createGroupingTypeSelectItems$(): Observable<SelectItem[]> {
+    const item$List = [GroupingType.DAY, GroupingType.WEEK, GroupingType.MONTH]
+      .map(type => this.createGroupingTypeSelectItem$(type));
+    return forkJoin(item$List);
+  }
+
+  createEventTypeSelectItems(): Observable<SelectItem[]> {
+    const items$List = [
+      CalendarEventType.SOWING_NURSERY,
+      CalendarEventType.SOWING_DIRECT,
+      CalendarEventType.TRANSPLATATION,
+      CalendarEventType.BED_PREPARATION,
+      CalendarEventType.HARVEST,
+    ].map(eventType => this.createEventTypeSelectItem$(eventType));
+    return forkJoin(items$List);
   }
 
   private getPageEndDate(startTime: moment.Moment, groupingType: GroupingType) {
@@ -91,16 +111,16 @@ export class CultureCalendarService {
         return `${startTime.format('ww')}`;
       }
       case GroupingType.MONTH: {
-        return `${startTime.format('MMMM')}`;
+        return `${startTime.format('MM')}`;
       }
     }
     throw new Error(`Unhandled grouping type: ` + groupingType);
   }
 
-
-  private fetchCulturePhases$(results: WsSearchResult<WsCulture>, pageStart: moment.Moment, pageEnd: moment.Moment, groupingType: GroupingType): Observable<CalendarDurationGroup[]> {
+  private fetchCultureEvents$(results: WsSearchResult<WsCulture>, pageStart: moment.Moment, pageEnd: moment.Moment, groupingType: GroupingType): Observable<CalendarDurationGroup[]> {
     const cultures$List = results.list.map(ref => this.cultureClient.getCulture(ref.id));
-    return forkJoin(cultures$List).pipe(
+    const cultures$ = cultures$List.length === 0 ? of([]) : forkJoin(cultures$List);
+    return cultures$.pipe(
       map(cultures => this.createCalendarGroups(cultures, pageStart, pageEnd, groupingType)),
     );
   }
@@ -209,5 +229,23 @@ export class CultureCalendarService {
       caledarEvents[event.type] = eventList;
     }
     eventList.push(event);
+  }
+
+  private createGroupingTypeSelectItem$(type: GroupingType) {
+    return this.localizationService.getCultureCalendarGroupingTypeLabel(type).pipe(
+      map(label => <SelectItem>{
+        value: type,
+        label: label,
+      }),
+    );
+  }
+
+  private createEventTypeSelectItem$(eventType: CalendarEventType) {
+    return this.localizationService.getCultureCalendarEventLabel(eventType).pipe(
+      map(label => <SelectItem>{
+        value: eventType,
+        label: label,
+      }),
+    );
   }
 }

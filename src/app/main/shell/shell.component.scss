@@ -9,6 +9,10 @@
   > .menu {
     flex: 0 0 2em;
     position: relative;
+
+    @media print {
+      display: none;
+    }
   }
   > .content {
     flex: 1 1 auto;
@@ -16,5 +20,9 @@
     margin-left: 2em;
     padding-right: 1em;
     overflow: auto;
+
+    @media print {
+      overflow: visible;
+    }
   }
 }

@@ -1,10 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CalendarDurationGroup} from '../domain/calendar-duration-group';
-import {forkJoin, Observable} from 'rxjs';
-import {CalendarEventType} from '../domain/calendar-event-type';
+import {Observable} from 'rxjs';
 import {SelectItem} from 'primeng/api';
-import {LocalizationService} from '../../main/service/localization.service';
-import {map, publishReplay, refCount} from 'rxjs/operators';
+import {publishReplay, refCount} from 'rxjs/operators';
+import {CultureCalendarService} from '../culture-calendar-service';
 
 @Component({
   selector: 'pc-calendar-group-row',
@@ -18,28 +17,14 @@ export class CalendarGroupRowComponent implements OnInit {
 
   allEventsSelectItems$: Observable<SelectItem[]>;
 
-  constructor(private localizationService: LocalizationService) {
+  constructor(private calendarService: CultureCalendarService) {
   }
 
   ngOnInit() {
-    const items$List = [
-      CalendarEventType.SOWING_NURSERY,
-      CalendarEventType.SOWING_DIRECT,
-      CalendarEventType.TRANSPLATATION,
-      CalendarEventType.BED_PREPARATION,
-      CalendarEventType.HARVEST,
-    ].map(eventType => this.createSelectItem$(eventType));
-    this.allEventsSelectItems$ = forkJoin(items$List).pipe(
+    this.allEventsSelectItems$ = this.calendarService.createEventTypeSelectItems().pipe(
       publishReplay(1), refCount(),
     );
+
   }
 
-  private createSelectItem$(eventType: CalendarEventType) {
-    return this.localizationService.getCultureCalendarEventLabel(eventType).pipe(
-      map(label => <SelectItem>{
-        value: eventType,
-        label: label,
-      }),
-    );
-  }
 }

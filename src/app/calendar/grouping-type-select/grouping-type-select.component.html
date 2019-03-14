@@ -1,0 +1,7 @@
+<div class="grouping-type-select">
+  <p-selectButton name="grouping-type"
+                  [ngModel]="value$ | async"
+                  (ngModelChange)="onTypeChange($event)"
+                  [options]="items$ | async"
+  ></p-selectButton>
+</div>

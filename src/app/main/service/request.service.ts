@@ -162,7 +162,7 @@ export class RequestService {
         mergeMap(valid => valid ? this.sendLoginRequest() : throwError('expired')),
       ).subscribe(
       newToken => this.credentialProvider.setCredential(new JwtCrential(newToken)),
-      error => this.handletokenRenewalError(error));
+      error => this.handleTokenRenewalError(error));
   }
 
   buildPlanCulApiUrl(apiPth: string) {
@@ -223,13 +223,15 @@ export class RequestService {
   }
 
 
-  private handletokenRenewalError(error: any) {
+  private handleTokenRenewalError(error: any) {
     forkJoin(
       this.localizationService.getTranslation(MessageKeys.SESSION_EXPIRED_TITLE),
       this.localizationService.getTranslation(MessageKeys.SIGN_IN_AGAIN_MESSAGE),
     ).subscribe(msgs => this.notificationMessageService.addError(msgs[0], msgs[1]));
     this.credentialProvider.setCredential(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login', {
+      redirect: this.router.url,
+    }]);
   }
 
 

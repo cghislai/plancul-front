@@ -145,6 +145,11 @@
     "TRANSPLATATION": "Transplatation",
     "HARVEST": "Récolte"
   },
+  "CULTURE_CALENDAR_GROUPING_TYPE": {
+    "DAY": "Jour",
+    "WEEK": "Semaine",
+    "MONTH": "Mois"
+  },
   "PARAMETRIZED": {
     "MOON_ZODIAC_TITLE": "Devant {{ zodiac }} ({{element}}) du {{startDate}} à {{startTime}} jusqu'au {{endDate}} à {{endTime}}",
     "MOON_PHASE_TITLE": "{{ phase}} le {{ date }} à {{ time }}",

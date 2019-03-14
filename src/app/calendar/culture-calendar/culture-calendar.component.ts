@@ -1,12 +1,13 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {CalendarDurationGroup} from '../domain/calendar-duration-group';
 import {map, publishReplay, refCount, switchMap, take} from 'rxjs/operators';
 import {CultureCalendarService} from '../culture-calendar-service';
 import {GroupingType} from '../domain/grouping-type';
 import * as moment from 'moment';
-import {WsCultureFilter, WsRef, WsTenant} from '@charlyghislain/plancul-api';
+import {DateAsString, WsCultureFilter, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
+import {DateUtils} from '../../main/service/util/date-utils';
 
 @Component({
   selector: 'pc-culture-calendar',
@@ -17,6 +18,7 @@ export class CultureCalendarComponent implements OnInit {
 
   groups: CalendarDurationGroup[] = [];
   groupingType = GroupingType.WEEK;
+  startDateString: DateAsString;
 
   loading$ = new BehaviorSubject<boolean>(false);
 
@@ -28,6 +30,7 @@ export class CultureCalendarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.startDateString = DateUtils.toIsoDateString(moment());
     this.baseCultureFilter$ = this.selectedTenantService.getSelectedTenantRef().pipe(
       map(tenant => this.createCultureFilter(tenant)),
       publishReplay(1), refCount(),
@@ -42,7 +45,6 @@ export class CultureCalendarComponent implements OnInit {
     this.loading$.next(true);
     const pageStart = this.getPageStart(this.groups);
     const snappedPageStart = this.calendarService.snapDate(pageStart, this.groupingType);
-    console.log('loading from ' + pageStart.toISOString());
 
     this.baseCultureFilter$.pipe(
       take(1),
@@ -58,6 +60,7 @@ export class CultureCalendarComponent implements OnInit {
   }
 
   onScroll(event: any) {
+    // TODO: implement service to listen on div.content scroll end
     // In chrome and some browser scroll is given to body tag
     const element = event.target;
     const pos = (element.scrollTop || document.body.scrollTop) + element.offsetHeight;
@@ -68,9 +71,22 @@ export class CultureCalendarComponent implements OnInit {
     }
   }
 
+  onGroupingTypeChanged(groupingType: GroupingType) {
+    this.groupingType = groupingType;
+    this.groups = [];
+    this.loadNextPage();
+  }
+
+
+  onStartDateChanged(startDate: DateAsString) {
+    this.startDateString = startDate;
+    this.groups = [];
+    this.loadNextPage();
+  }
+
   private getPageStart(groups: CalendarDurationGroup[]) {
     if (groups == null || groups.length === 0) {
-      return moment();
+      return moment(this.startDateString);
     }
     const lastGroup = groups[groups.length - 1];
     return lastGroup.end;

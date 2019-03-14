@@ -3,7 +3,7 @@ import {LoginService} from '../service/login.service';
 import {BasicCredential} from '../domain/basic-credential';
 import {combineLatest, forkJoin, Observable, Subscription} from 'rxjs';
 import {LoggedUserService} from '../service/logged-user.service';
-import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
+import {filter, map, publishReplay, refCount, take, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationMessageService} from '../service/notification-message.service';
 import {WsApplicationGroups} from '@charlyghislain/plancul-api';
@@ -34,21 +34,23 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = new Subscription();
+    const authenticatorUser = this.loggedUserService.getAuthenticatorUserObservable();
     const isAdmin = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.ADMIN);
     const isRegisteredUser = this.loggedUserService.getIsInGroupsObservable(WsApplicationGroups.REGISTERED_USER);
 
-    const userLoggedSubscription = combineLatest(isAdmin, isRegisteredUser)
-      .pipe(
-        filter(results => results[1] /** is registered user **/),
-      ).subscribe(results => this.redirectOnLoginSuccess(false, results[0]));
-
-    const routeParams = this.activatedRoute.params
-      .pipe(publishReplay(1), refCount());
+    const routeParams = this.activatedRoute.params.pipe(
+      publishReplay(1), refCount(),
+    );
     this.redirectUrl = routeParams.pipe(
       map(params => params.redirect),
       publishReplay(1), refCount(),
     );
 
+
+    const userLoggedSubscription = combineLatest(authenticatorUser, isAdmin, isRegisteredUser)
+      .pipe(
+        filter(results => results[0] /** has user **/ && results[2] /** is registered user **/),
+      ).subscribe(results => this.redirectOnLoginSuccess(false, results[1]));
     this.subscription.add(userLoggedSubscription);
 
     this.login = this.loggedUserService.getLastUserLogin();
@@ -80,21 +82,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigate(['/register']);
       return;
     }
-    if (isAdmin) {
-      this.redirectToAdminArea();
-    } else {
-      if (this.redirectUrl != null) {
-        this.redirectUrl.pipe(take(1))
-          .subscribe(redirectParam => this.triggerRedirect(redirectParam));
-      } else {
-        this.redirectToUserArea();
-      }
-    }
+    this.redirectUrl.pipe(take(1))
+      .subscribe(redirectUrl => {
+        if (redirectUrl != null) {
+          this.triggerRedirect(redirectUrl);
+        } else if (isAdmin) {
+          this.redirectToAdminArea();
+        } else {
+          this.redirectToUserArea();
+        }
+      });
   }
 
   private triggerRedirect(url: string) {
     if (url != null) {
-      this.router.navigateByUrl(url);
+      this.router.navigate([url]);
     } else {
       this.redirectToUserArea();
     }

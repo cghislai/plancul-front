@@ -25,13 +25,15 @@ export class LoggedUserGuard implements CanActivate {
     return combineLatest(authenticatorUser, isUserWithTenant, isRegisteredUser, isUnRegisteredUser)
       .pipe(
         take(1),
-        map(results => this.handleAuthorization(results[0], results[1], results[2], results[3], state)),
+        map(results => this.handleAuthorization(next, results[0], results[1], results[2], results[3], state)),
       );
   }
 
-  private handleAuthorization(authenticatorUser: WsUser, userWithTenant: boolean, registeredUser: boolean, unregisteredUser: boolean, state: RouterStateSnapshot): boolean {
+  private handleAuthorization(next: ActivatedRouteSnapshot, authenticatorUser: WsUser, userWithTenant: boolean, registeredUser: boolean, unregisteredUser: boolean, state: RouterStateSnapshot): boolean {
     if (authenticatorUser == null) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login', {
+        redirect: state.url,
+      }]);
       return false;
     }
     if (!authenticatorUser.active) {
@@ -49,7 +51,9 @@ export class LoggedUserGuard implements CanActivate {
       this.router.navigate(['/register']);
       return false;
     }
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login', {
+      redirect: state.url,
+    }]);
     return false;
 
   }

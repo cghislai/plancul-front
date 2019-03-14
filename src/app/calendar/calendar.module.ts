@@ -6,17 +6,21 @@ import {CultureCalendarComponent} from './culture-calendar/culture-calendar.comp
 import {CalendarGroupRowComponent} from './calendar-group-row/calendar-group-row.component';
 import {CalendarEventComponent} from './calendar-event/calendar-event.component';
 import {SharedModule} from '../shared/shared.module';
-import {ProgressSpinnerModule} from 'primeng/primeng';
+import {ProgressSpinnerModule, SelectButtonModule} from 'primeng/primeng';
+import {GroupingTypeSelectComponent} from './grouping-type-select/grouping-type-select.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [CultureCalendarComponent, CalendarGroupRowComponent, CalendarEventComponent],
+  declarations: [CultureCalendarComponent, CalendarGroupRowComponent, CalendarEventComponent, GroupingTypeSelectComponent],
   imports: [
     CommonModule,
     CalendarRoutingModule,
+    FormsModule,
 
     SharedModule,
 
     ProgressSpinnerModule,
+    SelectButtonModule,
   ],
 })
 export class CalendarModule {

@@ -2,12 +2,58 @@
 .culture-calendar-scrollable {
   height: 100%;
   overflow: auto;
-}
 
-.groups {
-  border-bottom: 1px solid transparent;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid lightgray;
+  @media print {
+    height: auto;
   }
+
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      flex: 0 0 auto;
+      margin: 0 1em;
+      display: inline-flex;
+      align-items: center;
+
+      > * {
+        flex: 0 0 auto;
+      }
+
+      > label {
+        margin-right: 1em;
+        opacity: .7;
+      }
+    }
+  }
+
+
+  .groups {
+    border-bottom: 1px solid transparent;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid lightgray;
+    }
+  }
+
+
+  .loading-panel {
+    text-align: center;
+    font-size: .8em;
+    padding: 1em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    >* {
+      display: inline-block;
+    }
+
+    ::ng-deep .ui-progress-spinner {
+      overflow: hidden;
+    }
+  }
+
 }
