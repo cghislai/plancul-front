@@ -14,6 +14,8 @@ export class BedComponent implements OnInit {
   showIcon = true;
   @Input()
   showPatch = true;
+  @Input()
+  showSurface = true;
 
   @Input()
   set id(value: number) {
@@ -24,6 +26,7 @@ export class BedComponent implements OnInit {
 
   name: Observable<string>;
   patch: Observable<string>;
+  surface: Observable<number>;
 
   constructor(private bedClient: BedClientService) {
   }
@@ -35,6 +38,10 @@ export class BedComponent implements OnInit {
     );
     this.name = bed.pipe(
       map(b => b.name),
+      publishReplay(1), refCount(),
+    );
+    this.surface = bed.pipe(
+      map(b => b.surface),
       publishReplay(1), refCount(),
     );
     this.patch = bed.pipe(

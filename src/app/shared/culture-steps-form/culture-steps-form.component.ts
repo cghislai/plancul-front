@@ -40,6 +40,7 @@ export class CultureStepsFormComponent implements OnInit {
 
   STEP_ID_CULTURE = 'culture';
   STEP_ID_DATES = 'dates';
+  STEP_ID_QUANTITIES = 'quantities';
   STEP_ID_PREPARATION = 'preparation';
 
   steps: MenuItem[];
@@ -53,6 +54,8 @@ export class CultureStepsFormComponent implements OnInit {
 
   sowingDate: Observable<ValidatedFormProperty<WsCulture, 'sowingDate'>>;
   sowingDateValue: Observable<DateAsString>;
+  sowingSurfaceQuantity: Observable<ValidatedFormProperty<WsCulture, 'seedSurfaceQuantity'>>;
+  sowingTotalValue: Observable<number>;
 
   daysUntilGermination: Observable<ValidatedFormProperty<WsCulture, 'daysUntilGermination'>>;
   daysUntilGerminationValue: Observable<number>;
@@ -61,6 +64,8 @@ export class CultureStepsFormComponent implements OnInit {
   germinationDateValue: Observable<DateAsString>;
   firstHarvestDateValue: Observable<DateAsString>;
   lastHarvestDateValue: Observable<DateAsString>;
+  harvestSurfaceQuantity: Observable<ValidatedFormProperty<WsCulture, 'harvestSurfaceQuantity'>>;
+  harvestTotalValue: Observable<number>;
 
   hasNursing: Observable<boolean>;
   nursingDuration: Observable<ValidatedFormProperty<WsCultureNursing, 'dayDuration'>>;
@@ -92,6 +97,8 @@ export class CultureStepsFormComponent implements OnInit {
     this.bedRef = this.formHelper.getPropertyModel('bedWsRef');
     this.sowingDate = this.formHelper.getPropertyModel('sowingDate');
     this.sowingDateValue = this.formHelper.getPropertyValue('sowingDate');
+    this.sowingSurfaceQuantity = this.formHelper.getPropertyModel('seedSurfaceQuantity');
+    this.sowingTotalValue = this.formHelper.getPropertyValue('seedTotalQuantity');
 
     this.daysUntilGermination = this.formHelper.getPropertyModel('daysUntilGermination');
     this.daysUntilGerminationValue = this.formHelper.getPropertyValue('daysUntilGermination');
@@ -102,6 +109,8 @@ export class CultureStepsFormComponent implements OnInit {
     this.germinationDateValue = this.formHelper.getPropertyValue('germinationDate');
     this.firstHarvestDateValue = this.formHelper.getPropertyValue('firstHarvestDate');
     this.lastHarvestDateValue = this.formHelper.getPropertyValue('lastHarvestDate');
+    this.harvestSurfaceQuantity = this.formHelper.getPropertyModel('harvestSurfaceQuantity');
+    this.harvestTotalValue = this.formHelper.getPropertyValue('harvestTotalQuantity');
 
     this.hasNursing = this.formHelper.mapPropertyValue<boolean>('cultureNursing', n => n != null);
     this.nursingDuration = this.formHelper.getWrappedPropertyModel('cultureNursing', 'dayDuration');
@@ -235,6 +244,20 @@ export class CultureStepsFormComponent implements OnInit {
     });
   }
 
+
+  onSowingSurfaceQuantityChange(value: number) {
+    this.updateModel({
+      seedSurfaceQuantity: value,
+    });
+  }
+
+
+  onHarvestSurfaceQuantityChange(value: number) {
+    this.updateModel({
+      harvestSurfaceQuantity: value,
+    });
+  }
+
   onPreparationChanged(preparation: boolean) {
     if (preparation) {
       this.updateModel({
@@ -273,6 +296,9 @@ export class CultureStepsFormComponent implements OnInit {
         this.goToStep(this.STEP_ID_DATES);
         return;
       case this.STEP_ID_DATES:
+        this.goToStep(this.STEP_ID_QUANTITIES);
+        return;
+      case this.STEP_ID_QUANTITIES:
         this.goToStep(this.STEP_ID_PREPARATION);
         return;
       case this.STEP_ID_PREPARATION:
@@ -291,8 +317,11 @@ export class CultureStepsFormComponent implements OnInit {
       case this.STEP_ID_DATES:
         this.goToStep(this.STEP_ID_CULTURE);
         return;
-      case this.STEP_ID_PREPARATION:
+      case this.STEP_ID_QUANTITIES:
         this.goToStep(this.STEP_ID_DATES);
+        return;
+      case this.STEP_ID_PREPARATION:
+        this.goToStep(this.STEP_ID_QUANTITIES);
         return;
     }
   }
@@ -307,6 +336,11 @@ export class CultureStepsFormComponent implements OnInit {
       {
         label: 'Dates',
         id: this.STEP_ID_DATES,
+        disabled: true,
+      },
+      {
+        label: 'Quantities',
+        id: this.STEP_ID_QUANTITIES,
         disabled: true,
       },
       {
@@ -346,9 +380,15 @@ export class CultureStepsFormComponent implements OnInit {
         return this.isCultureStepValid(form)
           && this.isDatesStepValid(form);
       }
+      case this.STEP_ID_QUANTITIES: {
+        return this.isCultureStepValid(form)
+          && this.isDatesStepValid(form)
+          && this.isQuantityStepValid(form);
+      }
       case this.STEP_ID_PREPARATION: {
         return this.isCultureStepValid(form)
           && this.isDatesStepValid(form)
+          && this.isQuantityStepValid(form)
           && form.valid;
       }
     }
@@ -357,6 +397,10 @@ export class CultureStepsFormComponent implements OnInit {
   private isDatesStepValid(form: ValidatedFormModel<WsCulture>) {
     return this.isFormPartValid(form, 'sowingDate', 'germinationDate', 'firstHarvestDate', 'lastHarvestDate',
       'daysUntilFirstHarvest', 'daysUntilGermination', 'harvestDaysDuration');
+  }
+
+  private isQuantityStepValid(form: ValidatedFormModel<WsCulture>) {
+    return this.isFormPartValid(form, 'seedSurfaceQuantity', 'harvestSurfaceQuantity');
   }
 
   private isCultureStepValid(form: ValidatedFormModel<WsCulture>) {

@@ -76,16 +76,16 @@
                 <pc-validation-errors [errorsKeys]="model.validationErrors"
                 ></pc-validation-errors>
               </div>
-              <!--<div class="end-date">-->
-                  <!--<span i18n>Until </span>-->
-                  <!--<span>-->
-                    <!--<pc-date-select [ngModel]="germinationDateValue | async"-->
-                                    <!--(ngModelChange)="onGerminationDateChange($event)"-->
-                                    <!--name="germination-date"-->
-                                    <!--[min]="sowingDateValue | async"-->
-                    <!--&gt;</pc-date-select>-->
-                  <!--</span>-->
-              <!--</div>-->
+            <!--<div class="end-date">-->
+            <!--<span i18n>Until </span>-->
+            <!--<span>-->
+            <!--<pc-date-select [ngModel]="germinationDateValue | async"-->
+            <!--(ngModelChange)="onGerminationDateChange($event)"-->
+            <!--name="germination-date"-->
+            <!--[min]="sowingDateValue | async"-->
+            <!--&gt;</pc-date-select>-->
+            <!--</span>-->
+            <!--</div>-->
             </span>
         </div>
 
@@ -107,13 +107,13 @@
                 <pc-validation-errors [errorsKeys]="model.validationErrors"
                 ></pc-validation-errors>
               </div>
-              <!--<div class="end-date">-->
-                  <!--<pc-date-select [ngModel]="firstHarvestDateValue | async"-->
-                                  <!--(ngModelChange)="onFirstHarvestDateChange($event)"-->
-                                  <!--name="first-harvest-date"-->
-                                  <!--[min]="germinationDateValue | async"-->
-                  <!--&gt;</pc-date-select>-->
-              <!--</div>-->
+            <!--<div class="end-date">-->
+            <!--<pc-date-select [ngModel]="firstHarvestDateValue | async"-->
+            <!--(ngModelChange)="onFirstHarvestDateChange($event)"-->
+            <!--name="first-harvest-date"-->
+            <!--[min]="germinationDateValue | async"-->
+            <!--&gt;</pc-date-select>-->
+            <!--</div>-->
             </span>
         </div>
 
@@ -135,18 +135,75 @@
                 <pc-validation-errors [errorsKeys]="model.validationErrors"
                 ></pc-validation-errors>
               </div>
-              <!--<div class="end-date">-->
-                  <!--<pc-date-select [ngModel]="lastHarvestDateValue | async"-->
-                                  <!--(ngModelChange)="onLastHarvestDateChange($event)"-->
-                                  <!--name="last-harvest-date"-->
-                                  <!--[min]="firstHarvestDateValue | async"-->
-                  <!--&gt;</pc-date-select>-->
-              <!--</div>-->
+            <!--<div class="end-date">-->
+            <!--<pc-date-select [ngModel]="lastHarvestDateValue | async"-->
+            <!--(ngModelChange)="onLastHarvestDateChange($event)"-->
+            <!--name="last-harvest-date"-->
+            <!--[min]="firstHarvestDateValue | async"-->
+            <!--&gt;</pc-date-select>-->
+            <!--</div>-->
             </span>
+        </div>
+      </div>
+
+      <div *ngSwitchCase="STEP_ID_QUANTITIES">
+        <div class="row" *templateVar="sowingSurfaceQuantity | async; let model">
+          <label i18n>Seeds</label>
+          <div>
+            <div>
+              <p-spinner name="culture-seed-quantity"
+                         [ngModel]="model.propertyValue"
+                         (ngModelChange)="onSowingSurfaceQuantityChange($event)"
+                         required
+                         [min]="0"
+                         [step]="0.01"
+                         #control="ngModel"
+              ></p-spinner>
+              <span class="unit" i18n>per m²</span>
+            </div>
+            <pc-validation-errors [errorsKeys]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+            <div class="row seed total" *ngIf="(sowingTotalValue | async) != null">
+              <label i18n>Total</label>
+              <span class="total label">
+              {{ sowingTotalValue | async | number }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row" *templateVar="harvestSurfaceQuantity | async; let model">
+          <label i18n>Harvest</label>
+          <div>
+            <div>
+              <p-spinner name="culture-harvest-quantity"
+                         [ngModel]="model.propertyValue"
+                         (ngModelChange)="onHarvestSurfaceQuantityChange($event)"
+                         required
+                         [min]="0"
+                         [step]="0.01"
+                         #control="ngModel"
+              ></p-spinner>
+              <span class="unit" i18n>per m²</span>
+            </div>
+            <pc-validation-errors [errorsKeys]="model.validationErrors"
+                                  *ngIf="control.touched"
+            ></pc-validation-errors>
+            <div class="row seed total" *ngIf="(harvestTotalValue | async) != null">
+              <label i18n>Total</label>
+              <span class="total label">
+              {{ harvestTotalValue | async | number }}
+              </span>
+            </div>
+          </div>
         </div>
 
 
       </div>
+
       <div *ngSwitchCase="STEP_ID_PREPARATION">
 
         <div class="row">

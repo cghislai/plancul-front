@@ -16,7 +16,6 @@ import {
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {combineLatest, forkJoin, Observable, Subscription} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {Message} from 'primeng/api';
 import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
 import {ValidatedFormProperty} from '../../main/domain/validated-form-property';
 import {DateUtils} from '../../main/service/util/date-utils';
@@ -36,6 +35,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   bedRef: Observable<ValidatedFormProperty<WsCulture, 'bedWsRef'>>;
   sowingDate: Observable<ValidatedFormProperty<WsCulture, 'sowingDate'>>;
   sowingDateValue: Observable<DateAsString>;
+  seedSurfaceQuantity: Observable<ValidatedFormProperty<WsCulture, 'seedSurfaceQuantity'>>;
 
   daysUntilGermination: Observable<ValidatedFormProperty<WsCulture, 'daysUntilGermination'>>;
   daysUntilGerminationValue: Observable<number>;
@@ -44,6 +44,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   germinationDateValue: Observable<DateAsString>;
   firstHarvestDateValue: Observable<DateAsString>;
   lastHarvestDateValue: Observable<DateAsString>;
+  harvestSurfaceQuantity: Observable<ValidatedFormProperty<WsCulture, 'harvestSurfaceQuantity'>>;
 
   hasNursing: Observable<boolean>;
   nursingDuration: Observable<ValidatedFormProperty<WsCultureNursing, 'dayDuration'>>;
@@ -56,6 +57,8 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   htmlNotes: Observable<ValidatedFormProperty<WsCulture, 'htmlNotes'>>;
   bedOccupancyStartValue: Observable<DateAsString>;
   bedOccupancyEndValue: Observable<DateAsString>;
+  totalSeedQuantityValue: Observable<number>;
+  totalHarvestQuantityValue: Observable<number>;
 
   hasValidationErrors: Observable<boolean>;
   unboundErrorMessages: Observable<string[]>;
@@ -88,12 +91,14 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.bedRef = this.formHelper.getPropertyModel('bedWsRef');
     this.sowingDate = this.formHelper.getPropertyModel('sowingDate');
     this.sowingDateValue = this.formHelper.getPropertyValue('sowingDate');
+    this.seedSurfaceQuantity = this.formHelper.getPropertyModel('seedSurfaceQuantity');
 
     this.daysUntilGermination = this.formHelper.getPropertyModel('daysUntilGermination');
     this.daysUntilGerminationValue = this.formHelper.getPropertyValue('daysUntilGermination');
     this.daysUntilFirstHarvest = this.formHelper.getPropertyModel('daysUntilFirstHarvest');
 
     this.harvestDayDuration = this.formHelper.getPropertyModel('harvestDaysDuration');
+    this.harvestSurfaceQuantity = this.formHelper.getPropertyModel('harvestSurfaceQuantity');
 
     this.germinationDateValue = this.formHelper.getPropertyValue('germinationDate');
     this.firstHarvestDateValue = this.formHelper.getPropertyValue('firstHarvestDate');
@@ -110,6 +115,8 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.htmlNotes = this.formHelper.getPropertyModel('htmlNotes');
     this.bedOccupancyStartValue = this.formHelper.getPropertyValue('bedOccupancyStartDate');
     this.bedOccupancyEndValue = this.formHelper.getPropertyValue('bedOccupancyEndDate');
+    this.totalSeedQuantityValue = this.formHelper.getPropertyValue('seedTotalQuantity');
+    this.totalHarvestQuantityValue = this.formHelper.getPropertyValue('harvestTotalQuantity');
 
     this.hasValidationErrors = this.formHelper.isInvalid();
 
@@ -129,6 +136,12 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   onBedChange(value: WsRef<WsBed>) {
     this.updateModel({
       bedWsRef: value,
+    });
+  }
+
+  onSeedSurfaceQuantityChange(value: number) {
+    this.updateModel({
+      seedSurfaceQuantity: value,
     });
   }
 
@@ -186,6 +199,12 @@ export class CultureFormComponent implements OnInit, OnDestroy {
   onHarvestDurationChange(value: number) {
     this.updateModel({
       harvestDaysDuration: value,
+    });
+  }
+
+  onHarvestSurfaceQuantityChange(value: number) {
+    this.updateModel({
+      harvestSurfaceQuantity: value,
     });
   }
 

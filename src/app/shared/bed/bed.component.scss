@@ -13,6 +13,12 @@
     margin: .3em;
   }
 
+  >.surface {
+    flex: 1 1 10em;
+    margin: .3em 2em;
+    text-align: right;
+  }
+
   >.patch {
     flex: 1 1 10em;
     margin: .3em;

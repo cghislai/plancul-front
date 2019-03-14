@@ -51,6 +51,7 @@ export class BedResolver implements Resolve<WsBed> {
       id: null,
       name: null,
       patch: null,
+      surface: 0,
       plotWsRef: plotRef,
     };
     return bed;

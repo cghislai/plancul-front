@@ -48,6 +48,27 @@
             <span>Sowing</span>
           </h2>
 
+          <div class="row" *templateVar="seedSurfaceQuantity | async; let model">
+            <label i18n>Quantity</label>
+            <div>
+              <div>
+                <p-spinner name="culture-seed-quantity"
+                           [ngModel]="model.propertyValue"
+                           (ngModelChange)="onSeedSurfaceQuantityChange($event)"
+                           required
+                           [min]="0"
+                           [step]="0.01"
+                           #control="ngModel"
+                ></p-spinner>
+                <span class="unit" i18n>per m²</span>
+              </div>
+              <pc-validation-errors [errorsKeys]="model.validationErrors"
+                                    *ngIf="control.touched"
+              ></pc-validation-errors>
+            </div>
+          </div>
+
+
           <div class="row" *templateVar="sowingDate | async; let model">
             <label i18n>Sowing date</label>
             <span>
@@ -161,6 +182,28 @@
               </div>
             </span>
           </div>
+
+
+          <div class="row" *templateVar="harvestSurfaceQuantity | async; let model">
+            <label i18n>Quantity</label>
+            <div>
+              <div>
+                <p-spinner name="culture-seed-quantity"
+                           [ngModel]="model.propertyValue"
+                           (ngModelChange)="onHarvestSurfaceQuantityChange($event)"
+                           required
+                           [min]="0"
+                           [step]="0.01"
+                           #control="ngModel"
+                ></p-spinner>
+                <span class="unit" i18n>per m²</span>
+              </div>
+              <pc-validation-errors [errorsKeys]="model.validationErrors"
+                                    *ngIf="control.touched"
+              ></pc-validation-errors>
+            </div>
+          </div>
+
         </section>
 
         <div class="row">
@@ -266,9 +309,24 @@
               </div>
             </span>
           </div>
-
         </section>
 
+        <section class="quantities"
+                 *ngIf="(totalSeedQuantityValue | async) != null || (totalHarvestQuantityValue | async) != null">
+          <div class="row">
+            <label i18n>Quantities</label>
+            <span class="values">
+              <div class="value" *ngIf="(totalSeedQuantityValue | async) != null">
+                <label i18n>Seeds</label>
+                <span>{{ totalSeedQuantityValue | async | number }}</span>
+              </div>
+              <div class="value"  *ngIf="(totalHarvestQuantityValue | async) != null">
+                <label i18n>Harvest</label>
+                <span>{{ totalHarvestQuantityValue | async | number }}</span>
+              </div>
+            </span>
+          </div>
+        </section>
 
         <label i18n>Notes</label>
         <div class="editor" *templateVar="htmlNotes | async; let model">

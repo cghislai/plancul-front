@@ -57,6 +57,8 @@ export class CultureResolver implements Resolve<WsCulture> {
       daysUntilGermination: 1,
       daysUntilFirstHarvest: 2,
       harvestDaysDuration: 1,
+      seedSurfaceQuantity: 0,
+      harvestSurfaceQuantity: 0,
       htmlNotes: null,
       cultureNursing: null,
       bedPreparation: null,
