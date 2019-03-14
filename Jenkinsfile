@@ -103,7 +103,9 @@ EOF
                             cd ../../..
 
                             UPLOAD_URL=$(echo "$RELEASE_ASSETS_URL" | sed 's/{?name,label}//')
-                            LABEL="${ARCHIVE}%20$BRANCH_NAME%20release%20$LANG"
+                            RELEASE_LABEL="preview"
+                            [ "$PRERELEASE" = "false" ] && RELEASE_LABEL="release"
+                            LABEL="${ARCHIVE}%20${BRANCH_NAME}%20${RELEASE_LABEL}%20${LANG}"
                             # Upload archive as github release asset
                             ARCHIVE_URL=$(curl -v -X POST \
                                 -H 'Content-Type: application/x-gzip' \
