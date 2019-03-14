@@ -1,0 +1,20 @@
+<div class="culture-calendar-scrollable" (scroll)="onScroll($event)">
+  <div class="culture-calendar ui-widget pc-list-page">
+
+    <header>
+      <h1 i18n>Cultures</h1>
+    </header>
+
+
+    <div class="groups" *ngFor="let group of groups; trackBy: trackByStartDate">
+      <pc-calendar-group-row [group]="group"></pc-calendar-group-row>
+    </div>
+
+    <ng-template class="loading" *ngIf="loading$ | async">
+      <p-progressSpinner></p-progressSpinner>
+    </ng-template>
+
+  </div>
+</div>
+
+

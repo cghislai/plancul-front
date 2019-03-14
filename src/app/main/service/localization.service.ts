@@ -9,6 +9,7 @@ import {MessageKeys} from './util/message-keys';
 import {ZodiacElement} from './util/zodiac-element';
 import {MoonPhase, Zodiac} from '@charlyghislain/astronomy-api';
 import {CultureStep} from '../../shared/culture-steps-form/culture-step';
+import {CalendarEventType} from '../../calendar/domain/calendar-event-type';
 
 @Injectable({
   providedIn: 'root',
@@ -67,6 +68,11 @@ export class LocalizationService {
 
   getCultureStepLabel(step: CultureStep): Observable<string> {
     const msgKey = `${MessageKeys.ENUM_CULTURE_STEPS_NAMES__KEYS._PREFIX}${step}`;
+    return this.getTranslation(msgKey);
+  }
+
+  getCultureCalendarEventLabel(eventType: CalendarEventType): Observable<string> {
+    const msgKey = `${MessageKeys.ENUM_CULTURE_CALENDAR_EVENTS__KEYS._PREFIX}${eventType}`;
     return this.getTranslation(msgKey);
   }
 

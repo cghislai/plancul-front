@@ -1,0 +1,26 @@
+<div class="calendar-group-row ui-widget" *ngIf="group != null">
+
+  <div class="label">
+    <h1>{{ group.label}}</h1>
+    <div class="subtitle">
+      {{ group.start | date }}
+    </div>
+  </div>
+
+  <div class="events">
+
+    <div *ngFor="let eventTypeItem of allEventsSelectItems$ | async"
+         [ngClass]="eventTypeItem.value"
+    >
+      <header>
+        {{ eventTypeItem.label }}
+      </header>
+      <div class="event" *ngFor="let event of group.items[eventTypeItem.value]">
+        <pc-calendar-event [event]="event"
+        ></pc-calendar-event>
+      </div>
+
+    </div>
+
+  </div>
+</div>

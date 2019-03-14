@@ -138,6 +138,13 @@
     "QUANTITIES": "Quantités",
     "PREPARATION": "Préparation"
   },
+  "CULTURE_CALENDAR_EVENT": {
+    "SOWING_NURSERY": "Semis pépinière",
+    "SOWING_DIRECT": "Semis direct",
+    "BED_PREPARATION": "Préparation de la planche",
+    "TRANSPLATATION": "Transplatation",
+    "HARVEST": "Récolte"
+  },
   "PARAMETRIZED": {
     "MOON_ZODIAC_TITLE": "Devant {{ zodiac }} ({{element}}) du {{startDate}} à {{startTime}} jusqu'au {{endDate}} à {{endTime}}",
     "MOON_PHASE_TITLE": "{{ phase}} le {{ date }} à {{ time }}",

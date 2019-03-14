@@ -1,0 +1,13 @@
+
+.culture-calendar-scrollable {
+  height: 100%;
+  overflow: auto;
+}
+
+.groups {
+  border-bottom: 1px solid transparent;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid lightgray;
+  }
+}

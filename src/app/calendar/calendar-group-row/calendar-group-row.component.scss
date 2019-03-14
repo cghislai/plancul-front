@@ -1,0 +1,45 @@
+.calendar-group-row {
+  display: flex;
+  margin: 1em;
+  align-items: stretch;
+
+  > .label {
+    flex: 0 0 auto;
+    padding: 1em;
+    text-align: center;
+
+    .subtitle {
+      font-size: .8em;
+      opacity: .8;
+    }
+  }
+
+  > .events {
+    flex: 1 1 auto;
+    display: inline-flex;
+    width: 100%;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    > * {
+      flex: 1 0 10em;
+      margin: 1em 0;
+      padding: 0 1em;
+      border-right: 1px solid transparent;
+
+      &:not(:last-child) {
+        border-right: 1px solid lightgray;
+      }
+
+      header {
+        font-weight: bold;
+        opacity: .8;
+        text-align: center;
+      }
+
+      .event {
+        font-size: .9em;
+      }
+    }
+  }
+}

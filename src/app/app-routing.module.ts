@@ -32,6 +32,10 @@ const tenantRoutes: Routes = [
     path: 'timeline',
     loadChildren: './timeline/timeline.module#TimelineModule',
   },
+  {
+    path: 'calendar',
+    loadChildren: './calendar/calendar.module#CalendarModule',
+  },
 ];
 
 const userWithTenantRoutes: Routes = [

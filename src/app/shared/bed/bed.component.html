@@ -5,7 +5,7 @@
   <span class="name">
     {{ name  | async}}
   </span>
-  <span class="surface">
+  <span class="surface" *ngIf="showSurface">
     <span>{{ surface | async }}</span>
     <span class="unit" i18n>m²</span>
   </span>
