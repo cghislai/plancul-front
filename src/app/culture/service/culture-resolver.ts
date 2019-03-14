@@ -7,6 +7,7 @@ import {SelectedTenantService} from '../../main/service/selected-tenant.service'
 import {filter, map, mergeMap, take} from 'rxjs/operators';
 import {LocalizationService} from '../../main/service/localization.service';
 import {ErrorKeys} from '../../main/service/util/error-keys';
+import {CultureService} from '../../main/service/culture.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ import {ErrorKeys} from '../../main/service/util/error-keys';
 export class CultureResolver implements Resolve<WsCulture> {
 
   constructor(private cultureClient: CultureClientService,
+              private cultureService: CultureService,
               private localizationService: LocalizationService,
               private tenantSelectionService: SelectedTenantService,
   ) {

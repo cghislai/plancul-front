@@ -15,13 +15,14 @@ import {
 } from '@charlyghislain/plancul-api';
 import {CultureClientService} from '../../main/service/culture-client.service';
 import {combineLatest, forkJoin, Observable, Subscription} from 'rxjs';
-import {map, take} from 'rxjs/operators';
+import {map, switchMap, take} from 'rxjs/operators';
 import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
 import {ValidatedFormProperty} from '../../main/domain/validated-form-property';
 import {DateUtils} from '../../main/service/util/date-utils';
 import {MessageKeys} from '../../main/service/util/message-keys';
 import {LocalizationService} from '../../main/service/localization.service';
 import {ErrorKeys} from '../../main/service/util/error-keys';
+import {CultureService} from '../../main/service/culture.service';
 
 @Component({
   selector: 'pc-culture-form',
@@ -72,6 +73,7 @@ export class CultureFormComponent implements OnInit, OnDestroy {
               private tenantSelectionService: SelectedTenantService,
               private notificationService: NotificationMessageService,
               private requestService: RequestService,
+              private cultureService: CultureService,
               private cultureClient: CultureClientService) {
     this.formHelper = new FormValidationHelper<WsCulture>(
       this.requestService, this.cultureClient.validateCulture,
@@ -127,10 +129,14 @@ export class CultureFormComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  onCropChange(value: WsRef<WsCrop>) {
-    this.updateModel({
-      cropWsRef: value,
-    });
+  onCropChange(cropRef: WsRef<WsCrop>) {
+    this.tenantSelectionService.getSelectedTenantRef().pipe(
+      take(1),
+      switchMap(tenantRef => this.cultureService.findLastCultureOverwritesForCrop(tenantRef, cropRef)),
+      map(overwites => Object.assign({}, overwites, <Partial<WsCulture>>{
+        cropWsRef: cropRef,
+      })),
+    ).subscribe(update => this.updateModel(update));
   }
 
   onBedChange(value: WsRef<WsBed>) {

@@ -19,10 +19,11 @@ import {SelectedTenantService} from '../../main/service/selected-tenant.service'
 import {NotificationMessageService} from '../../main/service/notification-message.service';
 import {RequestService} from '../../main/service/request.service';
 import {CultureClientService} from '../../main/service/culture-client.service';
-import {map, publishReplay, refCount, take} from 'rxjs/operators';
+import {map, publishReplay, refCount, switchMap, take} from 'rxjs/operators';
 import {DateUtils} from '../../main/service/util/date-utils';
 import {ValidatedFormModel} from '../../main/domain/validated-form-model';
 import {CultureStep} from './culture-step';
+import {CultureService} from '../../main/service/culture.service';
 
 @Component({
   selector: 'pc-culture-steps-form',
@@ -85,7 +86,8 @@ export class CultureStepsFormComponent implements OnInit {
               private tenantSelectionService: SelectedTenantService,
               private notificationService: NotificationMessageService,
               private requestService: RequestService,
-              private cultureClient: CultureClientService) {
+              private cultureClient: CultureClientService,
+              private cultureService: CultureService) {
     this.formHelper = new FormValidationHelper<WsCulture>(
       this.requestService, this.cultureClient.validateCulture,
     );
@@ -139,10 +141,14 @@ export class CultureStepsFormComponent implements OnInit {
   }
 
 
-  onCropChange(value: WsRef<WsCrop>) {
-    this.updateModel({
-      cropWsRef: value,
-    });
+  onCropChange(cropRef: WsRef<WsCrop>) {
+    this.tenantSelectionService.getSelectedTenantRef().pipe(
+      take(1),
+      switchMap(tenantRef => this.cultureService.findLastCultureOverwritesForCrop(tenantRef, cropRef)),
+      map(overwites => Object.assign({}, overwites, <Partial<WsCulture>>{
+        cropWsRef: cropRef,
+      })),
+    ).subscribe(update => this.updateModel(update));
   }
 
   onBedChange(value: WsRef<WsBed>) {

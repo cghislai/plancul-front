@@ -188,7 +188,7 @@
             <label i18n>Quantity</label>
             <div>
               <div>
-                <p-spinner name="culture-seed-quantity"
+                <p-spinner name="culture-harvest-quantity"
                            [ngModel]="model.propertyValue"
                            (ngModelChange)="onHarvestSurfaceQuantityChange($event)"
                            required
@@ -317,12 +317,12 @@
             <label i18n>Quantities</label>
             <span class="values">
               <div class="value" *ngIf="(totalSeedQuantityValue | async) != null">
-                <label i18n>Seeds</label>
-                <span>{{ totalSeedQuantityValue | async | number }}</span>
+                <label i18n>Seeds: </label>
+                <span class="unit">{{ totalSeedQuantityValue | async | number }}</span>
               </div>
               <div class="value"  *ngIf="(totalHarvestQuantityValue | async) != null">
-                <label i18n>Harvest</label>
-                <span>{{ totalHarvestQuantityValue | async | number }}</span>
+                <label i18n>Harvest: </label>
+                <span class="unit">{{ totalHarvestQuantityValue | async | number }}</span>
               </div>
             </span>
           </div>

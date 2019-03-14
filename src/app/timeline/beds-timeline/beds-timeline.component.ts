@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, pipe, ReplaySubject} from 'rxjs';
+import {BehaviorSubject, combineLatest, forkJoin, merge, Observable, of, pipe, ReplaySubject, Subject} from 'rxjs';
 import * as vis from 'vis';
 import moment from 'moment-es6';
 import {DateUtils} from '../../main/service/util/date-utils';
@@ -18,7 +18,7 @@ import {
   WsTenant,
 } from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
-import {filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
+import {delay, filter, map, mergeMap, publishReplay, refCount, switchMap, take, tap} from 'rxjs/operators';
 import {TimelineService} from './service/timeline.service';
 import {Pagination} from '../../main/domain/pagination';
 import {CultureClientService} from '../../main/service/culture-client.service';
@@ -57,7 +57,7 @@ export class BedsTimelineComponent implements OnInit {
   editingCulture: WsCulture = null;
 
   private cultureItems$: Observable<CulturePhaseDataItem[]>;
-  private cultureDataItemsUpdates$ = new ReplaySubject<CulturePhaseDataItem[]>(1);
+  private cultureDataItemsUpdates$ = new Subject<CulturePhaseDataItem[]>();
   private reloadTrigger = new BehaviorSubject<any>(true);
   private maxRangeDayDurationForZodiacRendering = 300;
 
@@ -359,7 +359,8 @@ export class BedsTimelineComponent implements OnInit {
 
   private onNewCultureSaveSuccess(ref: WsRef<WsCulture>) {
     const newItems$ = this.timelineService.createCultureRefPhasesItems$(ref);
-    combineLatest(newItems$, this.cultureItems$).pipe(
+    combineLatest(this.cultureItems$, newItems$).pipe(
+      take(1),
       map(itemLists => this.timelineService.updateCultureSubgroupItems(itemLists[0], itemLists[1], ref)),
     ).subscribe(newData => this.cultureDataItemsUpdates$.next(newData));
   }
