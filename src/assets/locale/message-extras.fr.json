@@ -132,6 +132,12 @@
     "AQUARIUS": "Verseau",
     "PISCES": "Poisson"
   },
+  "CULTURE_STEP": {
+    "CULTURE": "Culture",
+    "DATES": "Dates",
+    "QUANTITIES": "Quantités",
+    "PREPARATION": "Préparation"
+  },
   "PARAMETRIZED": {
     "MOON_ZODIAC_TITLE": "Devant {{ zodiac }} ({{element}}) du {{startDate}} à {{startTime}} jusqu'au {{endDate}} à {{endTime}}",
     "MOON_PHASE_TITLE": "{{ phase}} le {{ date }} à {{ time }}",

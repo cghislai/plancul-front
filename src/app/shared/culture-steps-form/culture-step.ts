@@ -1,0 +1,6 @@
+export const enum CultureStep {
+  CULTURE = 'CULTURE',
+  DATES = 'DATES',
+  QUANTITIES = 'QUANTITIES',
+  PREPARATION = 'PREPARATION'
+}

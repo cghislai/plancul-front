@@ -1,5 +1,5 @@
 <div class="culture-steps-form">
-  <p-steps [model]="steps"
+  <p-steps [model]="steps$ | async"
            [readonly]="false"
            [activeIndex]="activeStepIndex$ | async"
            (activeIndexChange)="onActiveStepChange($event)"
@@ -8,7 +8,7 @@
   <form #cultureForm="ngForm">
 
     <div [ngSwitch]="activeStepId$ | async" class="pc-form">
-      <div *ngSwitchCase="STEP_ID_CULTURE">
+      <div *ngSwitchCase="'CULTURE'">
 
         <div class="row" *templateVar="cropRef | async; let model">
           <span class="form-icon"><pc-seedlings-icon></pc-seedlings-icon></span>
@@ -42,7 +42,7 @@
 
       </div>
 
-      <div *ngSwitchCase="STEP_ID_DATES">
+      <div *ngSwitchCase="'DATES'">
 
         <div class="row" *templateVar="sowingDate | async; let model">
           <label i18n>Sowing date</label>
@@ -146,7 +146,7 @@
         </div>
       </div>
 
-      <div *ngSwitchCase="STEP_ID_QUANTITIES">
+      <div *ngSwitchCase="'QUANTITIES'">
         <div class="row" *templateVar="sowingSurfaceQuantity | async; let model">
           <label i18n>Seeds</label>
           <div>
@@ -204,7 +204,7 @@
 
       </div>
 
-      <div *ngSwitchCase="STEP_ID_PREPARATION">
+      <div *ngSwitchCase="'PREPARATION'">
 
         <div class="row">
           <span class="form-icon"><pc-nursing-icon></pc-nursing-icon></span>
@@ -301,12 +301,12 @@
               (click)="goToPrevStep()"
       ></button>
       <button pButton type="button"
-              *ngIf="(activeStepId$ | async) !== STEP_ID_PREPARATION "
+              *ngIf="(activeStepId$ | async) !== 'PREPARATION' "
               label="Next"
               (click)="validateStep()"
       ></button>
       <button pButton type="button"
-              *ngIf="(activeStepId$ | async) === STEP_ID_PREPARATION "
+              *ngIf="(activeStepId$ | async) === 'PREPARATION'"
               label="OK"
               [disabled]="(activeStepValid$ | async) === false"
               (click)="validateStep()"

@@ -135,6 +135,12 @@
     "AQUARIUS": "Aquarius",
     "PISCES": "Pisces"
   },
+  "CULTURE_STEP": {
+    "CULTURE": "Culture",
+    "DATES": "Dates",
+    "QUANTITIES": "Quantities",
+    "PREPARATION": "Preparation"
+  },
   "PARAMETRIZED": {
     "MOON_ZODIAC_TITLE": "In front of {{ zodiac }} ({{element}}) from {{startDate}} at {{startTime}} until {{endDate}} at {{endTime}}",
     "MOON_PHASE_TITLE": "{{ phase}} on {{ date }} at {{ time }}",

@@ -8,6 +8,7 @@ import {WsCulturePhaseType} from '@charlyghislain/plancul-api';
 import {MessageKeys} from './util/message-keys';
 import {ZodiacElement} from './util/zodiac-element';
 import {MoonPhase, Zodiac} from '@charlyghislain/astronomy-api';
+import {CultureStep} from '../../shared/culture-steps-form/culture-step';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +62,11 @@ export class LocalizationService {
 
   getZodiacEnumLabel(zodiac: Zodiac): Observable<string> {
     const msgKey = `${MessageKeys.ENUM_ZODIAC_NAMES__KEYS._PREFIX}${zodiac}`;
+    return this.getTranslation(msgKey);
+  }
+
+  getCultureStepLabel(step: CultureStep): Observable<string> {
+    const msgKey = `${MessageKeys.ENUM_CULTURE_STEPS_NAMES__KEYS._PREFIX}${step}`;
     return this.getTranslation(msgKey);
   }
 

@@ -10,7 +10,7 @@ import {
   WsCultureNursing,
   WsRef,
 } from '@charlyghislain/plancul-api';
-import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {BehaviorSubject, combineLatest, forkJoin, Observable} from 'rxjs';
 import {ValidatedFormProperty} from '../../main/domain/validated-form-property';
 import {FormValidationHelper} from '../../main/service/util/form-validation-helper';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -22,6 +22,7 @@ import {CultureClientService} from '../../main/service/culture-client.service';
 import {map, publishReplay, refCount, take} from 'rxjs/operators';
 import {DateUtils} from '../../main/service/util/date-utils';
 import {ValidatedFormModel} from '../../main/domain/validated-form-model';
+import {CultureStep} from './culture-step';
 
 @Component({
   selector: 'pc-culture-steps-form',
@@ -38,12 +39,13 @@ export class CultureStepsFormComponent implements OnInit {
   @Output()
   validCultureChange = new EventEmitter<WsCulture>();
 
-  STEP_ID_CULTURE = 'culture';
-  STEP_ID_DATES = 'dates';
-  STEP_ID_QUANTITIES = 'quantities';
-  STEP_ID_PREPARATION = 'preparation';
-
-  steps: MenuItem[];
+  ALL_STEPS = [
+    CultureStep.CULTURE,
+    CultureStep.DATES,
+    CultureStep.QUANTITIES,
+    CultureStep.PREPARATION,
+  ];
+  steps$: Observable<MenuItem[]>;
 
   activeStepIndex$ = new BehaviorSubject<number>(0);
   activeStepId$: Observable<string>;
@@ -90,8 +92,8 @@ export class CultureStepsFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.steps = this.createSteps();
-    this.goToStep(this.STEP_ID_CULTURE);
+    this.steps$ = this.createSteps();
+    this.goToStep(CultureStep.CULTURE);
 
     this.cropRef = this.formHelper.getPropertyModel('cropWsRef');
     this.bedRef = this.formHelper.getPropertyModel('bedWsRef');
@@ -121,7 +123,7 @@ export class CultureStepsFormComponent implements OnInit {
     this.bedPreparationDuration = this.formHelper.getWrappedPropertyModel('bedPreparation', 'dayDuration');
 
     this.activeStepId$ = this.activeStepIndex$.pipe(
-      map(index => this.steps[index].id),
+      map(index => this.ALL_STEPS[index]),
       publishReplay(1), refCount(),
     );
     this.activeStepValid$ = combineLatest(this.activeStepId$, this.formHelper.getModel()).pipe(
@@ -132,8 +134,8 @@ export class CultureStepsFormComponent implements OnInit {
   }
 
   onActiveStepChange(index: number) {
-    const step = this.steps[index];
-    this.goToStep(step.id);
+    const stepId = this.ALL_STEPS[index];
+    this.goToStep(stepId);
   }
 
 
@@ -160,7 +162,6 @@ export class CultureStepsFormComponent implements OnInit {
       daysUntilGermination: value,
     });
   }
-
 
   onGerminationDateChange(value: DateAsString) {
     this.sowingDateValue.pipe(
@@ -290,18 +291,18 @@ export class CultureStepsFormComponent implements OnInit {
 
   validateStep() {
     const curIndex = this.activeStepIndex$.getValue();
-    const curId = this.steps[curIndex].id;
+    const curId = this.ALL_STEPS[curIndex];
     switch (curId) {
-      case this.STEP_ID_CULTURE:
-        this.goToStep(this.STEP_ID_DATES);
+      case CultureStep.CULTURE:
+        this.goToStep(CultureStep.DATES);
         return;
-      case this.STEP_ID_DATES:
-        this.goToStep(this.STEP_ID_QUANTITIES);
+      case CultureStep.DATES:
+        this.goToStep(CultureStep.QUANTITIES);
         return;
-      case this.STEP_ID_QUANTITIES:
-        this.goToStep(this.STEP_ID_PREPARATION);
+      case CultureStep.QUANTITIES:
+        this.goToStep(CultureStep.PREPARATION);
         return;
-      case this.STEP_ID_PREPARATION:
+      case CultureStep.PREPARATION:
         const value = this.formHelper.getCurrentValue();
         this.validCultureChange.next(value);
         return;
@@ -310,52 +311,50 @@ export class CultureStepsFormComponent implements OnInit {
 
   goToPrevStep() {
     const curIndex = this.activeStepIndex$.getValue();
-    const curId = this.steps[curIndex].id;
+    const curId = this.ALL_STEPS[curIndex];
     switch (curId) {
-      case this.STEP_ID_CULTURE:
+      case CultureStep.CULTURE:
         return;
-      case this.STEP_ID_DATES:
-        this.goToStep(this.STEP_ID_CULTURE);
+      case CultureStep.DATES:
+        this.goToStep(CultureStep.CULTURE);
         return;
-      case this.STEP_ID_QUANTITIES:
-        this.goToStep(this.STEP_ID_DATES);
+      case CultureStep.QUANTITIES:
+        this.goToStep(CultureStep.DATES);
         return;
-      case this.STEP_ID_PREPARATION:
-        this.goToStep(this.STEP_ID_QUANTITIES);
+      case CultureStep.PREPARATION:
+        this.goToStep(CultureStep.QUANTITIES);
         return;
     }
   }
 
-  private createSteps(): MenuItem[] {
-    return [
-      {
-        label: 'Culture',
-        id: this.STEP_ID_CULTURE,
+  private createSteps(): Observable<MenuItem[]> {
+    return forkJoin(
+      this.ALL_STEPS.map(step => this.createStepItem$(step)),
+    ).pipe(
+      publishReplay(1), refCount(),
+    );
+  }
+
+
+  private createStepItem$(step: CultureStep) {
+    const label$ = this.localizationService.getCultureStepLabel(step);
+    return label$.pipe(
+      map(label => <MenuItem>{
+        label: label,
+        id: step,
         disabled: true,
-      },
-      {
-        label: 'Dates',
-        id: this.STEP_ID_DATES,
-        disabled: true,
-      },
-      {
-        label: 'Quantities',
-        id: this.STEP_ID_QUANTITIES,
-        disabled: true,
-      },
-      {
-        label: 'Preparation',
-        id: this.STEP_ID_PREPARATION,
-        disabled: true,
-      },
-    ];
+      }),
+    );
   }
 
   private goToStep(stepId: string) {
-    const stepIndex = this.steps.findIndex(step => step.id === stepId);
+    const stepIndex = this.ALL_STEPS.findIndex(step => step === stepId);
     if (stepIndex >= 0) {
-      this.steps[stepIndex].disabled = false;
       this.activeStepIndex$.next(stepIndex);
+      this.steps$.pipe(
+        map(steps => steps[stepIndex]),
+        take(1),
+      ).subscribe(stepItem => stepItem.disabled = false);
     }
   }
 
@@ -373,19 +372,19 @@ export class CultureStepsFormComponent implements OnInit {
 
   private checkValidFormStep(stepId: string, form: ValidatedFormModel<WsCulture>) {
     switch (stepId) {
-      case this.STEP_ID_CULTURE: {
+      case CultureStep.CULTURE: {
         return this.isCultureStepValid(form);
       }
-      case this.STEP_ID_DATES: {
+      case CultureStep.DATES: {
         return this.isCultureStepValid(form)
           && this.isDatesStepValid(form);
       }
-      case this.STEP_ID_QUANTITIES: {
+      case CultureStep.QUANTITIES: {
         return this.isCultureStepValid(form)
           && this.isDatesStepValid(form)
           && this.isQuantityStepValid(form);
       }
-      case this.STEP_ID_PREPARATION: {
+      case CultureStep.PREPARATION: {
         return this.isCultureStepValid(form)
           && this.isDatesStepValid(form)
           && this.isQuantityStepValid(form)
@@ -419,4 +418,5 @@ export class CultureStepsFormComponent implements OnInit {
     }
     return true;
   }
+
 }
