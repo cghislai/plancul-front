@@ -56,7 +56,7 @@ pipeline {
                           COMMIT="$(git rev-parse --short HEAD)"
                           FULLVERSION=$VERSION
                           PRERELEASE=false
-                          echo "$VERSION" | grep 'alpha\\|beta' && export PRERELEASE=true
+                          echo "$VERSION" | grep 'alpha\|beta' && export PRERELEASE=true
                           if [ "$PRERELEASE" = "true" ] ; then
                             FULLVERSION="${VERSION}-${COMMIT}"
                           fi
