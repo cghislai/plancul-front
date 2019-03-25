@@ -1,39 +1,37 @@
-<div class="culture-calendar-scrollable" (scroll)="onScroll($event)">
-  <div class="culture-calendar ui-widget pc-list-page">
+<div class="culture-calendar ui-widget pc-list-page">
 
-    <header>
-      <h1 i18n>Cultures</h1>
-    </header>
+  <header>
+    <h1 i18n>Cultures</h1>
+  </header>
 
-    <div class="filter">
-      <div class="grouping-type">
-        <label i18n>Grouping</label>
-        <div>
-          <pc-grouping-type-select [ngModel]="groupingType"
-                                   (ngModelChange)="onGroupingTypeChanged($event)"
-          ></pc-grouping-type-select>
-        </div>
-      </div>
-      <div class="start-date">
-        <label i18n>Start</label>
-        <div>
-          <pc-date-select name="start-date"
-                          [ngModel]="startDateString"
-                          (ngModelChange)="onStartDateChanged($event)"
-          ></pc-date-select>
-        </div>
+  <div class="filter">
+    <div class="grouping-type">
+      <label i18n>Grouping</label>
+      <div>
+        <pc-grouping-type-select [ngModel]="groupingType"
+                                 (ngModelChange)="onGroupingTypeChanged($event)"
+        ></pc-grouping-type-select>
       </div>
     </div>
-
-    <div class="groups" *ngFor="let group of groups; trackBy: trackByStartDate">
-      <pc-calendar-group-row [group]="group"></pc-calendar-group-row>
+    <div class="start-date">
+      <label i18n>Start</label>
+      <div>
+        <pc-date-select name="start-date"
+                        [ngModel]="startDateString"
+                        (ngModelChange)="onStartDateChanged($event)"
+        ></pc-date-select>
+      </div>
     </div>
-
-    <div class="loading-panel" *ngIf="loading$ | async">
-      <p-progressSpinner></p-progressSpinner>
-    </div>
-
   </div>
+
+  <div class="groups" *ngFor="let group of groups; trackBy: trackByStartDate">
+    <pc-calendar-group-row [group]="group"></pc-calendar-group-row>
+  </div>
+
+  <div class="loading-panel" *ngIf="loading$ | async">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
 </div>
 
 

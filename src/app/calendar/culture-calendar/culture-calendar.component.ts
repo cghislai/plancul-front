@@ -1,13 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {CalendarDurationGroup} from '../domain/calendar-duration-group';
-import {map, publishReplay, refCount, switchMap, take} from 'rxjs/operators';
+import {filter, map, publishReplay, refCount, switchMap, take, throttleTime} from 'rxjs/operators';
 import {CultureCalendarService} from '../culture-calendar-service';
 import {GroupingType} from '../domain/grouping-type';
 import * as moment from 'moment';
 import {DateAsString, WsCultureFilter, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {DateUtils} from '../../main/service/util/date-utils';
+import {ContentScrollService} from '../../main/service/content-scroll-service';
+import {ScrollEvent} from '../../main/domain/scroll-event';
 
 @Component({
   selector: 'pc-culture-calendar',
@@ -24,8 +26,10 @@ export class CultureCalendarComponent implements OnInit {
 
   baseCultureFilter$: Observable<WsCultureFilter>;
 
+  private subscription: Subscription;
 
   constructor(private calendarService: CultureCalendarService,
+              private scrollService: ContentScrollService,
               private selectedTenantService: SelectedTenantService) {
   }
 
@@ -36,6 +40,11 @@ export class CultureCalendarComponent implements OnInit {
       publishReplay(1), refCount(),
     );
     this.loadNextPage();
+
+    this.subscription = this.scrollService.getScrollEvents$().pipe(
+      filter(e => !this.loading$.getValue()),
+      filter(e => this.hasReachedBottom(e)),
+    ).subscribe(() => this.loadNextPage());
   }
 
   loadNextPage() {
@@ -57,18 +66,6 @@ export class CultureCalendarComponent implements OnInit {
 
   trackByStartDate(index: number, group: CalendarDurationGroup): string {
     return group.start.toISOString();
-  }
-
-  onScroll(event: any) {
-    // TODO: implement service to listen on div.content scroll end
-    // In chrome and some browser scroll is given to body tag
-    const element = event.target;
-    const pos = (element.scrollTop || document.body.scrollTop) + element.offsetHeight;
-    const max = element.scrollHeight;
-// pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
-    if (pos + 100 > max && this.loading$.getValue() === false) {
-      this.loadNextPage();
-    }
   }
 
   onGroupingTypeChanged(groupingType: GroupingType) {
@@ -96,5 +93,10 @@ export class CultureCalendarComponent implements OnInit {
     return {
       tenantWsRef: ref,
     };
+  }
+
+  private hasReachedBottom(event: ScrollEvent) {
+    const max = event.element.scrollHeight;
+    return event.top + 100 > max;
   }
 }

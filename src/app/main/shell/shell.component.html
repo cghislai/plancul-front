@@ -2,7 +2,7 @@
   <div class="menu">
     <pc-menu></pc-menu>
   </div>
-  <div class="content">
+  <div class="content" (scroll)="onContentScroll($event)">
     <router-outlet></router-outlet>
   </div>
 </div>

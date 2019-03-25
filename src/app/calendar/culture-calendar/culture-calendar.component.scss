@@ -1,7 +1,6 @@
 
-.culture-calendar-scrollable {
-  height: 100%;
-  overflow: auto;
+.culture-calendar {
+  position: relative;
 
   @media print {
     height: auto;
