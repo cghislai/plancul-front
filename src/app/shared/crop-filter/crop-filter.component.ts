@@ -4,6 +4,7 @@ import {WsCropFilter, WsRef, WsTenant} from '@charlyghislain/plancul-api';
 import {SelectedTenantService} from '../../main/service/selected-tenant.service';
 import {filter, map, publishReplay, refCount, take} from 'rxjs/operators';
 import {QueryType} from '../crop-search-query-type/query-type';
+import {SelectItem} from 'primeng/api';
 
 @Component({
   selector: 'pc-crop-filter',
@@ -16,10 +17,10 @@ export class CropFilterComponent implements OnInit {
   queryType: Observable<QueryType>;
   privateCrops: Observable<boolean>;
 
-  queryTypeOptions: QueryType[] = [
-    QueryType.ALL,
-    QueryType.PLANT,
-    QueryType.CULTIVAR,
+  queryTypeOptions: SelectItem[] = [
+    {value: QueryType.ALL, label: QueryType.ALL},
+    {value: QueryType.PLANT, label: QueryType.PLANT},
+    {value: QueryType.CULTIVAR, label: QueryType.CULTIVAR},
   ];
 
   @Input()
