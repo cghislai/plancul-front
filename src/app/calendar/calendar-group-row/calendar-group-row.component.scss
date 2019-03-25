@@ -1,12 +1,16 @@
 .calendar-group-row {
   display: flex;
-  margin: 1em;
+  margin: 1.3em 0;
   align-items: stretch;
 
   > .label {
-    flex: 0 0 auto;
-    padding: 1em;
+    flex: 0 0 8em;
+    margin-top: 2em;
     text-align: center;
+
+    >h1 {
+      margin-top: 0;
+    }
 
     .subtitle {
       font-size: .8em;
@@ -21,21 +25,33 @@
     align-items: stretch;
     flex-wrap: wrap;
 
-    > * {
-      flex: 1 0 10em;
-      margin: 1em 0;
-      padding: 0 1em;
-      border-right: 1px solid transparent;
+    >.event {
+      flex: 0 1 20em;
+      margin: 1em;
+      overflow: hidden;
 
       &:not(:last-child) {
-        border-right: 1px solid lightgray;
+        //border-right: 1px solid lightgray;
+      }
+
+      &:not(.nonempty) {
+        display: none;
       }
 
       header {
+        display: block;
         font-weight: bold;
-        opacity: .3;
+        opacity: .4;
         text-align: center;
-        font-size: .8em;
+        font-size: .7em;
+        border-bottom: 1px solid lightgray;
+
+        >.icon {
+          display: inline-block;
+          margin-right: 1em;
+          height: 1em;
+          width: 1em;
+        }
       }
 
       .event {

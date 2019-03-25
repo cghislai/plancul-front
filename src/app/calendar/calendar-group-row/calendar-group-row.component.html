@@ -10,10 +10,19 @@
   <div class="events">
 
     <div *ngFor="let eventTypeItem of allEventsSelectItems$ | async"
+         class="event"
          [ngClass]="eventTypeItem.value"
+         [class.nonempty]="group.items[eventTypeItem.value]?.length > 0"
     >
       <header>
-        {{ eventTypeItem.label }}
+        <span class="icon">
+          <pc-nursing-icon *ngIf="eventTypeItem.value === 'SOWING_NURSERY'"></pc-nursing-icon>
+          <pc-sowing-icon *ngIf="eventTypeItem.value === 'SOWING_DIRECT'"></pc-sowing-icon>
+          <pc-ground-cover-icon *ngIf="eventTypeItem.value === 'BED_PREPARATION'"></pc-ground-cover-icon>
+          <pc-transplanting-icon *ngIf="eventTypeItem.value === 'TRANSPLATATION'"></pc-transplanting-icon>
+          <pc-harvest-icon *ngIf="eventTypeItem.value === 'HARVEST'"></pc-harvest-icon>
+        </span>
+        <span class="label">{{ eventTypeItem.label }}</span>
       </header>
       <div class="event" *ngFor="let event of group.items[eventTypeItem.value]">
         <pc-calendar-event [event]="event"

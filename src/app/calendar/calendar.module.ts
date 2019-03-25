@@ -9,6 +9,7 @@ import {SharedModule} from '../shared/shared.module';
 import {ProgressSpinnerModule, SelectButtonModule} from 'primeng/primeng';
 import {GroupingTypeSelectComponent} from './grouping-type-select/grouping-type-select.component';
 import {FormsModule} from '@angular/forms';
+import {IconsModule} from '../icons/icons.module';
 
 @NgModule({
   declarations: [CultureCalendarComponent, CalendarGroupRowComponent, CalendarEventComponent, GroupingTypeSelectComponent],
@@ -18,6 +19,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule,
 
     SharedModule,
+    IconsModule,
 
     ProgressSpinnerModule,
     SelectButtonModule,

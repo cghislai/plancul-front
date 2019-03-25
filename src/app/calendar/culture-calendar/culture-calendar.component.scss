@@ -1,6 +1,7 @@
 
 .culture-calendar {
   position: relative;
+  min-height: 100%;
 
   @media print {
     height: auto;
@@ -32,7 +33,7 @@
     border-bottom: 1px solid transparent;
 
     &:not(:last-child) {
-      border-bottom: 1px solid lightgray;
+      //border-bottom: 1px solid lightgray;
     }
   }
 

@@ -1,7 +1,7 @@
 <div class="calendar-event">
   <pc-culture [id]="(cultureRef$ | async)?.id"
               [showBed]="true"
-              [showBedPreparation]="false"
+              [showBedPreparation]="(event$ | async).type === 'BED_PREPARATION'"
               [showHarvest]="false"
               [showIcon]="true"
               [showNursing]="false"
